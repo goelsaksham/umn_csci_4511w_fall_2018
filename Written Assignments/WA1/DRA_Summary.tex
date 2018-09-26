@@ -1,0 +1,61 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{Summary of Dynamic Repairing A\text{*} Algorithm}
+
+\author{Saksham Goel}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Dynamic Repairing A\text{*} also referred to as DRA\text{*} algorithm is a proposed algorithm to tackle the problems of re-planning. The author suggest that in the context of re-planning, DRA\text{*} algorithm performs better with the situation of change in goal state or action weights by using the already computed states as compared to A\text{*} which would use a strategy of computing the answer from scratch. This assignment is used to summarize the paper and answer three critical questions.
+\end{abstract}
+
+\section{Summary}
+\label{sec:summary}
+The problem of re-planning is a very widely known problem, which arises because of change in a goal state of a plan or action weights of the plan. The problem of re-planning has always been tried to be solved in two ways:
+
+\begin{description}
+  \item[$\bullet$ Planning from Scratch] refers to the technique of not using any knowledge from the previous plan even if it some progress was made. Need to start making a new plan which should be implemented to achieve the goal based on the new changes.
+  \item[$\bullet$ Plan Repairing] refers to the techniques which uses the knowledge from previous executed plan (some progress made) to redefine the next steps to achieve the goal with the new changes
+\end{description}
+
+The author recommends a new approach called Dynamic Repairing A\text{*} to tackle this problem of re-planning based off the Plan Repairing Approach. DRA\text{*} uses A\text{*} search algorithm and modifies it to make sure to extract as much information from the progress made in the previous plan and then use this information to compute the next steps considering the new changes. The most import difference between DRA\text{*} and A\text{*} is the concept of handling predecessor states and the concept of informing and valid states. DRA\text{*} makes sure to compute the new g-values for each and every predecessor from the new state that can be computed to make sure that the new g-values reflect the changes made in the plan and then uses A\text{*} on top of these updated scores while making sure to account for states that have been already visited earlier (original plan progress) to find the new way to goal. Other than this, it also includes some other ways of reducing the time of computation for some special cases so that the answer does not actually require running the bulk of the algorithm.
+
+\section{Dynamic Terrain Useful}
+\label{sec:Q1}
+
+According to me, DRA\text{*} algorithm is very useful in a dynamic terrain where the action weights can change because of the change in environment/terrain. I think this algorithm is very useful in the field of Navigation like Google Maps. Navigation is a dynamic terrain because there are many other entities each acting independently and continuously moving thus creating different scenarios. Considering a problem of reaching from Point A to Point B when driving in a car. Finding a route which is the fastest is what makes Google Maps very useful, however traffic is a dynamic entity, hence because of jams/congestion/road closures/accidents there can be a change in the time taken along some route. This can be attributed to like change of the weights of the action in a plan. 
+\\
+
+In this situation starting position was Point A, goal was Point B and the plan was to reach from Point A to Point B in the least time possible, however because of traffic jam along a route, the time taken along that road has suddenly increased as compared to original time that was computed. This calls for re-planning. Instead of using a planning from scratch, it is better to repair the original plan, because already some progress has been made. This is where DRA\text{*} fits perfectly well, because it can use the computations from the originally generated plan graph to compute the new route to reach Point B from the current point (some detour from the current location without any traffic) considering the new information about the time taken along routes. I think Google Maps, Apple Maps etc can use or are already using this kind of search to save a lot of time.
+\\
+
+\section{Dynamic Terrain not Useful}
+\label{sec:Q2}
+
+For me there are two different scenario where this type of algorithm might fail. 
+\\
+
+The first one is when the goals are meant for short time in a long term plan and they keep changing, like in a game as Chess. In Chess although the long term goal is to Win but there will be short term changing goals (based on strategies) to achieve a particular state of advantage. In this kind of scenario, because goals can keep on changing and be very well very different from the original goal, it is better to reevaluate the whole plan before the next move as compared to using the knowledge from the previous moves/plan. \\
+
+The other type of scenario is something like constructing a very critical machine (like a satellite or rocket) which cannot be repaired again and again and are very safety critical. In these types of scenario if the goal of the machine changes, it is better to re-plan the whole thing as compared to build upon the same machine and try to make it work for the new goal setting.
+\\
+
+\section{Performance Measure}
+\label{sec:Q3}
+
+DRA\text{*} algorithm is very different from other mentioned state-of-the-art algorithms because it can cope with both changes in goal set and action costs. Other than that, as compared to some other state of the art algorithms like GAA\text{*}, MPGAA\text{*} which can handle both changes using techniques to generalize a better heuristic value accounting for overall moving targets and changing action costs or running multiple times to save the cost to other possible states, DRA\text{*} uses a better technique of actually realizing the f-values of other states based on the progress made in the original plan, and use these f-values to actually compute the best next steps based on the change. This makes sure that DRA\text{*} is not run multiple times and also make sure that DRA\text{*} is not assuming or generalizing values but actually computing the best possible ways by accounting the changes in the already computed plan space/graph.
+\\
+
+In comparison to algorithms like A\text{*}, I think according to their evaluation section, Author mentions that the DRA\text{*} algorithm is better than A\text{*}, however only certain given conditions. The performance of DRA\text{*} with respect to A\text{*} greatly depends on the given graph structure (like branching factor) and also the amount of change in the given re-plan. As mentioned in the results section, the optimal performance of the DRA\text{*} algorithm is much better than A\text{*} only if the original plan has not been executed more than 50\% and the change in goal set is not more than 20 - 50\%. So I would not necessarily say that it outperforms the other state of the art algorithm however it certainly performs better than some of them in certain conditions.
+
+\end{document}
