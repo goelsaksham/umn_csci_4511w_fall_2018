@@ -1,0 +1,110 @@
+Original Equation: (not A) or B or C or (not D)
+
+Original Equation: B or (not C) or D
+
+Original Equation: A or B or (not D)
+
+Original Equation: A or (not B) or C
+
+Original Equation: A or (not C) or (not E)
+
+Original Equation: (not A) or C
+
+Original Equation: (not B) or D
+
+Resolved: (A or (not B) or C) and ((not A) or C). Got new eqn: (not B) or C
+
+Resolved: (A or (not B) or C) and (A or (not C) or (not E)). Got new eqn: A or (not B) or (not E)
+
+Resolved: (A or (not B) or C) and (A or B or (not D)). Got new eqn: A or C or (not D)
+
+Resolved: (B or (not C) or D) and ((not A) or C). Got new eqn: (not A) or B or D
+
+Resolved: (B or (not C) or D) and ((not B) or D). Got new eqn: (not C) or D
+
+Resolved: (B or (not C) or D) and (A or B or (not D)). Got new eqn: A or B or (not C)
+
+Resolved: ((not A) or C) and (A or B or (not D)). Got new eqn: B or C or (not D)
+
+Resolved: ((not A) or B or D) and (B or C or (not D)). Got new eqn: (not A) or B or C
+
+Resolved: ((not A) or B or D) and ((not B) or C). Got new eqn: (not A) or C or D
+
+Resolved: ((not A) or B or D) and ((not B) or D). Got new eqn: (not A) or D
+
+Resolved: ((not A) or B or D) and (A or (not C) or (not E)). Got new eqn: B or (not C) or D or (not E)
+
+Resolved: (A or (not B) or C) and ((not C) or D). Got new eqn: A or (not B) or D
+
+Resolved: (A or C or (not D)) and ((not A) or C). Got new eqn: C or (not D)
+
+Resolved: (A or C or (not D)) and (A or (not C) or (not E)). Got new eqn: A or (not D) or (not E)
+
+Resolved: (B or (not C) or D) and (A or (not B) or (not E)). Got new eqn: A or (not C) or D or (not E)
+
+Resolved: (B or C or (not D)) and (A or (not C) or (not E)). Got new eqn: A or B or (not D) or (not E)
+
+Resolved: (B or C or (not D)) and (A or (not B) or (not E)). Got new eqn: A or C or (not D) or (not E)
+
+Resolved: ((not A) or C) and (A or (not B) or (not E)). Got new eqn: (not B) or C or (not E)
+
+Resolved: ((not B) or C) and ((not A) or B or C or (not D)). Got new eqn: (not A) or C or (not D)
+
+Resolved: ((not B) or D) and (A or B or (not C)). Got new eqn: A or (not C) or D
+
+Resolved: (B or (not C) or D or (not E)) and ((not A) or B or C). Got new eqn: (not A) or B or D or (not E)
+
+Resolved: (B or (not C) or D or (not E)) and (A or B or (not D) or (not E)). Got new eqn: A or B or (not C) or (not E)
+
+Resolved: (B or (not C) or D or (not E)) and ((not B) or D). Got new eqn: (not C) or D or (not E)
+
+Resolved: ((not A) or B or D) and ((not B) or C or (not E)). Got new eqn: (not A) or C or D or (not E)
+
+Resolved: ((not A) or B or C) and ((not B) or C or (not E)). Got new eqn: (not A) or C or (not E)
+
+Resolved: ((not A) or B or C) and (A or B or (not D) or (not E)). Got new eqn: B or C or (not D) or (not E)
+
+Resolved: (B or C or (not D)) and ((not B) or C or (not E)). Got new eqn: C or (not D) or (not E)
+
+Resolved: ((not B) or C or (not E)) and ((not C) or D). Got new eqn: (not B) or D or (not E)
+
+Resolved: ((not B) or C or (not E)) and (A or (not C) or D or (not E)). Got new eqn: A or (not B) or D or (not E)
+
+Resolved: ((not B) or C or (not E)) and ((not A) or B or C or (not D)). Got new eqn: (not A) or C or (not D) or (not E)
+
+Resolved: ((not A) or C or (not D)) and (A or (not B) or (not E)). Got new eqn: (not B) or C or (not D) or (not E)
+
+Resolved: ((not A) or C or (not D)) and (A or (not B) or C). Got new eqn: (not B) or C or (not D)
+
+Resolved: ((not A) or C or (not D)) and ((not B) or D). Got new eqn: (not A) or (not B) or C
+
+Resolved: (A or (not B) or (not E)) and ((not A) or C or D). Got new eqn: (not B) or C or D or (not E)
+
+Resolved: (A or C or (not D) or (not E)) and (A or (not B) or D). Got new eqn: A or (not B) or C or (not E)
+
+Resolved: (A or (not B) or C) and ((not A) or D). Got new eqn: (not B) or C or D
+
+Resolved: ((not A) or B or D) and ((not B) or D or (not E)). Got new eqn: (not A) or D or (not E)
+
+Resolved: ((not A) or B or D) and ((not A) or C or (not D) or (not E)). Got new eqn: (not A) or B or C or (not E)
+
+Resolved: ((not B) or D or (not E)) and ((not A) or C or (not D) or (not E)). Got new eqn: (not A) or (not B) or C or (not E)
+
+Resolved: ((not B) or C or (not D)) and (A or (not C) or (not E)). Got new eqn: A or (not B) or (not D) or (not E)
+
+Resolved: ((not C) or D) and ((not A) or (not B) or C). Got new eqn: (not A) or (not B) or D
+
+Resolved: ((not A) or (not B) or C) and ((not C) or D or (not E)). Got new eqn: (not A) or (not B) or D or (not E)
+
+Resolved: (A or (not C) or (not E)) and ((not A) or (not B) or D). Got new eqn: (not B) or (not C) or D or (not E)
+
+Resolved: ((not C) or D) and (A or (not B) or (not D) or (not E)). Got new eqn: A or (not B) or (not C) or (not E)
+
+Resolved: ((not A) or (not B) or D) and (B or (not C) or D or (not E)). Got new eqn: (not A) or (not C) or D or (not E)
+
+Resolved: ((not A) or (not B) or D) and (B or (not C) or D). Got new eqn: (not A) or (not C) or D
+
+Resolved: ((not A) or (not B) or D) and (A or (not C) or D). Got new eqn: (not B) or (not C) or D
+
+Resolved: (A or B or (not C)) and (A or (not B) or (not D) or (not E)). Got new eqn: A or (not C) or (not D) or (not E)
+

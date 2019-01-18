@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://skymind.ai/wiki/convolutional-network -->
+<html data-wf-site="5734be9dc497153609d0cf28" data-wf-page="573b6bf09e2dc7c46dee6fc4" class=" w-mod-js w-mod-no-touch w-mod-video w-mod-no-ios gr__skymind_ai" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+    
+      A Beginner's Guide to Convolutional Neural Networks (CNNs) | Skymind
+    
+  </title>
+<meta content="Skymind" property="og:site_name">
+<meta content="A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs)" property="og:title">
+<meta content="article" property="og:type">
+<meta content="A Beginner&#39;s Guide to Deep Convolutional Neural Networks (CNNs)" property="og:description">
+<meta name="description" content="A Beginner&#39;s Guide to Deep Convolutional Neural Networks (CNNs)">
+<meta content="http://skymind.ai/wiki/convolutional-network" property="og:url">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="https://skymind.ai/images/favicon.png">
+<link rel="stylesheet" type="text/css" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/normalize.css">
+<link rel="stylesheet" type="text/css" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/components.css">
+<link rel="stylesheet" type="text/css" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/skymind.css">
+<link rel="stylesheet" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/font-awesome.min.css">
+
+<style>.async-hide { opacity: 0 !important} </style>
+<script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/pd.js.download"></script><script src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/2179705.js.download" type="text/javascript" id="hs-analytics"></script><script src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/conversations-embed.js.download" type="text/javascript" id="hubspot-messages-loader" data-loader="hs-scriptloader" data-hsjs-portal="2179705" data-hsjs-env="prod"></script><script type="text/javascript" async="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/5605.js.download"></script><script type="text/javascript" async="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/analytics.js.download"></script><script type="text/javascript" async="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/js"></script><script async="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/gtm.js.download"></script><script async="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/analytics.js.download"></script><script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+  h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+  (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+  })(window,document.documentElement,'async-hide','dataLayer',4000,
+  {'GTM-T2DSBKT':true});</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-48811288-3', 'auto');
+    ga('require', 'GTM-T2DSBKT');
+    ga('send', 'pageview');
+  </script>
+
+<script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/modernizr.js.download"></script>
+<link rel="apple-touch-icon" href="https://skymind.ai/images/webclip.png">
+<script src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/jquery-3.2.1.js.download" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P824SK"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P824SK');</script>
+
+<script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/analytics(2)"></script></head>
+<body data-gr-c-s-loaded="true"><style type="text/css">html.hs-messages-widget-open.hs-messages-mobile,html.hs-messages-widget-open.hs-messages-mobile body{height:100%!important;overflow:hidden!important;position:relative!important}html.hs-messages-widget-open.hs-messages-mobile body{margin:0!important}#hubspot-messages-iframe-container{display:initial!important;z-index:2147483647;position:fixed!important;bottom:0!important;right:0!important}#hubspot-messages-iframe-container.internal{z-index:1016}#hubspot-messages-iframe-container.internal iframe{min-width:108px}#hubspot-messages-iframe-container .shadow{display:initial!important;z-index:-1;position:absolute;width:0;height:0;bottom:0;right:0;content:""}#hubspot-messages-iframe-container .shadow.internal{display:none!important}#hubspot-messages-iframe-container .shadow.active{width:400px;height:400px;background:radial-gradient(ellipse at bottom right,rgba(29,39,54,.16) 0,rgba(29,39,54,0) 72%)}#hubspot-messages-iframe-container iframe{display:initial!important;width:100%!important;height:100%!important;border:none!important;position:absolute!important;bottom:0!important;right:0!important;background:transparent!important}</style>
+
+<div class="w-section hero-wiki">
+<div data-collapse="small" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar-container">
+<div class="w-container navbar-container"><a href="https://skymind.ai/contact" class="w-button navbar-contact--cta">CONTACT US</a>
+<a href="https://skymind.ai/" class="w-nav-brand navbar-logo"><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/logo_skymind_white.svg" class="img-logo">
+</a>
+<nav class="w-nav-menu navbar-menu" role="navigation">
+ 
+<a class="w-nav-link navbar-link" href="https://skymind.ai/platform" style="max-width: 940px;">AI Platform</a>
+
+<div class="w-dropdown" data-delay="0" style="max-width: 940px;">
+<div class="w-dropdown-toggle navbar-dropdown">
+<div class="navbar-link">Why Skymind?</div>
+</div>
+<nav class="w-dropdown-list">
+<a class="w-dropdown-link" href="https://skymind.ai/audience/datascientist">Data Scientists</a>
+<a class="w-dropdown-link" href="https://skymind.ai/audience/architect">Solution Architects</a>
+<a class="w-dropdown-link" href="https://skymind.ai/audience/devops">DevOps and SRE</a>
+<a class="w-dropdown-link" href="https://skymind.ai/audience/executives">Innovation Leaders</a>
+</nav>
+</div>
+
+<a class="w-nav-link navbar-link" href="https://skymind.ai/solutions" style="max-width: 940px;">Solutions</a>
+
+<div class="w-dropdown" data-delay="0" style="max-width: 940px;">
+<div class="w-dropdown-toggle navbar-dropdown">
+<div class="navbar-link">Case Studies</div>
+</div>
+<nav class="w-dropdown-list">
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/rpa">RPA</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/orange">Telecom Fraud</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/insurance">Insurance</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/logistics">Supply Chain &amp; Logistics</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/canonical">Cybersecurity and Data Centers</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/finance">Financial Services</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/image">Image Recognition</a>
+<a class="w-dropdown-link" href="https://skymind.ai/case-studies/commerce">Commerce and CRM</a>
+</nav>
+</div>
+
+<a class="w-nav-link navbar-link" href="https://www.skymind.ai/about" style="max-width: 940px;">About</a>
+
+<div class="w-dropdown" data-delay="0" style="max-width: 940px;">
+<div class="w-dropdown-toggle navbar-dropdown">
+<div class="navbar-link">Resources</div>
+</div>
+<nav class="w-dropdown-list">
+<a class="w-dropdown-link" href="https://docs.skymind.ai/docs" target="_blank">Documentation</a>
+<a class="w-dropdown-link" href="https://github.com/SkymindIO/SKIL-CE/issues" target="_blank">Community Support</a>
+<a class="w-dropdown-link" href="https://blog.skymind.ai/" target="_blank">Blog</a>
+<a class="w-dropdown-link" href="https://skymind.ai/wiki/">AI Wiki</a>
+<a class="w-dropdown-link" href="https://skymind.ai/open-source.html">Open-Source</a>
+</nav>
+</div>
+</nav>
+<div class="w-nav-button menu-hamburger">
+<div class="w-icon-nav-menu icon-hamburger"></div>
+</div>
+</div>
+<div class="w-nav-overlay" data-wf-ignore=""></div></div>
+<div class="w-container">
+<div class="hero-sub-div">
+<h1 class="hero-h1-small">A.I. Wiki</h1>
+</div>
+</div>
+</div>
+<div class="w-section section-cta">
+<div class="w-container container-newsletter">
+<div class="w-row">
+<div class="w-col w-col-7" style="margin-top: 22px">
+<p class="body-h3-cta">Do you like this content? We'll send you more.</p>
+</div>
+<div class="w-col w-col-5" style="margin-top: 13px">
+<div class="w-form">
+<iframe src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/jsv68v.html" width="100%" height="40px" type="text/html" frameborder="0" allowtransparency="true" style="border: 0"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-section section-white">
+<div class="container-white w-wiki-container">
+<div class="w-row">
+<div class="w-col w-col-4 wiki-nav">
+
+<input type="checkbox" id="wiki-toggle">
+<label for="wiki-toggle">
+<span class="w-icon-nav-menu icon-hamburger"></span>
+Directory
+</label>
+
+<div class="collapseable">
+<div class="wiki-home">
+<a href="https://skymind.ai/wiki/">Artificial Intelligence Wiki</a>
+</div>
+<div class="wiki-search">
+<input id="wiki-search-input" class="wiki-search-input" type="text" placeholder="Search articles..." onkeyup="wikiSearchFn()">
+</div>
+<div class="wiki-links">
+<ul id="wiki-links-ul">
+<li><a href="https://skymind.ai/wiki/accuracy-precision-recall-f1"></a></li>
+<li><a href="https://skymind.ai/wiki/active-learning">Active Learning</a></li>
+<li><a href="https://skymind.ai/wiki/ai-infrastructure-machine-learning-operations-mlops"></a></li>
+<li><a href="https://skymind.ai/wiki/ai-vs-machine-learning-vs-deep-learning">AI vs. ML vs. DL</a></li>
+<li><a href="https://skymind.ai/wiki/ai-winter"></a></li>
+<li><a href="https://skymind.ai/wiki/apache-spark-deep-learning">Apache Spark</a></li>
+<li><a href="https://skymind.ai/wiki/arbiter">Arbiter</a></li>
+<li><a href="https://skymind.ai/wiki/artificial-intelligence-ai">Artificial Intelligence (AI)</a></li>
+<li><a href="https://skymind.ai/wiki/attention-mechanism-memory-network">Attention Mechanism Memory Networks</a></li>
+<li><a href="https://skymind.ai/wiki/automl-automated-machine-learning-ai">Automated Machine Learning &amp; AI</a></li>
+<li><a href="https://skymind.ai/wiki/autonomous-vehicle">Autonomous Vehicle</a></li>
+<li><a href="https://skymind.ai/wiki/backpropagation">Backpropagation</a></li>
+<li><a href="https://skymind.ai/wiki/bagofwords-tf-idf">Bag of Words &amp; TF-IDF</a></li>
+<li><a href="https://skymind.ai/wiki/comparison-frameworks-dl4j-tensorflow-pytorch"></a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network" class="w--current">Convolutional Neural Network (CNN)</a></li>
+<li><a href="https://skymind.ai/wiki/data-for-deep-learning">Data for Deep Learning</a></li>
+<li><a href="https://skymind.ai/wiki/datasets-ml">Datasets and Machine Learning</a></li>
+<li><a href="https://skymind.ai/wiki/datavec"></a></li>
+<li><a href="https://skymind.ai/wiki/decision-tree">Decision Tree</a></li>
+<li><a href="https://skymind.ai/wiki/deep-autoencoder">Deep Autoencoders</a></li>
+<li><a href="https://skymind.ai/wiki/deep-belief-network">Deep-Belief Networks</a></li>
+<li><a href="https://skymind.ai/wiki/deep-reinforcement-learning">Deep Reinforcement Learning</a></li>
+<li><a href="https://skymind.ai/wiki/deeplearning-research-papers">Deep Learning Resources</a></li>
+<li><a href="https://skymind.ai/wiki/deeplearning4j">Deeplearning4j</a></li>
+<li><a href="https://skymind.ai/wiki/denoising-autoencoder">Denoising Autoencoders</a></li>
+<li><a href="https://skymind.ai/wiki/devops-machine-learning">Machine Learning DevOps</a></li>
+<li><a href="https://skymind.ai/wiki/differentiableprogramming">Differentiable Programming</a></li>
+<li><a href="https://skymind.ai/wiki/eigenvector">Eigenvectors, Eigenvalues, PCA, Covariance and Entropy</a></li>
+<li><a href="https://skymind.ai/wiki/evolutionary-genetic-algorithm">Evolutionary &amp; Genetic Algorithms</a></li>
+<li><a href="https://skymind.ai/wiki/fraud-detection">Fraud and Anomaly Detection</a></li>
+<li><a href="https://skymind.ai/wiki/generative-adversarial-network-gan">Generative Adversarial Network (GAN)</a></li>
+<li><a href="https://skymind.ai/wiki/glossary">Glossary</a></li>
+<li><a href="https://skymind.ai/wiki/gluon">Gluon</a></li>
+<li><a href="https://skymind.ai/wiki/graph-analysis">Graph Analytics</a></li>
+<li><a href="https://skymind.ai/wiki/hopfieldnetworks">Hopfield Networks</a></li>
+<li><a href="https://skymind.ai/wiki/hyperparameter">Hyperparameter</a></li>
+<li><a href="https://skymind.ai/wiki/index">Wiki Home</a></li>
+<li><a href="https://skymind.ai/wiki/java-ai">Java AI</a></li>
+<li><a href="https://skymind.ai/wiki/jumpy">Jumpy</a></li>
+<li><a href="https://skymind.ai/wiki/logistic-regression">Logistic Regression</a></li>
+<li><a href="https://skymind.ai/wiki/lstm">LSTM</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-algorithms">Machine Learning Algorithms</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-demos">Machine Learning Demos</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-library-software">Machine Learning Software</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-operations-mlops">Machine Learning Operations (MLOps)</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-research-groups-labs">Machine Learning Research Groups &amp; Labs</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning-workflow">Machine Learning Workflows</a></li>
+<li><a href="https://skymind.ai/wiki/machine-learning">Machine Learning</a></li>
+<li><a href="https://skymind.ai/wiki/markov-chain-monte-carlo">Markov Chain Monte Carlo</a></li>
+<li><a href="https://skymind.ai/wiki/multilayer-perceptron">Multilayer Perceptron</a></li>
+<li><a href="https://skymind.ai/wiki/natural-language-processing-nlp">Natural Language Processing (NLP)</a></li>
+<li><a href="https://skymind.ai/wiki/nd4j">ND4J</a></li>
+<li><a href="https://skymind.ai/wiki/neural-network-tuning">Neural Network Tuning</a></li>
+<li><a href="https://skymind.ai/wiki/neural-network">Neural Network</a></li>
+<li><a href="https://skymind.ai/wiki/open-datasets">Open Datasets</a></li>
+<li><a href="https://skymind.ai/wiki/radial-basis-function-network-rbf">Radial Basis Function Networks</a></li>
+<li><a href="https://skymind.ai/wiki/random-forest">Random Forest</a></li>
+<li><a href="https://skymind.ai/wiki/recurrent-network-rnn">Recurrent Network (RNN)</a></li>
+<li><a href="https://skymind.ai/wiki/recursive-neural-tensor-network">Recursive Neural Tensor Network</a></li>
+<li><a href="https://skymind.ai/wiki/restricted-boltzmann-machine">Restricted Boltzmann Machine (RBM)</a></li>
+<li><a href="https://skymind.ai/wiki/robotic-process-automation-rpa">Robotic Process Automation (RPA)</a></li>
+<li><a href="https://skymind.ai/wiki/scala-ai">Scala AI</a></li>
+<li><a href="https://skymind.ai/wiki/single-layer-network">Single-layer Network</a></li>
+<li><a href="https://skymind.ai/wiki/skynet">Skynet</a></li>
+<li><a href="https://skymind.ai/wiki/spiking-neural-network-snn">Spiking Neural Networks</a></li>
+<li><a href="https://skymind.ai/wiki/stacked-denoising-autoencoder">Stacked Denoising Autoencoder (SDA)</a></li>
+<li><a href="https://skymind.ai/wiki/strong-ai-general-ai">Strong AI &amp; General AI</a></li>
+<li><a href="https://skymind.ai/wiki/supervised-learning">Supervised Learning</a></li>
+<li><a href="https://skymind.ai/wiki/symbolic-reasoning">Symbolic Reasoning</a></li>
+<li><a href="https://skymind.ai/wiki/text-analysis">Text Analysis</a></li>
+<li><a href="https://skymind.ai/wiki/thought-vectors">Thought Vectors</a></li>
+<li><a href="https://skymind.ai/wiki/unsupervised-learning">Unsupervised Learning</a></li>
+<li><a href="https://skymind.ai/wiki/use-cases">Deep Learning Use Cases</a></li>
+<li><a href="https://skymind.ai/wiki/variational-autoencoder">Variational Autoencoder (VAE)</a></li>
+<li><a href="https://skymind.ai/wiki/word2vec">Word2Vec, Doc2Vec and Neural Word Embeddings</a></li>
+
+</ul>
+</div>
+</div>
+</div>
+<div class="w-col w-col-8 wiki-content">
+<img width="42" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/hr_white.png" class="hr-left">
+<h1 class="wiki-title">A Beginner's Guide to Convolutional Neural Networks (CNNs)</h1>
+<p>Contents</p>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#intro">Deep Convolutional Neural Network Introduction</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#tensors">Images Are 4-D Tensors?</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#define">Convolutional Neural Network Definition</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#work">How Deep Convolutional Neural Networks Work</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#max">Maxpooling/Downsampling</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#code">Just Show Me the Code</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#resource">More Convolutional Neural Network Resources</a></li>
+</ul>
+<h2 id="introduction-to-deep-convolutional-neural-networks"><a name="intro">Introduction to Deep Convolutional Neural Networks</a></h2>
+<p>Convolutional neural networks are deep artificial neural networks that are used primarily to classify images (e.g. name what they see), cluster them by similarity (photo search), and perform object recognition within scenes. They are algorithms that can identify faces, individuals, street signs, tumors, platypuses and many other aspects of visual data.</p>
+<p>Convolutional networks perform optical character recognition (OCR) to digitize text and make natural-language processing possible on analog and hand-written documents, where the images are symbols to be transcribed. CNNs can also be applied to sound when it is represented visually as a spectrogram. More recently, convolutional networks have been applied directly to <a href="http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/" target="_blank">text analytics</a> as well as graph data with <a href="https://skymind.ai/wiki/graphanalytics">graph convolutional networks</a>.</p>
+<p>The efficacy of convolutional nets (ConvNets or CNNs) in image recognition is one of the main reasons why the world has woken up to the efficacy of deep learning. They are powering major advances in computer vision (CV), which has obvious applications for self-driving cars, robotics, drones, security, medical diagnoses, and treatments for the visually impaired.</p>
+<h2 id="images-are-4-d-tensors"><a name="tensors">Images Are 4-D Tensors?</a></h2>
+<p>Convolutional neural networks ingest and process images as tensors, and tensors are matrices of numbers with additional dimensions.</p>
+<p>They can be hard to visualize, so let’s approach them by analogy. A scalar is just a number, such as 7; a vector is a list of numbers (e.g., <code class="highlighter-rouge">[7,8,9]</code>); and a matrix is a rectangular grid of numbers occupying several rows and columns like a spreadsheet. Geometrically, if a scalar is a zero-dimensional point, then a vector is a one-dimensional line, a matrix is a two-dimensional plane, a stack of matrices is a three-dimensional cube, and when each element of those matrices has a stack of <em>feature maps</em> atttached to it, you enter the fourth dimension. For reference, here’s a 2 x 2 matrix:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ 1, 2 ]
+[ 5, 8 ]
+</code></pre></div></div>
+<p>A tensor encompasses the dimensions beyond that 2-D plane. You can easily picture a three-dimensional tensor, with the array of numbers arranged in a cube. Here’s a 2 x 3 x 2 tensor presented flatly (picture the bottom element of each 2-element array extending along the z-axis to intuitively grasp why it’s called a 3-dimensional array):</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/tensor.png" alt="tensor"></p>
+<p>In code, the tensor above would appear like this: <code class="highlighter-rouge">[[[2,3],[3,5],[4,7]],[[3,4],[4,6],[5,8]]].</code> And here’s a visual:</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/3d_matrix_cube.png" alt="3d matrix cube"></p>
+<p>In other words, tensors are formed by arrays nested within arrays, and that nesting can go on infinitely, accounting for an arbitrary number of dimensions far greater than what we can visualize spatially. A 4-D tensor would simply replace each of these scalars with an array nested one level deeper. Convolutional networks deal in 4-D tensors like the one below (notice the nested array).</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/3d_matrix.png" alt="3d matrix"></p>
+<p>ND4J and Deeplearning4j use <code class="highlighter-rouge">NDArray</code> synonymously with tensor, or multi-dimensional array. A tensor’s dimensionality <code class="highlighter-rouge">(1,2,3…n)</code> is called its order; i.e. a fifth-order tensor would have five dimensions.</p>
+<p>The width and height of an image are easily understood. The depth is necessary because of how colors are encoded. Red-Green-Blue (RGB) encoding, for example, produces an image three layers deep. Each layer is called a “channel”, and through convolution it produces a stack of feature maps (explained below), which exist in the fourth dimension, just down the street from time itself. (Features are just details of images, like a line or curve, that convolutional networks create maps of.)</p>
+<p>So instead of thinking of images as two-dimensional areas, in convolutional nets they are treated as four-dimensional volumes. These ideas will be explored more thoroughly below.</p>
+<h2 id="convolutional-definition"><a name="define">Convolutional Definition</a></h2>
+<p>From the Latin <em>convolvere</em>, “to convolve” means to roll together. For mathematical purposes, a convolution is the integral measuring how much two functions overlap as one passes over the other. Think of a convolution as a way of mixing two functions by multiplying them.</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/convgaus.gif" alt="Convolutional Gaus"></p>
+<p><em>Credit: <a href="http://mathworld.wolfram.com/">Mathworld</a>. “The green curve shows the convolution of the blue and red curves as a function of t, the position indicated by the vertical green line. The gray region indicates the product <code class="highlighter-rouge">g(tau)f(t-tau)</code> as a function of t, so its area as a function of t is precisely the convolution.”</em></p>
+<p>Look at the tall, narrow bell curve standing in the middle of a graph. The integral is the area under that curve. Near it is a second bell curve that is shorter and wider, drifting slowly from the left side of the graph to the right. The product of those two functions’ overlap at each point along the x-axis is their <a href="http://mathworld.wolfram.com/Convolution.html">convolution</a>. So in a sense, the two functions are being “rolled together.”</p>
+<p>With image analysis, the static, underlying function (the equivalent of the immobile bell curve) is the input image being analyzed, and the second, mobile function is known as the filter, because it picks up a signal or feature in the image. The two functions relate through multiplication. To visualize convolutions as matrices rather than as bell curves, please see <a href="https://cs231n.github.io/convolutional-networks/" target="_blank">Andrej Karpathy’s excellent animation</a> under the heading “Convolution Demo.”</p>
+<p>The next thing to understand about convolutional nets is that they are passing <em>many</em> filters over a single image, each one picking up a different signal. At a fairly early layer, you could imagine them as passing a horizontal line filter, a vertical line filter, and a diagonal line filter to create a map of the edges in the image.</p>
+<p>Convolutional networks take those filters, slices of the image’s feature space, and map them one by one; that is, they create a map of each place that feature occurs. By learning different portions of a feature space, convolutional nets allow for easily scalable and robust feature engineering.</p>
+<p>(Note that convolutional nets analyze images differently than RBMs. While RBMs learn to reconstruct and identify the features of each image as a whole, convolutional nets learn images in pieces that we call feature maps.)</p>
+<p>So convolutional networks perform a sort of search. Picture a small magnifying glass sliding left to right across a larger image, and recommencing at the left once it reaches the end of one pass (like typewriters do). That moving window is capable recognizing only one thing, say, a short vertical line. Three dark pixels stacked atop one another. It moves that vertical-line-recognizing filter over the actual pixels of the image, looking for matches.</p>
+<p>Each time a match is found, it is mapped onto a feature space particular to that visual element. In that space, the location of each vertical line match is recorded, a bit like birdwatchers leave pins in a map to mark where they last saw a great blue heron. A convolutional net runs many, many searches over a single image – horizontal lines, diagonal ones, as many as there are visual elements to be sought.</p>
+<p>Convolutional nets perform more operations on input than just convolutions themselves.</p>
+<p>After a convolutional layer, input is passed through a nonlinear transform such as <em>tanh</em> or <em>rectified linear</em> unit, which will squash input values into a range between -1 and 1.</p>
+<h2 id="how-convolutional-neural-networks-work"><a name="work">How Convolutional Neural Networks Work</a></h2>
+<p>The first thing to know about convolutional networks is that they don’t perceive images like humans do. Therefore, you are going to have to think in a different way about what an image means as it is fed to and processed by a convolutional network.</p>
+<p>Convolutional networks perceive images as volumes; i.e. three-dimensional objects, rather than flat canvases to be measured only by width and height. That’s because digital color images have a red-blue-green (RGB) encoding, mixing those three colors to produce the color spectrum humans perceive. A convolutional network ingests such images as three separate strata of color stacked one on top of the other.</p>
+<p>So a convolutional network receives a normal color image as a rectangular box whose width and height are measured by the number of pixels along those dimensions, and whose depth is three layers deep, one for each letter in RGB. Those depth layers are referred to as <em>channels</em>.</p>
+<p>As images move through a convolutional network, we will describe them in terms of input and output volumes, expressing them mathematically as matrices of multiple dimensions in this form: 30x30x3. From layer to layer, their dimensions change for reasons that will be explained below.</p>
+<p>You will need to pay close attention to the precise measures of each dimension of the image volume, because they are the foundation of the linear algebra operations used to process images.</p>
+<p>Now, for each pixel of an image, the intensity of R, G and B will be expressed by a number, and that number will be an element in one of the three, stacked two-dimensional matrices, which together form the image volume.</p>
+<p>Those numbers are the initial, raw, sensory features being fed into the convolutional network, and the ConvNets purpose is to find which of those numbers are significant signals that actually help it classify images more accurately. (Just like other feedforward networks we have discussed.)</p>
+<p>Rather than focus on one pixel at a time, a convolutional net takes in square patches of pixels and passes them through a <em>filter</em>. That filter is also a square matrix smaller than the image itself, and equal in size to the patch. It is also called a <em>kernel</em>, which will ring a bell for those familiar with support-vector machines, and the job of the filter is to find patterns in the pixels.</p>
+<iframe src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/index.html" width="100%" height="700px;" style="border:none;"></iframe>
+<p><em>Credit for this excellent animation goes to <a href="https://cs231n.github.io/">Andrej Karpathy</a>.</em></p>
+<p>Imagine two matrices. One is 30x30, and another is 3x3. That is, the filter covers one-hundredth of one image channel’s surface area.</p>
+<p>We are going to take the dot product of the filter with this patch of the image channel. If the two matrices have high values in the same positions, the dot product’s output will be high. If they don’t, it will be low. In this way, a single value – the output of the dot product – can tell us whether the pixel pattern in the underlying image matches the pixel pattern expressed by our filter.</p>
+<p>Let’s imagine that our filter expresses a horizontal line, with high values along its second row and low values in the first and third rows. Now picture that we start in the upper lefthand corner of the underlying image, and we move the filter across the image step by step until it reaches the upper righthand corner. The size of the step is known as <em>stride</em>. You can move the filter to the right one column at a time, or you can choose to make larger steps.</p>
+<p>At each step, you take another dot product, and you place the results of that dot product in a third matrix known as an <em>activation map</em>. The width, or number of columns, of the activation map is equal to the number of steps the filter takes to traverse the underlying image. Since larger strides lead to fewer steps, a big stride will produce a smaller activation map. This is important, because the size of the matrices that convolutional networks process and produce at each layer is directly proportional to how computationally expensive they are and how much time they take to train. A larger stride means less time and compute.</p>
+<p>A filter superimposed on the first three rows will slide across them and then begin again with rows 4-6 of the same image. If it has a stride of three, then it will produce a matrix of dot products that is 10x10. That same filter representing a horizontal line can be applied to all three channels of the underlying image, R, G and B. And the three 10x10 activation maps can be added together, so that the aggregate activation map for a horizontal line on all three channels of the underlying image is also 10x10.</p>
+<p>Now, because images have lines going in many directions, and contain many different kinds of shapes and pixel patterns, you will want to slide other filters across the underlying image in search of those patterns. You could, for example, look for 96 different patterns in the pixels. Those 96 patterns will create a stack of 96 activation maps, resulting in a new volume that is 10x10x96. In the diagram below, we’ve relabeled the input image, the kernels and the output activation maps to make sure we’re clear.</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/karpathy-convnet-labels.png" alt="convolutional network labels"></p>
+<p>What we just described is a convolution. You can think of Convolution as a fancy kind of multiplication used in signal processing. Another way to think about the two matrices creating a dot product is as two functions. The image is the underlying function, and the filter is the function you roll over it.</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/convgaus.gif" alt="convolutional gaussian"></p>
+<p>One of the main problems with images is that they are high-dimensional, which means they cost a lot of time and computing power to process. Convolutional networks are designed to reduce the dimensionality of images in a variety of ways. Filter stride is one way to reduce dimensionality. Another way is through downsampling.</p>
+<h2 id="max-poolingdownsampling-with-cnns"><a name="max">Max Pooling/Downsampling with CNNs</a></h2>
+<p>The next layer in a convolutional network has three names: max pooling, downsampling and subsampling. The activation maps are fed into a downsampling layer, and like convolutions, this method is applied one patch at a time. In this case, max pooling simply takes the largest value from one patch of an image, places it in a new matrix next to the max values from other patches, and discards the rest of the information contained in the activation maps.</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/maxpool.png" alt="max pooling">
+<em>Credit to <a href="https://cs231n.github.io/" target="_blank">Andrej Karpathy</a>.</em></p>
+<p>Only the locations on the image that showed the strongest correlation to each feature (the maximum value) are preserved, and those maximum values combine to form a lower-dimensional space.</p>
+<p>Much information about lesser values is lost in this step, which has spurred research into alternative methods. But downsampling has the advantage, precisely because information is lost, of decreasing the amount of storage and processing required.</p>
+<h3 id="alternating-layers">Alternating Layers</h3>
+<p>The image below is another attempt to show the sequence of transformations involved in a typical convolutional network.</p>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/convnet.png" alt="convolutional network"></p>
+<p>From left to right you see:</p>
+<ul>
+<li>The actual input image that is scanned for features. The light rectangle is the filter that passes over it.</li>
+<li>Activation maps stacked atop one another, one for each filter you employ. The larger rectangle is one patch to be downsampled.</li>
+<li>The activation maps condensed through downsampling.</li>
+<li>A new set of activation maps created by passing filters over the first downsampled stack.</li>
+<li>The second downsampling, which condenses the second set of activation maps.</li>
+<li>A fully connected layer that classifies output with one label per node.</li>
+</ul>
+<p>As more and more information is lost, the patterns processed by the convolutional net become more abstract and grow more distant from visual patterns we recognize as humans. So forgive yourself, and us, if convolutional networks do not offer easy intuitions as they grow deeper.</p>
+<h2 id="dl4j-code-example"><a name="code">DL4J Code Example</a></h2>
+<p>Here’s one example of how you might configure a ConvNet with Deeplearning4j:</p>
+<script src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/LenetMnistExample.java"></script><script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/prettify.js.download"></script><link rel="stylesheet" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/embed.css"><link rel="stylesheet" href="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/prettify.css"><div class="gist-it-gist">
+<div class="gist-file">
+    <div class="gist-data">
+        
+        <pre class="prettyprint"><span class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">Create</span><span class="pln"> an iterator </span><span class="kwd">using</span><span class="pln"> the batch size </span><span class="kwd">for</span><span class="pln"> one iteration<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="pun">*</span><span class="str">/<br>&nbsp; &nbsp; &nbsp; &nbsp; log.info("Load data....");<br>&nbsp; &nbsp; &nbsp; &nbsp; DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize,true,12345);<br>&nbsp; &nbsp; &nbsp; &nbsp; DataSetIterator mnistTest = new MnistDataSetIterator(batchSize,false,12345);<br><br>&nbsp; &nbsp; &nbsp; &nbsp; /</span><span class="pun">*</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">Construct</span><span class="pln"> the neural network<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="pun">*</span><span class="str">/<br>&nbsp; &nbsp; &nbsp; &nbsp; log.info("Build model....");<br><br>&nbsp; &nbsp; &nbsp; &nbsp; /</span><span class="pun">/</span><span class="pln"> learning rate schedule </span><span class="kwd">in</span><span class="pln"> the form of </span><span class="pun">&lt;</span><span class="typ">Iteration</span><span class="pln"> </span><span class="com">#, Learning Rate&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">Map</span><span class="pun">&lt;</span><span class="typ">Integer</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Double</span><span class="pun">&gt;</span><span class="pln"> lrSchedule </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">HashMap</span><span class="pun">&lt;&gt;();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; lrSchedule</span><span class="pun">.</span><span class="pln">put</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.01</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; lrSchedule</span><span class="pun">.</span><span class="pln">put</span><span class="pun">(</span><span class="lit">1000</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.005</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; lrSchedule</span><span class="pun">.</span><span class="pln">put</span><span class="pun">(</span><span class="lit">3000</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.001</span><span class="pun">);</span><span class="pln"><br><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">MultiLayerConfiguration</span><span class="pln"> conf </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">NeuralNetConfiguration</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">()</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">seed</span><span class="pun">(</span><span class="pln">seed</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">l2</span><span class="pun">(</span><span class="lit">0.0005</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">weightInit</span><span class="pun">(</span><span class="typ">WeightInit</span><span class="pun">.</span><span class="pln">XAVIER</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">updater</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Nesterovs</span><span class="pun">(</span><span class="lit">0.01</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.9</span><span class="pun">))</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">list</span><span class="pun">()</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">ConvolutionLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">(</span><span class="lit">5</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//nIn and nOut specify depth. nIn here is the nChannels and nOut is the number of filters to be applied</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">nIn</span><span class="pun">(</span><span class="pln">nChannels</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">stride</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">nOut</span><span class="pun">(</span><span class="lit">20</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">activation</span><span class="pun">(</span><span class="typ">Activation</span><span class="pun">.</span><span class="pln">IDENTITY</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">SubsamplingLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">(</span><span class="typ">PoolingType</span><span class="pun">.</span><span class="pln">MAX</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">kernelSize</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">stride</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">ConvolutionLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">(</span><span class="lit">5</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//Note that nIn need not be specified in later layers</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">stride</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">nOut</span><span class="pun">(</span><span class="lit">50</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">activation</span><span class="pun">(</span><span class="typ">Activation</span><span class="pun">.</span><span class="pln">IDENTITY</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">SubsamplingLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">(</span><span class="typ">PoolingType</span><span class="pun">.</span><span class="pln">MAX</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">kernelSize</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">stride</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">4</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">DenseLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">().</span><span class="pln">activation</span><span class="pun">(</span><span class="typ">Activation</span><span class="pun">.</span><span class="pln">RELU</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">nOut</span><span class="pun">(</span><span class="lit">500</span><span class="pun">).</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">layer</span><span class="pun">(</span><span class="lit">5</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">OutputLayer</span><span class="pun">.</span><span class="typ">Builder</span><span class="pun">(</span><span class="typ">LossFunctions</span><span class="pun">.</span><span class="typ">LossFunction</span><span class="pun">.</span><span class="pln">NEGATIVELOGLIKELIHOOD</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">nOut</span><span class="pun">(</span><span class="pln">outputNum</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">activation</span><span class="pun">(</span><span class="typ">Activation</span><span class="pun">.</span><span class="pln">SOFTMAX</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">build</span><span class="pun">())</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">setInputType</span><span class="pun">(</span><span class="typ">InputType</span><span class="pun">.</span><span class="pln">convolutionalFlat</span><span class="pun">(</span><span class="lit">28</span><span class="pun">,</span><span class="lit">28</span><span class="pun">,</span><span class="lit">1</span><span class="pun">))</span><span class="pln"> </span><span class="com">//See note below</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">.</span><span class="pln">backprop</span><span class="pun">(</span><span class="kwd">true</span><span class="pun">).</span><span class="pln">pretrain</span><span class="pun">(</span><span class="kwd">false</span><span class="pun">).</span><span class="pln">build</span><span class="pun">();</span><span class="pln"><br><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">/*<br>&nbsp; &nbsp; &nbsp; &nbsp; Regarding the .setInputType(InputType.convolutionalFlat(28,28,1)) line: This does a few things.<br>&nbsp; &nbsp; &nbsp; &nbsp; (a) It adds preprocessors, which handle things like the transition between the convolutional/subsampling layers<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and the dense layer<br>&nbsp; &nbsp; &nbsp; &nbsp; (b) Does some additional configuration validation<br>&nbsp; &nbsp; &nbsp; &nbsp; (c) Where necessary, sets the nIn (number of input neurons, or input depth in the case of CNNs) values for each<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; layer based on the size of the previous layer (but it won't override values manually set by the user)<br><br>&nbsp; &nbsp; &nbsp; &nbsp; InputTypes can be used with other layer types too (RNNs, MLPs etc) not just CNNs.<br>&nbsp; &nbsp; &nbsp; &nbsp; For normal images (when using ImageRecordReader) use InputType.convolutional(height,width,depth).<br>&nbsp; &nbsp; &nbsp; &nbsp; MNIST record reader is a special case, that outputs 28x28 pixel grayscale (nChannels=1) images, in a "flattened"<br>&nbsp; &nbsp; &nbsp; &nbsp; row vector format (i.e., 1x784 vectors), hence the "convolutionalFlat" input type used here.<br>&nbsp; &nbsp; &nbsp; &nbsp; */</span><span class="pln"><br><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">MultiLayerNetwork</span><span class="pln"> model </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">MultiLayerNetwork</span><span class="pun">(</span><span class="pln">conf</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; model</span><span class="pun">.</span><span class="pln">init</span><span class="pun">();</span><span class="pln"><br><br><br>&nbsp; &nbsp; &nbsp; &nbsp; log</span><span class="pun">.</span><span class="pln">info</span><span class="pun">(</span><span class="str">"Train model...."</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; model</span><span class="pun">.</span><span class="pln">setListeners</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">ScoreIterationListener</span><span class="pun">(</span><span class="lit">10</span><span class="pun">));</span><span class="pln"> </span><span class="com">//Print score every 10 iterations</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">for</span><span class="pun">(</span><span class="pln"> </span><span class="kwd">int</span><span class="pln"> i</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">&lt;</span><span class="pln">nEpochs</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++</span><span class="pln"> </span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; model</span><span class="pun">.</span><span class="pln">fit</span><span class="pun">(</span><span class="pln">mnistTrain</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log</span><span class="pun">.</span><span class="pln">info</span><span class="pun">(</span><span class="str">"*** Completed epoch {} ***"</span><span class="pun">,</span><span class="pln"> i</span><span class="pun">);</span><span class="pln"><br><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log</span><span class="pun">.</span><span class="pln">info</span><span class="pun">(</span><span class="str">"Evaluate model...."</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">Evaluation</span><span class="pln"> </span><span class="kwd">eval</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> model</span><span class="pun">.</span><span class="pln">evaluate</span><span class="pun">(</span><span class="pln">mnistTest</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log</span><span class="pun">.</span><span class="pln">info</span><span class="pun">(</span><span class="kwd">eval</span><span class="pun">.</span><span class="pln">stats</span><span class="pun">());</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mnistTest</span><span class="pun">.</span><span class="pln">reset</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">}</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; log</span><span class="pun">.</span><span class="pln">info</span><span class="pun">(</span><span class="str">"****************Example finished********************"</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="pun">}</span></pre>
+        
+    </div>
+    
+    <div class="gist-meta">
+        
+        <span><a href="https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java">This Gist</a> brought to you by <a href="https://gist-it.appspot.com/">gist-it</a>.</span>
+        
+        <span style="float: right; color: #369;"><a href="https://github.com/deeplearning4j/dl4j-examples/raw/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java">view raw</a></span>
+        <span style="float: right; margin-right: 8px;">
+            <a style="color: rgb(102, 102, 102);" href="https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java">dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java</a></span>
+            <!-- Generated by: https://gist-it.appspot.com -->
+    </div>
+    
+</div>
+</div><script type="text/javascript">prettyPrint();</script>
+<p>All Deeplearning4j <a href="https://github.com/deeplearning4j/dl4j-examples/tree/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution" target="_blank">examples of convolutional networks are available here</a>.</p>
+<h2 id="other-resources"><a name="resource">Other Resources</a></h2>
+<p>To see DL4J convolutional neural networks in action, please run our <a href="https://github.com/deeplearning4j/dl4j-examples/tree/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/" target="_blank">examples</a> after following the instructions on the <a href="https://skymind.ai/wiki/quickstart">Quickstart page</a>.</p>
+<p>Skymind wraps NVIDIA’s cuDNN and integrates with OpenCV. Our convolutional nets run on distributed GPUs using Spark, making them among the fastest in the world. You can learn how to build a <a href="https://skymind.ai/wiki/build_vgg_webapp">image recognition web app with VGG16 here</a> and how to <a href="https://skymind.ai/wiki/android">deploy CNNs to Android here</a>.</p>
+<h2 id="resources-table-of-contents">Resources Table of Contents</h2>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#papers">Papers</a>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#imagenet-classification">ImageNet Classification</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#object-detection">Object Detection</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#object-tracking">Object Tracking</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#low-level-vision">Low-Level Vision</a>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#super-resolution">Super-Resolution</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#other-applications">Other Applications</a></li>
+</ul>
+</li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#edge-detection">Edge Detection</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#semantic-segmentation">Semantic Segmentation</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#visual-attention-and-saliency">Visual Attention and Saliency</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#object-recognition">Object Recognition</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#human-pose-estimation">Human Pose Estimation</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#understanding-cnn">Understanding CNN</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#image-and-language">Image and Language</a>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#image-captioning">Image Captioning</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#video-captioning">Video Captioning</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#question-answering">Question Answering</a></li>
+</ul>
+</li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#image-generation">Image Generation</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#other-topics">Other Topics</a></li>
+</ul>
+</li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#courses">Courses</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#books">Books</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#videos">Videos</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#software">Software</a>
+<ul>
+<li><a href="https://skymind.ai/wiki/convolutional-network#framework">Framework</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#applications">Applications</a></li>
+</ul>
+</li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#tutorials">Tutorials</a></li>
+<li><a href="https://skymind.ai/wiki/convolutional-network#blogs">Blogs</a></li>
+</ul>
+<h2 id="papers">Papers</h2>
+<h3 id="imagenet-classification">ImageNet Classification</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/327b9566-2022-11e5-8b34-53b4a64c13ad.PNG" alt="classification">
+(from Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, ImageNet Classification with Deep Convolutional Neural Networks, NIPS, 2012.)</p>
+<ul>
+<li>Microsoft (Deep Residual Learning) [<a href="http://arxiv.org/pdf/1512.03385v1.pdf">Paper</a>][<a href="http://image-net.org/challenges/talks/ilsvrc2015_deep_residual_learning_kaiminghe.pdf">Slide</a>]
+<ul>
+<li>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, Deep Residual Learning for Image Recognition, arXiv:1512.03385.</li>
+</ul>
+</li>
+<li>Microsoft (PReLu/Weight Initialization) <a href="http://arxiv.org/pdf/1502.01852">[Paper]</a>
+<ul>
+<li>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification, arXiv:1502.01852.</li>
+</ul>
+</li>
+<li>Batch Normalization <a href="http://arxiv.org/pdf/1502.03167">[Paper]</a>
+<ul>
+<li>Sergey Ioffe, Christian Szegedy, Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift, arXiv:1502.03167.</li>
+</ul>
+</li>
+<li>GoogLeNet <a href="http://arxiv.org/pdf/1409.4842">[Paper]</a>
+<ul>
+<li>Christian Szegedy, Wei Liu, Yangqing Jia, Pierre Sermanet, Scott Reed, Dragomir Anguelov, Dumitru Erhan, Vincent Vanhoucke, Andrew Rabinovich, CVPR, 2015.</li>
+</ul>
+</li>
+<li>VGG-Net <a href="http://www.robots.ox.ac.uk/~vgg/research/very_deep/">[Web]</a> <a href="http://arxiv.org/pdf/1409.1556">[Paper]</a>
+<ul>
+<li>Karen Simonyan and Andrew Zisserman, Very Deep Convolutional Networks for Large-Scale Visual Recognition, ICLR, 2015.</li>
+</ul>
+</li>
+<li>AlexNet <a href="http://papers.nips.cc/book/advances-in-neural-information-processing-systems-25-2012">[Paper]</a>
+<ul>
+<li>Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, ImageNet Classification with Deep Convolutional Neural Networks, NIPS, 2012.</li>
+</ul>
+</li>
+</ul>
+<h3 id="object-detection">Object Detection</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/f76ba500-2022-11e5-8db1-2cd5d490e3b3.PNG" alt="object_detection">
+(from Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun, Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks, arXiv:1506.01497.)</p>
+<ul>
+<li>PVANET <a href="https://arxiv.org/pdf/1608.08021">[Paper]</a> <a href="https://github.com/sanghoon/pva-faster-rcnn">[Code]</a>
+<ul>
+<li>Kye-Hyeon Kim, Sanghoon Hong, Byungseok Roh, Yeongjae Cheon, Minje Park, PVANET: Deep but Lightweight Neural Networks for Real-time Object Detection, arXiv:1608.08021</li>
+</ul>
+</li>
+<li>OverFeat, NYU <a href="http://arxiv.org/pdf/1312.6229.pdf">[Paper]</a>
+<ul>
+<li>OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks, ICLR, 2014.</li>
+</ul>
+</li>
+<li>R-CNN, UC Berkeley <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Girshick_Rich_Feature_Hierarchies_2014_CVPR_paper.pdf">[Paper-CVPR14]</a> <a href="http://arxiv.org/pdf/1311.2524">[Paper-arXiv14]</a>
+<ul>
+<li>Ross Girshick, Jeff Donahue, Trevor Darrell, Jitendra Malik, Rich feature hierarchies for accurate object detection and semantic segmentation, CVPR, 2014.</li>
+</ul>
+</li>
+<li>SPP, Microsoft Research <a href="http://arxiv.org/pdf/1406.4729">[Paper]</a>
+<ul>
+<li>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition, ECCV, 2014.</li>
+</ul>
+</li>
+<li>Fast R-CNN, Microsoft Research <a href="http://arxiv.org/pdf/1504.08083">[Paper]</a>
+<ul>
+<li>Ross Girshick, Fast R-CNN, arXiv:1504.08083.</li>
+</ul>
+</li>
+<li>Faster R-CNN, Microsoft Research <a href="http://arxiv.org/pdf/1506.01497">[Paper]</a>
+<ul>
+<li>Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun, Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks, arXiv:1506.01497.</li>
+</ul>
+</li>
+<li>R-CNN minus R, Oxford <a href="http://arxiv.org/pdf/1506.06981">[Paper]</a>
+<ul>
+<li>Karel Lenc, Andrea Vedaldi, R-CNN minus R, arXiv:1506.06981.</li>
+</ul>
+</li>
+<li>End-to-end people detection in crowded scenes <a href="http://arxiv.org/abs/1506.04878">[Paper]</a>
+<ul>
+<li>Russell Stewart, Mykhaylo Andriluka, End-to-end people detection in crowded scenes, arXiv:1506.04878.</li>
+</ul>
+</li>
+<li>You Only Look Once: Unified, Real-Time Object Detection <a href="http://arxiv.org/abs/1506.02640">[Paper]</a>, <a href="https://arxiv.org/abs/1612.08242">[Paper Version 2]</a>, <a href="https://github.com/pjreddie/darknet">[C Code]</a>, <a href="https://github.com/thtrieu/darkflow">[Tensorflow Code]</a>
+<ul>
+<li>Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi, You Only Look Once: Unified, Real-Time Object Detection, arXiv:1506.02640</li>
+<li>Joseph Redmon, Ali Farhadi (Version 2)</li>
+</ul>
+</li>
+<li>Inside-Outside Net <a href="http://arxiv.org/abs/1512.04143">[Paper]</a>
+<ul>
+<li>Sean Bell, C. Lawrence Zitnick, Kavita Bala, Ross Girshick, Inside-Outside Net: Detecting Objects in Context with Skip Pooling and Recurrent Neural Networks</li>
+</ul>
+</li>
+<li>Deep Residual Network (Current State-of-the-Art) <a href="http://arxiv.org/abs/1512.03385">[Paper]</a>
+<ul>
+<li>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, Deep Residual Learning for Image Recognition</li>
+</ul>
+</li>
+<li>Weakly Supervised Object Localization with Multi-fold Multiple Instance Learning [<a href="http://arxiv.org/pdf/1503.00949.pdf">Paper</a>]</li>
+<li>R-FCN <a href="https://arxiv.org/abs/1605.06409">[Paper]</a> <a href="https://github.com/daijifeng001/R-FCN">[Code]</a>
+<ul>
+<li>Jifeng Dai, Yi Li, Kaiming He, Jian Sun, R-FCN: Object Detection via Region-based Fully Convolutional Networks</li>
+</ul>
+</li>
+<li>SSD <a href="https://arxiv.org/pdf/1512.02325v2.pdf">[Paper]</a> <a href="https://github.com/weiliu89/caffe/tree/ssd">[Code]</a>
+<ul>
+<li>Wei Liu1, Dragomir Anguelov, Dumitru Erhan, Christian Szegedy, Scott Reed, Cheng-Yang Fu, Alexander C. Berg, SSD: Single Shot MultiBox Detector, arXiv:1512.02325</li>
+</ul>
+</li>
+<li>Speed/accuracy trade-offs for modern convolutional object detectors <a href="https://arxiv.org/pdf/1611.10012v1.pdf">[Paper]</a>
+<ul>
+<li>Jonathan Huang, Vivek Rathod, Chen Sun, Menglong Zhu, Anoop Korattikara, Alireza Fathi, Ian Fischer, Zbigniew Wojna, Yang Song, Sergio Guadarrama, Kevin Murphy, Google Research, arXiv:1611.10012</li>
+</ul>
+</li>
+</ul>
+<h3 id="video-classification">Video Classification</h3>
+<ul>
+<li>Nicolas Ballas, Li Yao, Pal Chris, Aaron Courville, “Delving Deeper into Convolutional Networks for Learning Video Representations”, ICLR 2016. [<a href="http://arxiv.org/pdf/1511.06432v4.pdf">Paper</a>]</li>
+<li>Michael Mathieu, camille couprie, Yann Lecun, “Deep Multi Scale Video Prediction Beyond Mean Square Error”, ICLR 2016. [<a href="http://arxiv.org/pdf/1511.05440v6.pdf">Paper</a>]</li>
+</ul>
+<h3 id="object-tracking">Object Tracking</h3>
+<ul>
+<li>Seunghoon Hong, Tackgeun You, Suha Kwak, Bohyung Han, Online Tracking by Learning Discriminative Saliency Map with Convolutional Neural Network, arXiv:1502.06796. <a href="http://arxiv.org/pdf/1502.06796">[Paper]</a></li>
+<li>Hanxi Li, Yi Li and Fatih Porikli, DeepTrack: Learning Discriminative Feature Representations by Convolutional Neural Networks for Visual Tracking, BMVC, 2014. <a href="http://www.bmva.org/bmvc/2014/files/paper028.pdf">[Paper]</a></li>
+<li>N Wang, DY Yeung, Learning a Deep Compact Image Representation for Visual Tracking, NIPS, 2013. <a href="http://winsty.net/papers/dlt.pdf">[Paper]</a></li>
+<li>Chao Ma, Jia-Bin Huang, Xiaokang Yang and Ming-Hsuan Yang, Hierarchical Convolutional Features for Visual Tracking, ICCV 2015 [<a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Ma_Hierarchical_Convolutional_Features_ICCV_2015_paper.pdf">Paper</a>] [<a href="https://github.com/jbhuang0604/CF2">Code</a>]</li>
+<li>Lijun Wang, Wanli Ouyang, Xiaogang Wang, and Huchuan Lu, Visual Tracking with fully Convolutional Networks, ICCV 2015 [<a href="http://202.118.75.4/lu/Paper/ICCV2015/iccv15_lijun.pdf">Paper</a>] [<a href="https://github.com/scott89/FCNT">Code</a>]</li>
+<li>Hyeonseob Namand Bohyung Han, Learning Multi-Domain Convolutional Neural Networks for Visual Tracking, [<a href="http://arxiv.org/pdf/1510.07945.pdf">Paper</a>] [<a href="https://github.com/HyeonseobNam/MDNet">Code</a>] [<a href="http://cvlab.postech.ac.kr/research/mdnet/">Project Page</a>]</li>
+</ul>
+<h3 id="low-level-vision">Low-Level Vision</h3>
+<h4 id="super-resolution">Super-Resolution</h4>
+<ul>
+<li>Iterative Image Reconstruction
+<ul>
+<li>Sven Behnke: Learning Iterative Image Reconstruction. IJCAI, 2001. <a href="http://www.ais.uni-bonn.de/behnke/papers/ijcai01.pdf">[Paper]</a></li>
+<li>Sven Behnke: Learning Iterative Image Reconstruction in the Neural Abstraction Pyramid. International Journal of Computational Intelligence and Applications, vol. 1, no. 4, pp. 427-438, 2001. <a href="http://www.ais.uni-bonn.de/behnke/papers/ijcia01.pdf">[Paper]</a></li>
+</ul>
+</li>
+<li>Super-Resolution (SRCNN) <a href="http://mmlab.ie.cuhk.edu.hk/projects/SRCNN.html">[Web]</a> <a href="http://personal.ie.cuhk.edu.hk/~ccloy/files/eccv_2014_deepresolution.pdf">[Paper-ECCV14]</a> <a href="http://arxiv.org/pdf/1501.00092.pdf">[Paper-arXiv15]</a>
+<ul>
+<li>Chao Dong, Chen Change Loy, Kaiming He, Xiaoou Tang, Learning a Deep Convolutional Network for Image Super-Resolution, ECCV, 2014.</li>
+<li>Chao Dong, Chen Change Loy, Kaiming He, Xiaoou Tang, Image Super-Resolution Using Deep Convolutional Networks, arXiv:1501.00092.</li>
+</ul>
+</li>
+<li>Very Deep Super-Resolution
+<ul>
+<li>Jiwon Kim, Jung Kwon Lee, Kyoung Mu Lee, Accurate Image Super-Resolution Using Very Deep Convolutional Networks, arXiv:1511.04587, 2015. <a href="http://arxiv.org/abs/1511.04587">[Paper]</a></li>
+</ul>
+</li>
+<li>Deeply-Recursive Convolutional Network
+<ul>
+<li>Jiwon Kim, Jung Kwon Lee, Kyoung Mu Lee, Deeply-Recursive Convolutional Network for Image Super-Resolution, arXiv:1511.04491, 2015. <a href="http://arxiv.org/abs/1511.04491">[Paper]</a></li>
+</ul>
+</li>
+<li>Casade-Sparse-Coding-Network
+<ul>
+<li>Zhaowen Wang, Ding Liu, Wei Han, Jianchao Yang and Thomas S. Huang, Deep Networks for Image Super-Resolution with Sparse Prior. ICCV, 2015. <a href="http://www.ifp.illinois.edu/~dingliu2/iccv15/iccv15.pdf">[Paper]</a> <a href="http://www.ifp.illinois.edu/~dingliu2/iccv15/">[Code]</a></li>
+</ul>
+</li>
+<li>Perceptual Losses for Super-Resolution
+<ul>
+<li>Justin Johnson, Alexandre Alahi, Li Fei-Fei, Perceptual Losses for Real-Time Style Transfer and Super-Resolution, arXiv:1603.08155, 2016. <a href="http://arxiv.org/abs/1603.08155">[Paper]</a> <a href="http://cs.stanford.edu/people/jcjohns/papers/fast-style/fast-style-supp.pdf">[Supplementary]</a></li>
+</ul>
+</li>
+<li>SRGAN
+<ul>
+<li>Christian Ledig, Lucas Theis, Ferenc Huszar, Jose Caballero, Andrew Cunningham, Alejandro Acosta, Andrew Aitken, Alykhan Tejani, Johannes Totz, Zehan Wang, Wenzhe Shi, Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network, arXiv:1609.04802v3, 2016. <a href="https://arxiv.org/pdf/1609.04802v3.pdf">[Paper]</a></li>
+</ul>
+</li>
+<li>Others
+<ul>
+<li>Osendorfer, Christian, Hubert Soyer, and Patrick van der Smagt, Image Super-Resolution with Fast Approximate Convolutional Sparse Coding, ICONIP, 2014. <a href="http://brml.org/uploads/tx_sibibtex/281.pdf">[Paper ICONIP-2014]</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="other-applications">Other Applications</h4>
+<ul>
+<li>Optical Flow (FlowNet) <a href="http://arxiv.org/pdf/1504.06852">[Paper]</a>
+<ul>
+<li>Philipp Fischer, Alexey Dosovitskiy, Eddy Ilg, Philip Häusser, Caner Hazırbaş, Vladimir Golkov, Patrick van der Smagt, Daniel Cremers, Thomas Brox, FlowNet: Learning Optical Flow with Convolutional Networks, arXiv:1504.06852.</li>
+</ul>
+</li>
+<li>Compression Artifacts Reduction <a href="http://arxiv.org/pdf/1504.06993">[Paper-arXiv15]</a>
+<ul>
+<li>Chao Dong, Yubin Deng, Chen Change Loy, Xiaoou Tang, Compression Artifacts Reduction by a Deep Convolutional Network, arXiv:1504.06993.</li>
+</ul>
+</li>
+<li>Blur Removal
+<ul>
+<li>Christian J. Schuler, Michael Hirsch, Stefan Harmeling, Bernhard Schölkopf, Learning to Deblur, arXiv:1406.7444 <a href="http://arxiv.org/pdf/1406.7444.pdf">[Paper]</a></li>
+<li>Jian Sun, Wenfei Cao, Zongben Xu, Jean Ponce, Learning a Convolutional Neural Network for Non-uniform Motion Blur Removal, CVPR, 2015 <a href="http://arxiv.org/pdf/1503.00593">[Paper]</a></li>
+</ul>
+</li>
+<li>Image Deconvolution <a href="http://lxu.me/projects/dcnn/">[Web]</a> <a href="http://lxu.me/mypapers/dcnn_nips14.pdf">[Paper]</a>
+<ul>
+<li>Li Xu, Jimmy SJ. Ren, Ce Liu, Jiaya Jia, Deep Convolutional Neural Network for Image Deconvolution, NIPS, 2014.</li>
+</ul>
+</li>
+<li>Deep Edge-Aware Filter <a href="http://jmlr.org/proceedings/papers/v37/xub15.pdf">[Paper]</a>
+<ul>
+<li>Li Xu, Jimmy SJ. Ren, Qiong Yan, Renjie Liao, Jiaya Jia, Deep Edge-Aware Filters, ICML, 2015.</li>
+</ul>
+</li>
+<li>Computing the Stereo Matching Cost with a Convolutional Neural Network <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Zbontar_Computing_the_Stereo_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Jure Žbontar, Yann LeCun, Computing the Stereo Matching Cost with a Convolutional Neural Network, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Colorful Image Colorization Richard Zhang, Phillip Isola, Alexei A. Efros, ECCV, 2016 <a href="http://arxiv.org/pdf/1603.08511.pdf">[Paper]</a>, <a href="https://github.com/richzhang/colorization">[Code]</a></li>
+<li>Ryan Dahl, <a href="http://tinyclouds.org/colorize/">[Blog]</a></li>
+<li>Feature Learning by Inpainting<a href="https://arxiv.org/pdf/1604.07379v1.pdf">[Paper]</a><a href="https://github.com/pathak22/context-encoder">[Code]</a>
+<ul>
+<li>Deepak Pathak, Philipp Krahenbuhl, Jeff Donahue, Trevor Darrell, Alexei A. Efros, Context Encoders: Feature Learning by Inpainting, CVPR, 2016</li>
+</ul>
+</li>
+</ul>
+<h3 id="edge-detection">Edge Detection</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/93ca6f7e-2025-11e5-90f2-d428fd5ff7ac.PNG" alt="edge_detection">
+(from Gedas Bertasius, Jianbo Shi, Lorenzo Torresani, DeepEdge: A Multi-Scale Bifurcated Deep Network for Top-Down Contour Detection, CVPR, 2015.)</p>
+<ul>
+<li>Holistically-Nested Edge Detection <a href="http://arxiv.org/pdf/1504.06375">[Paper]</a> <a href="https://github.com/s9xie/hed">[Code]</a>
+<ul>
+<li>Saining Xie, Zhuowen Tu, Holistically-Nested Edge Detection, arXiv:1504.06375.</li>
+</ul>
+</li>
+<li>DeepEdge <a href="http://arxiv.org/pdf/1412.1123">[Paper]</a>
+<ul>
+<li>Gedas Bertasius, Jianbo Shi, Lorenzo Torresani, DeepEdge: A Multi-Scale Bifurcated Deep Network for Top-Down Contour Detection, CVPR, 2015.</li>
+</ul>
+</li>
+<li>DeepContour <a href="http://mc.eistar.net/UpLoadFiles/Papers/DeepContour_cvpr15.pdf">[Paper]</a>
+<ul>
+<li>Wei Shen, Xinggang Wang, Yan Wang, Xiang Bai, Zhijiang Zhang, DeepContour: A Deep Convolutional Feature Learned by Positive-Sharing Loss for Contour Detection, CVPR, 2015.</li>
+</ul>
+</li>
+</ul>
+<h3 id="semantic-segmentation">Semantic Segmentation</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/0ba8340c-2023-11e5-88bc-bebf4509b6bb.PNG" alt="semantic_segmantation">
+(from Jifeng Dai, Kaiming He, Jian Sun, BoxSup: Exploiting Bounding Boxes to Supervise Convolutional Networks for Semantic Segmentation, arXiv:1503.01640.)</p>
+<ul>
+<li>PASCAL VOC2012 Challenge Leaderboard (01 Sep. 2016)
+<img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/c3678488-7038-11e6-9ec1-74a1542dce13.png" alt="VOC2012_top_rankings">
+(from PASCAL VOC2012 <a href="http://host.robots.ox.ac.uk:8080/leaderboard/displaylb.php?challengeid=11&amp;compid=6">leaderboards</a>)</li>
+<li>SEC: Seed, Expand and Constrain
+<ul>
+<li>Alexander Kolesnikov, Christoph Lampert, Seed, Expand and Constrain: Three Principles for Weakly-Supervised Image Segmentation, ECCV, 2016. <a href="http://pub.ist.ac.at/~akolesnikov/files/ECCV2016/main.pdf">[Paper]</a> <a href="https://github.com/kolesman/SEC">[Code]</a></li>
+</ul>
+</li>
+<li>Adelaide
+<ul>
+<li>Guosheng Lin, Chunhua Shen, Ian Reid, Anton van dan Hengel, Efficient piecewise training of deep structured models for semantic segmentation, arXiv:1504.01013. <a href="http://arxiv.org/pdf/1504.01013">[Paper]</a> (1st ranked in VOC2012)</li>
+<li>Guosheng Lin, Chunhua Shen, Ian Reid, Anton van den Hengel, Deeply Learning the Messages in Message Passing Inference, arXiv:1508.02108. <a href="http://arxiv.org/pdf/1506.02108">[Paper]</a> (4th ranked in VOC2012)</li>
+</ul>
+</li>
+<li>Deep Parsing Network (DPN)
+<ul>
+<li>Ziwei Liu, Xiaoxiao Li, Ping Luo, Chen Change Loy, Xiaoou Tang, Semantic Image Segmentation via Deep Parsing Network, arXiv:1509.02634 / ICCV 2015 <a href="http://arxiv.org/pdf/1509.02634.pdf">[Paper]</a> (2nd ranked in VOC 2012)</li>
+</ul>
+</li>
+<li>CentraleSuperBoundaries, INRIA <a href="http://arxiv.org/pdf/1511.07386">[Paper]</a>
+<ul>
+<li>Iasonas Kokkinos, Surpassing Humans in Boundary Detection using Deep Learning, arXiv:1411.07386 (4th ranked in VOC 2012)</li>
+</ul>
+</li>
+<li>BoxSup <a href="http://arxiv.org/pdf/1503.01640">[Paper]</a>
+<ul>
+<li>Jifeng Dai, Kaiming He, Jian Sun, BoxSup: Exploiting Bounding Boxes to Supervise Convolutional Networks for Semantic Segmentation, arXiv:1503.01640. (6th ranked in VOC2012)</li>
+</ul>
+</li>
+<li>POSTECH
+<ul>
+<li>Hyeonwoo Noh, Seunghoon Hong, Bohyung Han, Learning Deconvolution Network for Semantic Segmentation, arXiv:1505.04366. <a href="http://arxiv.org/pdf/1505.04366">[Paper]</a> (7th ranked in VOC2012)</li>
+<li>Seunghoon Hong, Hyeonwoo Noh, Bohyung Han, Decoupled Deep Neural Network for Semi-supervised Semantic Segmentation, arXiv:1506.04924. <a href="http://arxiv.org/pdf/1506.04924">[Paper]</a></li>
+<li>Seunghoon Hong,Junhyuk Oh,	Bohyung Han, and	Honglak Lee, Learning Transferrable Knowledge for Semantic Segmentation with Deep Convolutional Neural Network, arXiv:1512.07928 [<a href="http://arxiv.org/pdf/1512.07928.pdf">Paper</a>] [<a href="http://cvlab.postech.ac.kr/research/transfernet/">Project Page</a>]</li>
+</ul>
+</li>
+<li>Conditional Random Fields as Recurrent Neural Networks <a href="http://arxiv.org/pdf/1502.03240">[Paper]</a>
+<ul>
+<li>Shuai Zheng, Sadeep Jayasumana, Bernardino Romera-Paredes, Vibhav Vineet, Zhizhong Su, Dalong Du, Chang Huang, Philip H. S. Torr, Conditional Random Fields as Recurrent Neural Networks, arXiv:1502.03240. (8th ranked in VOC2012)</li>
+</ul>
+</li>
+<li>DeepLab
+<ul>
+<li>Liang-Chieh Chen, George Papandreou, Kevin Murphy, Alan L. Yuille, Weakly-and semi-supervised learning of a DCNN for semantic image segmentation, arXiv:1502.02734. <a href="http://arxiv.org/pdf/1502.02734">[Paper]</a> (9th ranked in VOC2012)</li>
+</ul>
+</li>
+<li>Zoom-out <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Mostajabi_Feedforward_Semantic_Segmentation_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Mohammadreza Mostajabi, Payman Yadollahpour, Gregory Shakhnarovich, Feedforward Semantic Segmentation With Zoom-Out Features, CVPR, 2015</li>
+</ul>
+</li>
+<li>Joint Calibration <a href="http://arxiv.org/pdf/1507.01581">[Paper]</a>
+<ul>
+<li>Holger Caesar, Jasper Uijlings, Vittorio Ferrari, Joint Calibration for Semantic Segmentation, arXiv:1507.01581.</li>
+</ul>
+</li>
+<li>Fully Convolutional Networks for Semantic Segmentation <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf">[Paper-CVPR15]</a> <a href="http://arxiv.org/pdf/1411.4038">[Paper-arXiv15]</a>
+<ul>
+<li>Jonathan Long, Evan Shelhamer, Trevor Darrell, Fully Convolutional Networks for Semantic Segmentation, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Hypercolumn <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Hariharan_Hypercolumns_for_Object_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Bharath Hariharan, Pablo Arbelaez, Ross Girshick, Jitendra Malik, Hypercolumns for Object Segmentation and Fine-Grained Localization, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Deep Hierarchical Parsing
+<ul>
+<li>Abhishek Sharma, Oncel Tuzel, David W. Jacobs, Deep Hierarchical Parsing for Semantic Segmentation, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Sharma_Deep_Hierarchical_Parsing_2015_CVPR_paper.pdf">[Paper]</a></li>
+</ul>
+</li>
+<li>Learning Hierarchical Features for Scene Labeling <a href="http://yann.lecun.com/exdb/publis/pdf/farabet-icml-12.pdf">[Paper-ICML12]</a> <a href="http://yann.lecun.com/exdb/publis/pdf/farabet-pami-13.pdf">[Paper-PAMI13]</a>
+<ul>
+<li>Clement Farabet, Camille Couprie, Laurent Najman, Yann LeCun, Scene Parsing with Multiscale Feature Learning, Purity Trees, and Optimal Covers, ICML, 2012.</li>
+<li>Clement Farabet, Camille Couprie, Laurent Najman, Yann LeCun, Learning Hierarchical Features for Scene Labeling, PAMI, 2013.</li>
+</ul>
+</li>
+<li>University of Cambridge <a href="http://mi.eng.cam.ac.uk/projects/segnet/">[Web]</a>
+<ul>
+<li>Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla “SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.” arXiv preprint arXiv:1511.00561, 2015. <a href="http://arxiv.org/abs/1511.00561">[Paper]</a></li>
+</ul>
+</li>
+<li>Alex Kendall, Vijay Badrinarayanan and Roberto Cipolla “Bayesian SegNet: Model Uncertainty in Deep Convolutional Encoder-Decoder Architectures for Scene Understanding.” arXiv preprint arXiv:1511.02680, 2015. <a href="http://arxiv.org/abs/1511.00561">[Paper]</a></li>
+<li>Princeton
+<ul>
+<li>Fisher Yu, Vladlen Koltun, “Multi-Scale Context Aggregation by Dilated Convolutions”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.07122v2.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>Univ. of Washington, Allen AI
+<ul>
+<li>Hamid Izadinia, Fereshteh Sadeghi, Santosh Kumar Divvala, Yejin Choi, Ali Farhadi, “Segment-Phrase Table for Semantic Segmentation, Visual Entailment and Paraphrasing”, ICCV, 2015, [<a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Izadinia_Segment-Phrase_Table_for_ICCV_2015_paper.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>INRIA
+<ul>
+<li>Iasonas Kokkinos, “Pusing the Boundaries of Boundary Detection Using deep Learning”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.07386v2.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>UCSB
+<ul>
+<li>Niloufar Pourian, S. Karthikeyan, and B.S. Manjunath, “Weakly supervised graph based semantic segmentation by learning communities of image-parts”, ICCV, 2015, [<a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Pourian_Weakly_Supervised_Graph_ICCV_2015_paper.pdf">Paper</a>]</li>
+</ul>
+</li>
+</ul>
+<h3 id="visual-attention-and-saliency">Visual Attention and Saliency</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/7ec65b88-2183-11e5-978f-017e45ddba32.png" alt="saliency">
+(from Nian Liu, Junwei Han, Dingwen Zhang, Shifeng Wen, Tianming Liu, Predicting Eye Fixations using Convolutional Neural Networks, CVPR, 2015.)</p>
+<ul>
+<li>Mr-CNN <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Liu_Predicting_Eye_Fixations_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Nian Liu, Junwei Han, Dingwen Zhang, Shifeng Wen, Tianming Liu, Predicting Eye Fixations using Convolutional Neural Networks, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Learning a Sequential Search for Landmarks <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Singh_Learning_a_Sequential_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Saurabh Singh, Derek Hoiem, David Forsyth, Learning a Sequential Search for Landmarks, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Multiple Object Recognition with Visual Attention <a href="http://arxiv.org/pdf/1412.7755.pdf">[Paper]</a>
+<ul>
+<li>Jimmy Lei Ba, Volodymyr Mnih, Koray Kavukcuoglu, Multiple Object Recognition with Visual Attention, ICLR, 2015.</li>
+</ul>
+</li>
+<li>Recurrent Models of Visual Attention <a href="http://papers.nips.cc/paper/5542-recurrent-models-of-visual-attention.pdf">[Paper]</a>
+<ul>
+<li>Volodymyr Mnih, Nicolas Heess, Alex Graves, Koray Kavukcuoglu, Recurrent Models of Visual Attention, NIPS, 2014.</li>
+</ul>
+</li>
+</ul>
+<h3 id="object-recognition">Object Recognition</h3>
+<ul>
+<li>Weakly-supervised learning with convolutional neural networks <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Oquab_Is_Object_Localization_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Maxime Oquab, Leon Bottou, Ivan Laptev, Josef Sivic, Is object localization for free? – Weakly-supervised learning with convolutional neural networks, CVPR, 2015.</li>
+</ul>
+</li>
+<li>FV-CNN <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Cimpoi_Deep_Filter_Banks_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Mircea Cimpoi, Subhransu Maji, Andrea Vedaldi, Deep Filter Banks for Texture Recognition and Segmentation, CVPR, 2015.</li>
+</ul>
+</li>
+</ul>
+<h3 id="human-pose-estimation">Human Pose Estimation</h3>
+<ul>
+<li>Zhe Cao, Tomas Simon, Shih-En Wei, and Yaser Sheikh, Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields, CVPR, 2017.</li>
+<li>Leonid Pishchulin, Eldar Insafutdinov, Siyu Tang, Bjoern Andres, Mykhaylo Andriluka, Peter Gehler, and Bernt Schiele, Deepcut: Joint subset partition and labeling for multi person pose estimation, CVPR, 2016.</li>
+<li>Shih-En Wei, Varun Ramakrishna, Takeo Kanade, and Yaser Sheikh, Convolutional pose machines, CVPR, 2016.</li>
+<li>Alejandro Newell, Kaiyu Yang, and Jia Deng, Stacked hourglass networks for human pose estimation, ECCV, 2016.</li>
+<li>Tomas Pfister, James Charles, and Andrew Zisserman, Flowing convnets for human pose estimation in videos, ICCV, 2015.</li>
+<li>Jonathan J. Tompson, Arjun Jain, Yann LeCun, Christoph Bregler, Joint training of a convolutional network and a graphical model for human pose estimation, NIPS, 2014.</li>
+</ul>
+<h3 id="understanding-cnn">Understanding CNN</h3>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/1aaa0066-2023-11e5-800b-2248ead51584.PNG" alt="understanding">
+(from Aravindh Mahendran, Andrea Vedaldi, Understanding Deep Image Representations by Inverting Them, CVPR, 2015.)</p>
+<ul>
+<li>Karel Lenc, Andrea Vedaldi, Understanding image representations by measuring their equivariance and equivalence, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Lenc_Understanding_Image_Representations_2015_CVPR_paper.pdf">[Paper]</a></li>
+<li>Anh Nguyen, Jason Yosinski, Jeff Clune, Deep Neural Networks are Easily Fooled:High Confidence Predictions for Unrecognizable Images, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Nguyen_Deep_Neural_Networks_2015_CVPR_paper.pdf">[Paper]</a></li>
+<li>Aravindh Mahendran, Andrea Vedaldi, Understanding Deep Image Representations by Inverting Them, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Mahendran_Understanding_Deep_Image_2015_CVPR_paper.pdf">[Paper]</a></li>
+<li>Bolei Zhou, Aditya Khosla, Agata Lapedriza, Aude Oliva, Antonio Torralba, Object Detectors Emerge in Deep Scene CNNs, ICLR, 2015. <a href="http://arxiv.org/abs/1412.6856">[arXiv Paper]</a></li>
+<li>Alexey Dosovitskiy, Thomas Brox, Inverting Visual Representations with Convolutional Networks, arXiv, 2015. <a href="http://arxiv.org/abs/1506.02753">[Paper]</a></li>
+<li>Matthrew Zeiler, Rob Fergus, Visualizing and Understanding Convolutional Networks, ECCV, 2014. <a href="https://www.cs.nyu.edu/~fergus/papers/zeilerECCV2014.pdf">[Paper]</a></li>
+</ul>
+<h3 id="image-and-language">Image and Language</h3>
+<h4 id="image-captioning">Image Captioning</h4>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/e8f81030-2022-11e5-85db-c68e7d8251ce.PNG" alt="image_captioning">
+(from Andrej Karpathy, Li Fei-Fei, Deep Visual-Semantic Alignments for Generating Image Description, CVPR, 2015.)</p>
+<ul>
+<li>UCLA / Baidu <a href="http://arxiv.org/pdf/1410.1090">[Paper]</a>
+<ul>
+<li>Junhua Mao, Wei Xu, Yi Yang, Jiang Wang, Alan L. Yuille, Explain Images with Multimodal Recurrent Neural Networks, arXiv:1410.1090.</li>
+</ul>
+</li>
+<li>Toronto <a href="http://arxiv.org/pdf/1411.2539">[Paper]</a>
+<ul>
+<li>Ryan Kiros, Ruslan Salakhutdinov, Richard S. Zemel, Unifying Visual-Semantic Embeddings with Multimodal Neural Language Models, arXiv:1411.2539.</li>
+</ul>
+</li>
+<li>Berkeley <a href="http://arxiv.org/pdf/1411.4389">[Paper]</a>
+<ul>
+<li>Jeff Donahue, Lisa Anne Hendricks, Sergio Guadarrama, Marcus Rohrbach, Subhashini Venugopalan, Kate Saenko, Trevor Darrell, Long-term Recurrent Convolutional Networks for Visual Recognition and Description, arXiv:1411.4389.</li>
+</ul>
+</li>
+<li>Google <a href="http://arxiv.org/pdf/1411.4555">[Paper]</a>
+<ul>
+<li>Oriol Vinyals, Alexander Toshev, Samy Bengio, Dumitru Erhan, Show and Tell: A Neural Image Caption Generator, arXiv:1411.4555.</li>
+</ul>
+</li>
+<li>Stanford <a href="http://cs.stanford.edu/people/karpathy/deepimagesent/">[Web]</a> <a href="http://cs.stanford.edu/people/karpathy/cvpr2015.pdf">[Paper]</a>
+<ul>
+<li>Andrej Karpathy, Li Fei-Fei, Deep Visual-Semantic Alignments for Generating Image Description, CVPR, 2015.</li>
+</ul>
+</li>
+<li>UML / UT <a href="http://arxiv.org/pdf/1412.4729">[Paper]</a>
+<ul>
+<li>Subhashini Venugopalan, Huijuan Xu, Jeff Donahue, Marcus Rohrbach, Raymond Mooney, Kate Saenko, Translating Videos to Natural Language Using Deep Recurrent Neural Networks, NAACL-HLT, 2015.</li>
+</ul>
+</li>
+<li>CMU / Microsoft <a href="http://arxiv.org/pdf/1411.5654">[Paper-arXiv]</a> <a href="http://www.cs.cmu.edu/~xinleic/papers/cvpr15_rnn.pdf">[Paper-CVPR]</a>
+<ul>
+<li>Xinlei Chen, C. Lawrence Zitnick, Learning a Recurrent Visual Representation for Image Caption Generation, arXiv:1411.5654.</li>
+<li>Xinlei Chen, C. Lawrence Zitnick, Mind’s Eye: A Recurrent Visual Representation for Image Caption Generation, CVPR 2015</li>
+</ul>
+</li>
+<li>Microsoft <a href="http://arxiv.org/pdf/1411.4952">[Paper]</a>
+<ul>
+<li>Hao Fang, Saurabh Gupta, Forrest Iandola, Rupesh Srivastava, Li Deng, Piotr Dollár, Jianfeng Gao, Xiaodong He, Margaret Mitchell, John C. Platt, C. Lawrence Zitnick, Geoffrey Zweig, From Captions to Visual Concepts and Back, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Univ. Montreal / Univ. Toronto [<a href="http://kelvinxu.github.io/projects/capgen.html">Web</a>] [<a href="http://www.cs.toronto.edu/~zemel/documents/captionAttn.pdf">Paper</a>]
+<ul>
+<li>Kelvin Xu, Jimmy Lei Ba, Ryan Kiros, Kyunghyun Cho, Aaron Courville, Ruslan Salakhutdinov, Richard S. Zemel, Yoshua Bengio, Show, Attend, and Tell: Neural Image Caption Generation with Visual Attention, arXiv:1502.03044 / ICML 2015</li>
+</ul>
+</li>
+<li>Idiap / EPFL / Facebook [<a href="http://arxiv.org/pdf/1502.03671">Paper</a>]
+<ul>
+<li>Remi Lebret, Pedro O. Pinheiro, Ronan Collobert, Phrase-based Image Captioning, arXiv:1502.03671 / ICML 2015</li>
+</ul>
+</li>
+<li>UCLA / Baidu [<a href="http://arxiv.org/pdf/1504.06692">Paper</a>]
+<ul>
+<li>Junhua Mao, Wei Xu, Yi Yang, Jiang Wang, Zhiheng Huang, Alan L. Yuille, Learning like a Child: Fast Novel Visual Concept Learning from Sentence Descriptions of Images, arXiv:1504.06692</li>
+</ul>
+</li>
+<li>MS + Berkeley
+<ul>
+<li>Jacob Devlin, Saurabh Gupta, Ross Girshick, Margaret Mitchell, C. Lawrence Zitnick, Exploring Nearest Neighbor Approaches for Image Captioning, arXiv:1505.04467 [<a href="http://arxiv.org/pdf/1505.04467.pdf">Paper</a>]</li>
+<li>Jacob Devlin, Hao Cheng, Hao Fang, Saurabh Gupta, Li Deng, Xiaodong He, Geoffrey Zweig, Margaret Mitchell, Language Models for Image Captioning: The Quirks and What Works, arXiv:1505.01809 [<a href="http://arxiv.org/pdf/1505.01809.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>Adelaide [<a href="http://arxiv.org/pdf/1506.01144.pdf">Paper</a>]
+<ul>
+<li>Qi Wu, Chunhua Shen, Anton van den Hengel, Lingqiao Liu, Anthony Dick, Image Captioning with an Intermediate Attributes Layer, arXiv:1506.01144</li>
+</ul>
+</li>
+<li>Tilburg [<a href="http://arxiv.org/pdf/1506.03694.pdf">Paper</a>]
+<ul>
+<li>Grzegorz Chrupala, Akos Kadar, Afra Alishahi, Learning language through pictures, arXiv:1506.03694</li>
+</ul>
+</li>
+<li>Univ. Montreal [<a href="http://arxiv.org/pdf/1507.01053.pdf">Paper</a>]
+<ul>
+<li>Kyunghyun Cho, Aaron Courville, Yoshua Bengio, Describing Multimedia Content using Attention-based Encoder-Decoder Networks, arXiv:1507.01053</li>
+</ul>
+</li>
+<li>Cornell [<a href="http://arxiv.org/pdf/1508.02091.pdf">Paper</a>]
+<ul>
+<li>Jack Hessel, Nicolas Savva, Michael J. Wilber, Image Representations and New Domains in Neural Image Captioning, arXiv:1508.02091</li>
+</ul>
+</li>
+<li>MS + City Univ. of HongKong [<a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Yao_Learning_Query_and_ICCV_2015_paper.pdf">Paper</a>]
+<ul>
+<li>Ting Yao, Tao Mei, and Chong-Wah Ngo, “Learning Query and Image Similarities
+with Ranking Canonical Correlation Analysis”, ICCV, 2015</li>
+</ul>
+</li>
+</ul>
+<h4 id="video-captioning">Video Captioning</h4>
+<ul>
+<li>Berkeley <a href="http://jeffdonahue.com/lrcn/">[Web]</a> <a href="http://arxiv.org/pdf/1411.4389.pdf">[Paper]</a>
+<ul>
+<li>Jeff Donahue, Lisa Anne Hendricks, Sergio Guadarrama, Marcus Rohrbach, Subhashini Venugopalan, Kate Saenko, Trevor Darrell, Long-term Recurrent Convolutional Networks for Visual Recognition and Description, CVPR, 2015.</li>
+</ul>
+</li>
+<li>UT / UML / Berkeley <a href="http://arxiv.org/pdf/1412.4729">[Paper]</a>
+<ul>
+<li>Subhashini Venugopalan, Huijuan Xu, Jeff Donahue, Marcus Rohrbach, Raymond Mooney, Kate Saenko, Translating Videos to Natural Language Using Deep Recurrent Neural Networks, arXiv:1412.4729.</li>
+</ul>
+</li>
+<li>Microsoft <a href="http://arxiv.org/pdf/1505.01861">[Paper]</a>
+<ul>
+<li>Yingwei Pan, Tao Mei, Ting Yao, Houqiang Li, Yong Rui, Joint Modeling Embedding and Translation to Bridge Video and Language, arXiv:1505.01861.</li>
+</ul>
+</li>
+<li>UT / Berkeley / UML <a href="http://arxiv.org/pdf/1505.00487">[Paper]</a>
+<ul>
+<li>Subhashini Venugopalan, Marcus Rohrbach, Jeff Donahue, Raymond Mooney, Trevor Darrell, Kate Saenko, Sequence to Sequence–Video to Text, arXiv:1505.00487.</li>
+</ul>
+</li>
+<li>Univ. Montreal / Univ. Sherbrooke [<a href="http://arxiv.org/pdf/1502.08029.pdf">Paper</a>]
+<ul>
+<li>Li Yao, Atousa Torabi, Kyunghyun Cho, Nicolas Ballas, Christopher Pal, Hugo Larochelle, Aaron Courville, Describing Videos by Exploiting Temporal Structure, arXiv:1502.08029</li>
+</ul>
+</li>
+<li>MPI / Berkeley [<a href="http://arxiv.org/pdf/1506.01698.pdf">Paper</a>]
+<ul>
+<li>Anna Rohrbach, Marcus Rohrbach, Bernt Schiele, The Long-Short Story of Movie Description, arXiv:1506.01698</li>
+</ul>
+</li>
+<li>Univ. Toronto / MIT [<a href="http://arxiv.org/pdf/1506.06724.pdf">Paper</a>]
+<ul>
+<li>Yukun Zhu, Ryan Kiros, Richard Zemel, Ruslan Salakhutdinov, Raquel Urtasun, Antonio Torralba, Sanja Fidler, Aligning Books and Movies: Towards Story-like Visual Explanations by Watching Movies and Reading Books, arXiv:1506.06724</li>
+</ul>
+</li>
+<li>Univ. Montreal [<a href="http://arxiv.org/pdf/1507.01053.pdf">Paper</a>]
+<ul>
+<li>Kyunghyun Cho, Aaron Courville, Yoshua Bengio, Describing Multimedia Content using Attention-based Encoder-Decoder Networks, arXiv:1507.01053</li>
+</ul>
+</li>
+<li>TAU / USC [<a href="https://arxiv.org/pdf/1612.06950.pdf">paper</a>]
+<ul>
+<li>Dotan Kaufman, Gil Levi, Tal Hassner, Lior Wolf, Temporal Tessellation for Video Annotation and Summarization, arXiv:1612.06950.</li>
+</ul>
+</li>
+</ul>
+<h4 id="question-answering">Question Answering</h4>
+<p><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/ffe7b1f6-2022-11e5-87ab-4f6d4696c220.PNG" alt="question_answering">
+(from Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret Mitchell, Dhruv Batra, C. Lawrence Zitnick, Devi Parikh, VQA: Visual Question Answering, CVPR, 2015 SUNw:Scene Understanding workshop)</p>
+<ul>
+<li>Virginia Tech / MSR <a href="http://www.visualqa.org/">[Web]</a> <a href="http://arxiv.org/pdf/1505.00468">[Paper]</a>
+<ul>
+<li>Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret Mitchell, Dhruv Batra, C. Lawrence Zitnick, Devi Parikh, VQA: Visual Question Answering, CVPR, 2015 SUNw:Scene Understanding workshop.</li>
+</ul>
+</li>
+<li>MPI / Berkeley <a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/vision-and-language/visual-turing-challenge/">[Web]</a> <a href="http://arxiv.org/pdf/1505.01121">[Paper]</a>
+<ul>
+<li>Mateusz Malinowski, Marcus Rohrbach, Mario Fritz, Ask Your Neurons: A Neural-based Approach to Answering Questions about Images, arXiv:1505.01121.</li>
+</ul>
+</li>
+<li>Toronto <a href="http://arxiv.org/pdf/1505.02074">[Paper]</a> <a href="http://www.cs.toronto.edu/~mren/imageqa/data/cocoqa/">[Dataset]</a>
+<ul>
+<li>Mengye Ren, Ryan Kiros, Richard Zemel, Image Question Answering: A Visual Semantic Embedding Model and a New Dataset, arXiv:1505.02074 / ICML 2015 deep learning workshop.</li>
+</ul>
+</li>
+<li>Baidu / UCLA <a href="http://arxiv.org/pdf/1505.05612">[Paper]</a> <a href="https://skymind.ai/wiki/convolutional-network">[Dataset]</a>
+<ul>
+<li>Hauyuan Gao, Junhua Mao, Jie Zhou, Zhiheng Huang, Lei Wang, Wei Xu, Are You Talking to a Machine? Dataset and Methods for Multilingual Image Question Answering, arXiv:1505.05612.</li>
+</ul>
+</li>
+<li>POSTECH [<a href="http://arxiv.org/pdf/1511.05756.pdf">Paper</a>] [<a href="http://cvlab.postech.ac.kr/research/dppnet/">Project Page</a>]
+<ul>
+<li>Hyeonwoo Noh, Paul Hongsuck Seo, and Bohyung Han, Image Question Answering using Convolutional Neural Network with Dynamic Parameter Prediction, arXiv:1511.05765</li>
+</ul>
+</li>
+<li>CMU / Microsoft Research [<a href="http://arxiv.org/pdf/1511.02274v2.pdf">Paper</a>]
+<ul>
+<li>Yang, Z., He, X., Gao, J., Deng, L., &amp; Smola, A. (2015). Stacked Attention Networks for Image Question Answering. arXiv:1511.02274.</li>
+</ul>
+</li>
+<li>MetaMind [<a href="http://arxiv.org/pdf/1603.01417v1.pdf">Paper</a>]
+<ul>
+<li>Xiong, Caiming, Stephen Merity, and Richard Socher. “Dynamic Memory Networks for Visual and Textual Question Answering.” arXiv:1603.01417 (2016).</li>
+</ul>
+</li>
+<li>SNU + NAVER [<a href="http://arxiv.org/abs/1606.01455">Paper</a>]
+<ul>
+<li>Jin-Hwa Kim, Sang-Woo Lee, Dong-Hyun Kwak, Min-Oh Heo, Jeonghee Kim, Jung-Woo Ha, Byoung-Tak Zhang, <em>Multimodal Residual Learning for Visual QA</em>, arXiv:1606:01455</li>
+</ul>
+</li>
+<li>UC Berkeley + Sony [<a href="https://arxiv.org/pdf/1606.01847">Paper</a>]
+<ul>
+<li>Akira Fukui, Dong Huk Park, Daylen Yang, Anna Rohrbach, Trevor Darrell, and Marcus Rohrbach, <em>Multimodal Compact Bilinear Pooling for Visual Question Answering and Visual Grounding</em>, arXiv:1606.01847</li>
+</ul>
+</li>
+<li>Postech [<a href="http://arxiv.org/pdf/1606.03647.pdf">Paper</a>]
+<ul>
+<li>Hyeonwoo Noh and Bohyung Han, <em>Training Recurrent Answering Units with Joint Loss Minimization for VQA</em>, arXiv:1606.03647</li>
+</ul>
+</li>
+<li>SNU + NAVER [<a href="http://arxiv.org/abs/1610.04325">Paper</a>]
+<ul>
+<li>Jin-Hwa Kim, Kyoung Woon On, Jeonghee Kim, Jung-Woo Ha, Byoung-Tak Zhang, <em>Hadamard Product for Low-rank Bilinear Pooling</em>, arXiv:1610.04325.</li>
+</ul>
+</li>
+</ul>
+<h3 id="image-generation">Image Generation</h3>
+<ul>
+<li>Convolutional / Recurrent Networks
+<ul>
+<li>Aäron van den Oord, Nal Kalchbrenner, Oriol Vinyals, Lasse Espeholt, Alex Graves, Koray Kavukcuoglu. “Conditional Image Generation with PixelCNN Decoders”<a href="https://arxiv.org/pdf/1606.05328v2.pdf">[Paper]</a><a href="https://github.com/kundan2510/pixelCNN">[Code]</a></li>
+<li>Alexey Dosovitskiy, Jost Tobias Springenberg, Thomas Brox, “Learning to Generate Chairs with Convolutional Neural Networks”, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Dosovitskiy_Learning_to_Generate_2015_CVPR_paper.pdf">[Paper]</a></li>
+<li>Karol Gregor, Ivo Danihelka, Alex Graves, Danilo Jimenez Rezende, Daan Wierstra, “DRAW: A Recurrent Neural Network For Image Generation”, ICML, 2015. [<a href="https://arxiv.org/pdf/1502.04623v2.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>Adversarial Networks
+<ul>
+<li>Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio, Generative Adversarial Networks, NIPS, 2014. <a href="http://arxiv.org/abs/1406.2661">[Paper]</a></li>
+<li>Emily Denton, Soumith Chintala, Arthur Szlam, Rob Fergus, Deep Generative Image Models using a ￼Laplacian Pyramid of Adversarial Networks, NIPS, 2015. <a href="http://arxiv.org/abs/1506.05751">[Paper]</a></li>
+<li>Lucas Theis, Aäron van den Oord, Matthias Bethge, “A note on the evaluation of generative models”, ICLR 2016. [<a href="http://arxiv.org/abs/1511.01844">Paper</a>]</li>
+<li>Zhenwen Dai, Andreas Damianou, Javier Gonzalez, Neil Lawrence, “Variationally Auto-Encoded Deep Gaussian Processes”, ICLR 2016. [<a href="http://arxiv.org/pdf/1511.06455v2.pdf">Paper</a>]</li>
+<li>Elman Mansimov, Emilio Parisotto, Jimmy Ba, Ruslan Salakhutdinov, “Generating Images from Captions with Attention”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.02793v2.pdf">Paper</a>]</li>
+<li>Jost Tobias Springenberg, “Unsupervised and Semi-supervised Learning with Categorical Generative Adversarial Networks”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.06390v1.pdf">Paper</a>]</li>
+<li>Harrison Edwards, Amos Storkey, “Censoring Representations with an Adversary”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.05897v3.pdf">Paper</a>]</li>
+<li>Takeru Miyato, Shin-ichi Maeda, Masanori Koyama, Ken Nakae, Shin Ishii, “Distributional Smoothing with Virtual Adversarial Training”, ICLR 2016, [<a href="http://arxiv.org/pdf/1507.00677v8.pdf">Paper</a>]</li>
+<li>Jun-Yan Zhu, Philipp Krahenbuhl, Eli Shechtman, and Alexei A. Efros, “Generative Visual Manipulation on the Natural Image Manifold”, ECCV 2016. [<a href="https://arxiv.org/pdf/1609.03552v2.pdf">Paper</a>] [<a href="https://github.com/junyanz/iGAN">Code</a>] [<a href="https://youtu.be/9c4z6YsBGQ0">Video</a>]</li>
+</ul>
+</li>
+<li>Mixing Convolutional and Adversarial Networks
+<ul>
+<li>Alec Radford, Luke Metz, Soumith Chintala, “Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks”, ICLR 2016. [<a href="http://arxiv.org/pdf/1511.06434.pdf">Paper</a>]</li>
+</ul>
+</li>
+</ul>
+<h3 id="other-topics">Other Topics</h3>
+<ul>
+<li>Visual Analogy [<a href="https://web.eecs.umich.edu/~honglak/nips2015-analogy.pdf">Paper</a>]
+<ul>
+<li>Scott Reed, Yi Zhang, Yuting Zhang, Honglak Lee, Deep Visual Analogy Making, NIPS, 2015</li>
+</ul>
+</li>
+<li>Surface Normal Estimation <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Wang_Designing_Deep_Networks_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Xiaolong Wang, David F. Fouhey, Abhinav Gupta, Designing Deep Networks for Surface Normal Estimation, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Action Detection <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Gkioxari_Finding_Action_Tubes_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Georgia Gkioxari, Jitendra Malik, Finding Action Tubes, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Crowd Counting <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Zhang_Cross-Scene_Crowd_Counting_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Cong Zhang, Hongsheng Li, Xiaogang Wang, Xiaokang Yang, Cross-scene Crowd Counting via Deep Convolutional Neural Networks, CVPR, 2015.</li>
+</ul>
+</li>
+<li>3D Shape Retrieval <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Wang_Sketch-Based_3D_Shape_2015_CVPR_paper.pdf">[Paper]</a>
+<ul>
+<li>Fang Wang, Le Kang, Yi Li, Sketch-based 3D Shape Retrieval using Convolutional Neural Networks, CVPR, 2015.</li>
+</ul>
+</li>
+<li>Weakly-supervised Classification
+<ul>
+<li>Samaneh Azadi, Jiashi Feng, Stefanie Jegelka, Trevor Darrell, “Auxiliary Image Regularization for Deep CNNs with Noisy Labels”, ICLR 2016, [<a href="http://arxiv.org/pdf/1511.07069v2.pdf">Paper</a>]</li>
+</ul>
+</li>
+<li>Artistic Style <a href="http://arxiv.org/abs/1508.06576">[Paper]</a> <a href="https://github.com/jcjohnson/neural-style">[Code]</a>
+<ul>
+<li>Leon A. Gatys, Alexander S. Ecker, Matthias Bethge, A Neural Algorithm of Artistic Style.</li>
+</ul>
+</li>
+<li>Human Gaze Estimation
+<ul>
+<li>Xucong Zhang, Yusuke Sugano, Mario Fritz, Andreas Bulling, Appearance-Based Gaze Estimation in the Wild, CVPR, 2015. <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Zhang_Appearance-Based_Gaze_Estimation_2015_CVPR_paper.pdf">[Paper]</a> <a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/gaze-based-human-computer-interaction/appearance-based-gaze-estimation-in-the-wild-mpiigaze/">[Website]</a></li>
+</ul>
+</li>
+<li>Face Recognition
+<ul>
+<li>Yaniv Taigman, Ming Yang, Marc’Aurelio Ranzato, Lior Wolf, DeepFace: Closing the Gap to Human-Level Performance in Face Verification, CVPR, 2014. <a href="https://www.cs.toronto.edu/~ranzato/publications/taigman_cvpr14.pdf">[Paper]</a></li>
+<li>Yi Sun, Ding Liang, Xiaogang Wang, Xiaoou Tang, DeepID3: Face Recognition with Very Deep Neural Networks, 2015. <a href="http://arxiv.org/abs/1502.00873">[Paper]</a></li>
+<li>Florian Schroff, Dmitry Kalenichenko, James Philbin, FaceNet: A Unified Embedding for Face Recognition and Clustering, CVPR, 2015. <a href="http://arxiv.org/abs/1503.03832">[Paper]</a></li>
+</ul>
+</li>
+<li>Facial Landmark Detection
+<ul>
+<li>Yue Wu, Tal Hassner, KangGeon Kim, Gerard Medioni, Prem Natarajan, Facial Landmark Detection with Tweaked Convolutional Neural Networks, 2015. <a href="http://arxiv.org/abs/1511.04031">[Paper]</a> <a href="http://www.openu.ac.il/home/hassner/projects/tcnn_landmarks/">[Project]</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="courses">Courses</h2>
+<ul>
+<li>Deep Vision
+<ul>
+<li>[Stanford] <a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networks for Visual Recognition</a></li>
+<li>[CUHK] <a href="https://piazza.com/cuhk.edu.hk/spring2015/eleg5040/home">ELEG 5040: Advanced Topics in Signal Processing(Introduction to Deep Learning)</a></li>
+</ul>
+</li>
+<li>More Deep Learning
+<ul>
+<li>[Stanford] <a href="http://cs224d.stanford.edu/">CS224d: Deep Learning for Natural Language Processing</a></li>
+<li>[Oxford] <a href="https://www.cs.ox.ac.uk/people/nando.defreitas/machinelearning/">Deep Learning by Prof. Nando de Freitas</a></li>
+<li>[NYU] <a href="http://cilvr.cs.nyu.edu/doku.php?id=courses:deeplearning2014:start">Deep Learning by Prof. Yann LeCun</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="books">Books</h2>
+<ul>
+<li>Free Online Books
+<ul>
+<li><a href="http://www.iro.umontreal.ca/~bengioy/dlbook/">Deep Learning by Ian Goodfellow, Yoshua Bengio, and Aaron Courville</a></li>
+<li><a href="http://neuralnetworksanddeeplearning.com/">Neural Networks and Deep Learning by Michael Nielsen</a></li>
+<li><a href="http://deeplearning.net/tutorial/deeplearning.pdf">Deep Learning Tutorial by LISA lab, University of Montreal</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="videos">Videos</h2>
+<ul>
+<li>Talks
+<ul>
+<li><a href="https://www.youtube.com/watch?v=n1ViNeWhC24">Deep Learning, Self-Taught Learning and Unsupervised Feature Learning By Andrew Ng</a></li>
+<li><a href="https://www.youtube.com/watch?v=vShMxxqtDDs">Recent Developments in Deep Learning By Geoff Hinton</a></li>
+<li><a href="https://www.youtube.com/watch?v=sc-KbuZqGkI">The Unreasonable Effectiveness of Deep Learning by Yann LeCun</a></li>
+<li><a href="https://www.youtube.com/watch?v=4xsVFLnHC_0">Deep Learning of Representations by Yoshua bengio</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="software">Software</h2>
+<h3 id="framework">Framework</h3>
+<ul>
+<li>Tensorflow: An open source software library for numerical computation using data flow graph by Google [<a href="https://www.tensorflow.org/">Web</a>]</li>
+<li>Torch7: Deep learning library in Lua, used by Facebook and Google Deepmind [<a href="http://torch.ch/">Web</a>]
+<ul>
+<li>Torch-based deep learning libraries: [<a href="https://github.com/torchnet/torchnet">torchnet</a>],</li>
+</ul>
+</li>
+<li>Caffe: Deep learning framework by the BVLC [<a href="http://caffe.berkeleyvision.org/">Web</a>]</li>
+<li>Theano: Mathematical library in Python, maintained by LISA lab [<a href="http://deeplearning.net/software/theano/">Web</a>]
+<ul>
+<li>Theano-based deep learning libraries: [<a href="http://deeplearning.net/software/pylearn2/">Pylearn2</a>], [<a href="https://github.com/mila-udem/blocks">Blocks</a>], [<a href="http://keras.io/">Keras</a>], [<a href="https://github.com/Lasagne/Lasagne">Lasagne</a>]</li>
+</ul>
+</li>
+<li>MatConvNet: CNNs for MATLAB [<a href="http://www.vlfeat.org/matconvnet/">Web</a>]</li>
+<li>MXNet: A flexible and efficient deep learning library for heterogeneous distributed systems with multi-language support [<a href="http://mxnet.io/">Web</a>]</li>
+<li>Deepgaze: A computer vision library for human-computer interaction based on CNNs [<a href="https://github.com/mpatacchiola/deepgaze">Web</a>]</li>
+</ul>
+<h3 id="applications">Applications</h3>
+<ul>
+<li>Adversarial Training
+<ul>
+<li>Code and hyperparameters for the paper “Generative Adversarial Networks” <a href="https://github.com/goodfeli/adversarial">[Web]</a></li>
+</ul>
+</li>
+<li>Understanding and Visualizing
+<ul>
+<li>Source code for “Understanding Deep Image Representations by Inverting Them,” CVPR, 2015. <a href="https://github.com/aravindhm/deep-goggle">[Web]</a></li>
+</ul>
+</li>
+<li>Semantic Segmentation
+<ul>
+<li>Source code for the paper “Rich feature hierarchies for accurate object detection and semantic segmentation,” CVPR, 2014. <a href="https://github.com/rbgirshick/rcnn">[Web]</a></li>
+<li>Source code for the paper “Fully Convolutional Networks for Semantic Segmentation,” CVPR, 2015. <a href="https://github.com/longjon/caffe/tree/future">[Web]</a></li>
+</ul>
+</li>
+<li>Super-Resolution
+<ul>
+<li>Image Super-Resolution for Anime-Style-Art <a href="https://github.com/nagadomi/waifu2x">[Web]</a></li>
+</ul>
+</li>
+<li>Edge Detection
+<ul>
+<li>Source code for the paper “DeepContour: A Deep Convolutional Feature Learned by Positive-Sharing Loss for Contour Detection,” CVPR, 2015. <a href="https://github.com/shenwei1231/DeepContour">[Web]</a></li>
+<li>Source code for the paper “Holistically-Nested Edge Detection”, ICCV 2015. <a href="https://github.com/s9xie/hed">[Web]</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="tutorials">Tutorials</h2>
+<ul>
+<li>[CVPR 2014] <a href="https://sites.google.com/site/deeplearningcvpr2014/">Tutorial on Deep Learning in Computer Vision</a></li>
+<li>[CVPR 2015] <a href="https://github.com/soumith/cvpr2015">Applied Deep Learning for Computer Vision with Torch</a></li>
+</ul>
+<h2 id="blogs">Blogs</h2>
+<ul>
+<li><a href="http://www.computervisionblog.com/2015/06/deep-down-rabbit-hole-cvpr-2015-and.html">Deep down the rabbit hole: CVPR 2015 and beyond@Tombone’s Computer Vision Blog</a></li>
+<li><a href="http://zoyathinks.blogspot.kr/2015/06/cvpr-recap-and-where-were-going.html">CVPR recap and where we’re going@Zoya Bylinskii (MIT PhD Student)’s Blog</a></li>
+<li><a href="http://www.wired.com/2015/06/facebook-googles-fake-brains-spawn-new-visual-reality/">Facebook’s AI Painting@Wired</a></li>
+<li><a href="http://googleresearch.blogspot.kr/2015/06/inceptionism-going-deeper-into-neural.html">Inceptionism: Going Deeper into Neural Networks@Google Research</a></li>
+<li><a href="http://peterroelants.github.io/">Implementing Neural networks</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="w-section section-cta">
+<div class="w-container container-cta">
+<div class="w-row"><img width="42" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/hr_gradient.png" class="hr-center">
+<h1 class="body-h2-cta">Free Consultation</h1>
+<p class="body-h3-cta">Schedule a 30-minute Q&amp;A with our AI experts.</p>
+<a href="https://skymind.ai/contact" class="w-button button-contactcta">TALK TO A SKYMIND EXPERT</a>
+</div>
+</div>
+</div>
+<div class="w-section section-footer">
+<div id="footer">
+<div class="w-container container-footer"><img src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/logo_footer.svg" class="img-logo--footer">
+<div class="w-row row-2">
+<div class="w-col w-col-3">
+<h1 class="footer-heading">Company</h1>
+<ul class="w-list-unstyled ul-footer">
+<li><a class="footer-link" href="https://skymind.ai/about">About</a>
+</li>
+<li><a class="footer-link" href="https://drive.google.com/drive/folders/1S9n-mdI17euhJMDKP-x0T05E1lGY1ly3" target="_blank">Press Kit</a>
+</li>
+<li><a class="footer-link" href="https://skymind.ai/contact">Contact Us</a>
+</li>
+<li><a class="footer-link" href="https://skymind.ai/press">Press</a>
+</li>
+<li><a class="footer-link" href="https://skymind.ai/privacy">Privacy</a>
+</li>
+</ul>
+</div>
+<div class="w-col w-col-2">
+<h1 class="footer-heading">What We Offer</h1>
+<ul class="w-list-unstyled ul-footer">
+<li><a class="footer-link" href="https://skymind.ai/platform">AI Platform</a>
+</li>
+<li><a class="footer-link" href="https://skymind.ai/subscription">Subscriptions</a>
+</li>
+</ul>
+</div>
+<div class="w-col w-col-2">
+<h1 class="footer-heading">Open-Source</h1>
+<ul class="w-list-unstyled ul-footer">
+<li><a class="footer-link" target="_blank" href="http://deeplearning4j.org/">Deeplearning4j</a>
+</li>
+<li><a class="footer-link" target="_blank" href="http://nd4j.org/">ND4J</a>
+</li>
+<li><a class="footer-link" target="_blank" href="http://deeplearning4j.org/datavec">DataVec</a>
+</li>
+<li><a class="footer-link" target="_blank" href="https://github.com/bytedeco/javacpp">JavaCPP</a>
+</li>
+</ul>
+</div>
+<div class="w-col w-col-2">
+<h1 class="footer-heading">Follow Us</h1>
+<ul class="w-list-unstyled ul-footer">
+<li><a class="footer-link" target="_blank" href="https://www.facebook.com/deeplearning4j/">Facebook</a>
+</li>
+<li><a class="footer-link" target="_blank" href="https://twitter.com/deeplearning4j">Twitter</a>
+</li>
+<li><a class="footer-link" target="_blank" href="https://www.linkedin.com/company/skymind-io">Linkedin</a>
+</li>
+<li><a class="footer-link" target="_blank" href="https://gitter.im/deeplearning4j/deeplearning4j">Gitter</a>
+</li>
+</ul>
+</div>
+<div class="w-col w-col-3 subscribe-form">
+<h1 class="footer-heading">Subscribe to our mailing list</h1>
+<iframe src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/d9xsrj.html" width="100%" height="130px" type="text/html" frameborder="0" allowtransparency="true"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+$(document).ready(function() {
+// Tooltip only Text
+$('.masterTooltip').hover(function(){
+        // Hover over code
+        var title = $(this).attr('title');
+        $(this).data('tipText', title).removeAttr('title');
+        $('<p class="tooltip"></p>')
+        .text(title)
+        .appendTo('body')
+        .fadeIn('slow');
+}, function() {
+        // Hover out code
+        $(this).attr('title', $(this).data('tipText'));
+        $('.tooltip').remove();
+}).mousemove(function(e) {
+        var mousex = e.pageX + 20; //Get X coordinates
+        var mousey = e.pageY + 10; //Get Y coordinates
+        $('.tooltip')
+        .css({ top: mousey, left: mousex })
+});
+});
+</script>
+<script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/jquery.min.js.download"></script>
+<script type="text/javascript" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/skymind.js.download"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript">
+    function wikiSearchFn() {
+      // Declare variables
+      var input, filter, ul, li, a, i;
+      input = document.getElementById('wiki-search-input');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("wiki-links-ul");
+      li = ul.getElementsByTagName('li');
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+          } else {
+              li[i].style.display = "none";
+          }
+      }
+    }
+  </script>
+
+
+<script type="text/javascript">( function(){ window.SIG_EXT = {}; } )()</script><script type="text/javascript" id="" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/pa-5a1c929041f2c2000700004d.js.download"></script><script type="text/javascript" id="">piAId="457082";piCId="67370";piHostname="pi.pardot.com";(function(){function a(){var b=document.createElement("script");b.type="text/javascript";b.src=("https:"==document.location.protocol?"https://pi":"http://cdn")+".pardot.com/pd.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a)}window.attachEvent?window.attachEvent("onload",a):window.addEventListener("load",a,!1)})();</script>
+<script type="text/javascript" id="hs-script-loader" src="./A Beginner&#39;s Guide to Convolutional Neural Networks (CNNs) _ Skymind_files/2179705.js(1).download"></script>
+<style id="wistia_16_style" type="text/css" class="wistia_injected_style">
+@font-face {
+font-family: 'WistiaPlayerOverpassNumbers';
+src: url(data:application/x-font-ttf;charset=utf-8;base64,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);
+}
+</style></body></html>

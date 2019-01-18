@@ -1,0 +1,219 @@
+﻿#abbot-widget {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#abbot-widget-container {
+  position: fixed;
+  top: auto;
+  bottom: 20px;
+  right: 20px;
+  left: auto;
+  margin-top: 0;
+  margin-left: 0;
+  width: 320px;
+  height: 200px;
+  min-height: 200px;
+  border-radius: 5px;
+  z-index: 1999999;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  font-size: 11px;
+  line-height: 30px;
+  font-family: Arial, sans-serif;
+  background: rgb(255, 255, 255);
+}
+
+  #abbot-widget-container.useOverlay:after {
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: -2;
+  }
+
+  #abbot-widget-container.useOverlay:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #FFF;
+    z-index: -1;
+  }
+
+  #abbot-widget-container .closeDialog {
+    background: #ffffff;
+    border: 1px solid #999;
+    border-radius: 50px;
+    color: #333;
+    height: 29px;
+    margin: 0;
+    width: 29px;
+    position: absolute;
+    top: -11px;
+    right: -11px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+    #abbot-widget-container .closeDialog:after {
+      content: '✖'; /* UTF-8 symbol */
+    }
+
+    #abbot-widget-container .closeDialog:hover {
+      background: #f0f0f0;
+    }
+
+#abbot-widget-container.useOverlay form {
+    background: rgba(0,0,0,0.3);
+    height: 100%;
+  }
+
+  /*vertical then horizontal position*/
+  #abbot-widget-container.top-left {
+    top: 0;
+    left: 0;
+  }
+
+  #abbot-widget-container.top-right {
+    top: 0;
+    right: 0;
+  }
+
+  #abbot-widget-container.center {
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  #abbot-widget-container.bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+
+  #abbot-widget-container.bottom-right {
+    bottom: 0;
+    right: 0;
+  }
+
+
+  #abbot-widget-container .aw-header {
+    background: rgb(3, 44, 62);
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+    display: block;
+    padding: 0 10px;
+    font-size: 16px;
+  }
+
+  #abbot-widget-container input[type=radio], #abbot-widget-container label {
+    cursor: pointer;
+    margin-left: 5px
+  }
+
+  #abbot-widget-container h3 {
+    padding: 10px 0;
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+  }
+
+  #abbot-widget-container p {
+    font-weight: normal;
+    margin: 0;
+    padding: 2px 0;
+    font-size: 15px;
+    color: #333;
+  }
+
+  #abbot-widget-container button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: #fff;
+    overflow: visible;
+    background: #3498db;
+    margin: 0 20px 0 28px;
+    font-weight: bold;
+  }
+
+    #abbot-widget-container button:hover {
+      box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+    }
+
+  #abbot-widget-container .aw-body {
+    background: #f0f0f0;
+    color: #333;
+    display: block;
+    padding: 0 10px;
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+
+  #abbot-widget-container .aw-footer {
+    background: #f0f0f0;
+    color: #999;
+    border-radius: 0 0 5px 5px;
+    display: block;
+    padding: 15px;
+    font-size: 12px;
+  }
+
+    #abbot-widget-container .aw-footer a:link {
+      text-decoration: none;
+    }
+
+    #abbot-widget-container .aw-footer a:hover {
+      text-decoration: underline;
+    }
+
+  #abbot-widget-container a.noThanks:link {
+    font-size: 12px;
+    margin-left: 15px;
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  #abbot-widget-container a.noThanks:hover {
+    text-decoration: underline;
+  }
+
+  #abbot-widget-container button.openInModal {
+    display: none;
+  }
+
+  #abbot-widget-container ul.sortable {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+    #abbot-widget-container ul.sortable li {
+      padding: 0;
+      margin: 0;
+    }
+
+  #abbot-widget-container .mrg10T {
+    margin-top: 10px;
+  }

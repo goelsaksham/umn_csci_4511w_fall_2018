@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/ -->
+<html class="smartbanner-show wf-oswald-n4-active js csstransforms3d wf-raleway-n4-active wf-active gr__analyticsvidhya_com"><head lang="en-US" prefix="og: http://ogp.me/ns#"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="google-play-app" content="app-id=com.analyticsvidhya.android">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="https://www.google-analytics.com/" rel="dns-prefetch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="pingback" href="https://www.analyticsvidhya.com/xmlrpc.php">
+<link rel="icon" id="favicon" type="image/png" href="https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg"><link rel="apple-touch-icon" href="https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg"><link rel="apple-touch-icon" sizes="76x76" href="https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg"><link rel="apple-touch-icon" sizes="114x114" href="https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg"><link rel="apple-touch-icon" sizes="144x144" href="https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg">
+<link rel="stylesheet" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/custom_style.css" type="text/css" media="all">
+<link rel="stylesheet" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/smart-app-banner.css" type="text/css" media="screen">
+<link rel="stylesheet" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/special-offer-strip-2.css" type="text/css" media="screen">
+<link rel="stylesheet" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/font-awesome.min.css">
+<title>Essentials of Deep Learning : Introduction to Long Short Term Memory</title>
+<div class="fit-vids-style" id="fit-vids-style" style="display: none;">­<style>.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></div><script type="text/javascript" async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/js"></script><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/gtm.js.download"></script><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/analytics.js.download"></script><script type="text/javascript" async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/a.js.download"></script><script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/136748720225584" async=""></script><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/fbevents.js.download"></script><script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/webfont.js.download" type="text/javascript" async=""></script><script>
+                            /* You can add more configuration options to webfontloader by previously defining the WebFontConfig with your options */
+                            if ( typeof WebFontConfig === "undefined" ) {
+                                WebFontConfig = new Object();
+                            }
+                            WebFontConfig['google'] = {families: ['Oswald:400', 'Raleway:400&amp;subset=latin']};
+
+                            (function() {
+                                var wf = document.createElement( 'script' );
+                                wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.3/webfont.js';
+                                wf.type = 'text/javascript';
+                                wf.async = 'true';
+                                var s = document.getElementsByTagName( 'script' )[0];
+                                s.parentNode.insertBefore( wf, s );
+                            })();
+                        </script>
+<style>
+.stb-container-css {margin: 10px 10px 10px 10px;}.stb-box {}.stb-caption-box {}.stb-body-box {}
+/* Class Dependent Parameters */
+.stb-border.stb-alert-container {border: 1px none #FF4F4A;}.stb-side.stb-alert-container {background: #FF4F4A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF4F4A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);}.stb-side-none.stb-alert-container {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);}.stb-alert_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-alert-caption_box {background: #FF4F4A;background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);color: #FFFFFF;}.stb-alert-body_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-border.stb-black-container {border: 1px none #6E6E6E;}.stb-side.stb-black-container {background: #333333;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);}.stb-side-none.stb-black-container {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);}.stb-black_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-black-caption_box {background: #333333;background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);color: #FFFFFF;}.stb-black-body_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-border.stb-custom-container {border: 1px none #f844ee;}.stb-side.stb-custom-container {background: #f844ee;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f844ee', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);}.stb-side-none.stb-custom-container {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);}.stb-custom_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-custom-caption_box {background: #f844ee;background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);color: #ffffff;}.stb-custom-body_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-border.stb-download-container {border: 1px none #65ADFE;}.stb-side.stb-download-container {background: #65ADFE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#65ADFE', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);}.stb-side-none.stb-download-container {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);}.stb-download_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-download-caption_box {background: #65ADFE;background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);color: #FFFFFF;}.stb-download-body_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-border.stb-grey-container {border: 1px none #BBBBBB;}.stb-side.stb-grey-container {background: #BBBBBB;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BBBBBB', endColorstr='#6e6e6e',GradientType=0 );background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);}.stb-side-none.stb-grey-container {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);}.stb-grey_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-grey-caption_box {background: #BBBBBB;background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);color: #FFFFFF;}.stb-grey-body_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-border.stb-info-container {border: 1px none #7AD975;}.stb-side.stb-info-container {background: #7AD975;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7AD975', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);}.stb-side-none.stb-info-container {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);}.stb-info_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-info-caption_box {background: #7AD975;background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);color: #FFFFFF;}.stb-info-body_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-border.stb-section-container {border: 1px none #2982C5;}.stb-side.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#2944f2',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);}.stb-side-none.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);}.stb-section_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-section-caption_box {background: #2982C5;background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);color: #FFFFFF;}.stb-section-body_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-border.stb-warning-container {border: 1px none #FE9A05;}.stb-side.stb-warning-container {background: #FE9A05;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE9A05', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);}.stb-side-none.stb-warning-container {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);}.stb-warning_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}.stb-warning-caption_box {background: #FE9A05;background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);color: #FFFFFF;}.stb-warning-body_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}</style>
+
+<meta name="description" content="The purpose of this article is to explain Long Short Term Memory Networks and enable you to use it in real life problems.">
+<link rel="canonical" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Essentials of Deep Learning : Introduction to Long Short Term Memory">
+<meta property="og:description" content="The purpose of this article is to explain Long Short Term Memory Networks and enable you to use it in real life problems.">
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">
+<meta property="og:site_name" content="Analytics Vidhya">
+<meta property="article:publisher" content="https://www.facebook.com/AnalyticsVidhya/">
+<meta property="article:author" content="https://www.facebook.com/pranjal.srivastava3">
+<meta property="article:tag" content="forget gate">
+<meta property="article:tag" content="input gate">
+<meta property="article:tag" content="long short term memory network">
+<meta property="article:tag" content="LSTM">
+<meta property="article:tag" content="output gate">
+<meta property="article:tag" content="RNN">
+<meta property="article:tag" content="sequence prediction">
+<meta property="article:tag" content="text generator">
+<meta property="article:tag" content="Time Series">
+<meta property="article:section" content="Deep Learning">
+<meta property="article:published_time" content="2017-12-10T12:22:43+05:30">
+<meta property="article:modified_time" content="2017-12-23T16:55:39+05:30">
+<meta property="og:updated_time" content="2017-12-23T16:55:39+05:30">
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13.png">
+<meta property="og:image:secure_url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13.png">
+<meta property="og:image:width" content="1090">
+<meta property="og:image:height" content="418">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="The purpose of this article is to explain Long Short Term Memory Networks and enable you to use it in real life problems.">
+<meta name="twitter:title" content="Essentials of Deep Learning : Introduction to Long Short Term Memory">
+<meta name="twitter:site" content="@analyticsvidhya">
+<meta name="twitter:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13.png">
+<meta name="twitter:creator" content="@pranjal5252">
+<script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Organization","url":"https:\/\/www.analyticsvidhya.com\/","sameAs":["https:\/\/www.facebook.com\/AnalyticsVidhya\/","https:\/\/www.linkedin.com\/company\/analytics-vidhya","https:\/\/twitter.com\/analyticsvidhya"],"@id":"https:\/\/www.analyticsvidhya.com\/#organization","name":"Analytics Vidhya","logo":"https:\/\/www.analyticsvidhya.com\/wp-content\/uploads\/2014\/12\/analytics-logo-300x70.jpg"}</script>
+
+<link rel="dns-prefetch" href="https://www.analyticsvidhya.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya » Feed" href="https://www.analyticsvidhya.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya » Comments Feed" href="https://www.analyticsvidhya.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya » Essentials of Deep Learning : Introduction to Long Short Term Memory Comments Feed" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/feed/">
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.analyticsvidhya.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="contact-form-7-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="dgd-scrollbox-plugin-core-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="inline-tweet-sharer-style-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/inline-tweet-sharer.css" type="text/css" media="all">
+<link rel="stylesheet" id="dashicons-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/dashicons.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="maha-bootstrap-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/bootstrap-responsive.css" type="text/css" media="all">
+<link rel="stylesheet" id="maha-tm-icons-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/font-tm.css" type="text/css" media="all">
+<link rel="stylesheet" id="maha-basix-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/basix.css" type="text/css" media="all">
+<link rel="stylesheet" id="maha-basix-r-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/basix-responsive.css" type="text/css" media="all">
+<link rel="stylesheet" id="maha-dynamic-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/dynamic-style.css" type="text/css" media="all">
+<link rel="stylesheet" id="stbCoreCSS-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/stb-core.css" type="text/css" media="all">
+<link rel="stylesheet" id="social-logos-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/social-logos.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/jetpack.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpss-style-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/wpss-pkg.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpss-custom-db-style-css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/custom-performance.css" type="text/css" media="all">
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/jquery-migrate.min.js.download" defer="defer"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/related-posts.min.js.download" defer="defer"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var $DGD = {"ajaxurl":"\/wp-admin\/admin-ajax.php","nonce":"e85d6cead5","debug":"","permalink":"https:\/\/www.analyticsvidhya.com\/blog\/2017\/12\/fundamentals-of-deep-learning-introduction-to-lstm\/","title":"Essentials of Deep Learning : Introduction to Long Short Term Memory","thumbnail":"https:\/\/s3-ap-south-1.amazonaws.com\/av-blog-media\/wp-content\/uploads\/2017\/12\/10131302\/13.png","scripthost":"\/wp-content\/plugins\/dreamgrow-scroll-triggered-box\/","scrollboxes":[{"id":"dgd_scrollbox-38994-tab","parentid":"dgd_scrollbox-38994","trigger":{"action":"tab"},"height":"auto","width":"auto","vpos":"bottom","hpos":"center","theme":"none","jsCss":{"margin":"0","backgroundImageUrl":"","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"1px","borderRadius":""},"transition":{"effect":"fade","from":"b","speed":"400"},"lightbox":0,"closeImageUrl":"","hide_mobile":"1","submit_auto_close":0,"delay_auto_close":0,"hide_submitted":0,"cookieLifetime":-1,"receiver_email":"0","thankyou":"You are subscribed. Thank You!","widget_enabled":"0"},{"trigger":{"action":"scroll","scroll":"0","delaytime":"0","element":""},"vpos":"center","hpos":"center","cookieLifetime":"0","hide_mobile":"1","receiver_email":"0","thankyou":"You are subscribed. Thank You!","submit_auto_close":"5","hide_submitted":"1","delay_auto_close":"60","lightbox":{"color":"#000000","opacity":"0.7","blur":"2"},"theme":"none","widget_enabled":"1","height":"350","width":"600","jsCss":{"padding":"10","margin":"10","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"2px","borderRadius":"1px","backgroundImageUrl":""},"closeImageUrl":"","transition":{"from":"b","effect":"fade","speed":"400"},"tab":"1","social":{"facebook":"","twitter":"","google":"","pinterest":"","stumbleupon":"","linkedin":""},"id":"dgd_scrollbox-38994","mode":"stb","voff":0,"hoff":0,"tabid":"dgd_scrollbox-38994-tab"}]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/script.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/inline-tweet-sharer.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/wpss-pkg.min.js.download" defer="defer"></script>
+<link rel="https://api.w.org/" href="https://www.analyticsvidhya.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.analyticsvidhya.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.analyticsvidhya.com/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 4.9.8">
+<link rel="shortlink" href="https://www.analyticsvidhya.com/?p=40003">
+<link rel="alternate" type="application/json+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2017%2F12%2Ffundamentals-of-deep-learning-introduction-to-lstm%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2017%2F12%2Ffundamentals-of-deep-learning-introduction-to-lstm%2F&amp;format=xml">
+<script type="text/javascript"><!--
+function powerpress_pinw(pinw_url){window.open(pinw_url, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=460,height=320');	return false;}
+//-->
+</script>
+<script type="text/javascript">/* <![CDATA[ */ jQuery.post("https://www.analyticsvidhya.com/wp-admin/admin-ajax.php", { action: "wmp_update", id: 40003, token: "c3806ddd3a" }); /* ]]> */</script>
+<link rel="dns-prefetch" href="https://widgets.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://0.gravatar.com/">
+<link rel="dns-prefetch" href="https://1.gravatar.com/">
+<link rel="dns-prefetch" href="https://2.gravatar.com/">
+
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">
+<meta property="og:title" content="Essentials of Deep Learning : Introduction to Long Short Term Memory">
+<meta property="og:description" content="Introduction Sequence prediction problems have been around for a long time. They are considered as one of the hardest problems to solve in the data science industry. These include a wide range of problems; from predicting sales to finding patterns in stock markets’ data, from understanding movie plots to recognizing your way of speech, from">
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13-200x200.png">
+
+<link rel="canonical" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">
+<style type="text/css"></style><script>
+if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {     
+jQuery(document).ready(function(){
+jQuery( ".col-sm-12" ).removeClass( "myrun" );    
+});
+}
+</script>
+<script>
+//subscribe android app
+jQuery(document).ready(function(){
+   jQuery('#submit-subscribe-android-app').click(function(){
+       var email = jQuery('#email-subscribe-android-app').val();
+       if(email){
+           jQuery.ajax({
+               url: "/subscriptions/early-android-access.php",
+               type: "POST",
+               data: {
+                   "email": email
+               },
+               success: function(data){
+                   if(data.success){
+                       jQuery("#bg-sbox ul").hide(1);
+                       jQuery("#bg-sbox h5").text('yay!');
+                       jQuery("#bg-sbox p.msg1").text('Your email has been added to our beta list');
+                       jQuery("#bg-sbox p.msg2").text('You will hear from us soon');
+                   } else {
+                       jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+                       console.log(data.error);
+                   }
+               },
+               error: function(e){
+                   console.log(e);
+                   jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+               }
+           })
+       }
+   });
+});
+</script>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".filter-button").click(function(){
+		var value = jQuery(this).attr('data-filter');
+       if(value == "all"){
+           $('.filter').show('1000');
+       }else{
+			jQuery(".filter").not('.'+value).hide('3000');
+			jQuery('.filter').filter('.'+value).show('3000');
+       }
+   });
+});
+</script>
+<script>//----------footer js start------</script>
+<script type="text/javascript">
+     jQuery(document).ready(function(){
+       jQuery('.footer-links-holder .links-show').click(function () {
+       jQuery(this).parent().toggleClass('active');
+     });
+   });
+</script>
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script type="text/javascript">
+     var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[]};
+ // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+ clevertap.account.push({"id": "R5K-4WR-7W5Z"});
+ (function () {
+		 var wzrk = document.createElement('script');
+		 wzrk.type = 'text/javascript';
+		 wzrk.async = true;
+		 wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+		 var s = document.getElementsByTagName('script')[0];
+		 s.parentNode.insertBefore(wzrk, s);
+  })();
+</script>
+
+<script async="async" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/gpt.js.download"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/blog-title', [728, 90], 'div-gpt-ad-1525327567902-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40101183-1', 'auto');
+  ga('require', 'GTM-PBZGQJ4');
+  //ga('send', 'pageview');
+  ga('send', 'pageview', {
+     'dimension1': 'Pranjal Srivastava',
+     'dimension2': 'Deep Learning'
+     });
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ969NR');</script>
+
+<meta property="fb:pages" content="452065408218678">
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script async="async" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/gpt.js.download"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/AIDC2', [728, 90], 'div-gpt-ad-1536848898417-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<link rel="preload" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f.txt" as="script"><script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f.txt"></script><link rel="stylesheet" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/css"><script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/pubads_impl_275.js.download" async=""></script><script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/a" rel="nofollow" async=""></script><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/hotjar-499326.js.download"></script><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/modules-53580245dd2130370f2ced95f7dffc32.js.download"></script><style type="text/css">iframe#_hjRemoteVarsFrame {display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;}</style></head>
+<body class="post-template-default single single-post postid-40003 single-format-standard mh-body chrome" data-gr-c-s-loaded="true">
+
+<div class="container-fluid">
+<script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/jquery.min.js.download"></script>
+<script src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/smart-app-banner.js.download"></script>
+<script type="text/javascript">
+    if (!navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+      new SmartBanner({
+          daysHidden: 15,   // days to hide banner after close button is clicked (defaults to 15)
+          daysReminder: 1, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+          appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+          title: '',
+          author: '',
+          button: '',
+          store: {
+              android: ' ',
+          },
+          price: {
+              android: '',
+          }
+          , theme: 'android' // put platform type ('ios', 'android', etc.) here to force single theme on all device
+          // , icon: '' // full path to icon image if not using website icon image
+          , force: 'android' // Uncomment for platform emulation
+      });
+    }
+    </script>
+<script>
+    $(document).ready(function(){
+        $(".smartbanner-container").click(function(){
+            ga('send', {'hitType': 'event', 'eventCategory': 'smart-banner', 'eventAction': 'clicked'});
+            window.open("https://play.google.com/store/apps/details?id=com.analyticsvidhya.android", '_blank');
+        });
+    });
+    </script>
+</div><div class="smartbanner smartbanner-android"><div class="smartbanner-container"><a href="javascript:void(0);" class="smartbanner-close">×</a><span class="smartbanner-icon"></span><div class="smartbanner-info"><div class="smartbanner-title"></div><div></div><span> -  </span></div><a href="http://play.google.com/store/apps/details?id=com.analyticsvidhya.android" class="smartbanner-button"><span class="smartbanner-button-text"></span></a></div></div>
+
+<div id="body-maha" class="body-maha" data-tmloader="https://www.analyticsvidhya.com/wp-content/themes/Curated/images/ellipsis.gif">
+<nav id="mobile-bar-sticky" role="navigation" class="mobile-bar bar-sticky">
+<div id="close-mobile-bar"><i class="tm-cancel"></i></div>
+<div id="search-mobile-bar"><form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value==&#39;Search&#39;)this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;)this.value=&#39;Search&#39;;" autocomplete="off">
+</form></div>
+<ul id="menu-main-menu" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Learn</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2498"><span></span><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-3761"><span></span><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><span></span><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><span></span><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><span></span><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/?utm_source=home_blog_navbar">Trainings</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Engage</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com/">Discuss</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><span></span><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Compete</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Get Hired</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span class="navmob-sub-menu"><i class="tm-dropdown"></i></span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Trainings</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/contact/">Contact</a></li>
+</ul> </nav>
+
+<div id="body-background">
+
+<div id="off-canvas-body" class="off-canvas-body animati-on">
+
+<div id="top-bar-sticky" class="bar-sticky">
+<div class="top-bar">
+
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div id="top-right-nav">
+<div class="social-top">
+<ul><li><a target="_blank" href="https://www.facebook.com/AnalyticsVidhya"><i class="tm-facebook"></i></a></li><li><a target="_blank" href="https://twitter.com/analyticsvidhya"><i class="tm-twitter"></i></a></li><li><a target="_blank" href="https://plus.google.com/+Analyticsvidhya/posts"><i class="tm-googleplus"></i></a></li><li><a target="_blank" href="https://www.linkedin.com/groups/Analytics-Vidhya-Learn-everything-about-5057165"><i class="tm-linkedin"></i></a></li></ul>
+</div>
+</div>
+<nav id="top-nav-wrapper" class="ul-nav">
+<ul id="menu-top" class="menu"><li id="menu-item-42575" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-42575 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/">Home</a></li>
+<li id="menu-item-12992" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12992 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a></li>
+<li id="menu-item-41279" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41279 mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/?utm_source=home_blog_navbar">Trainings</a></li>
+<li id="menu-item-12952" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12952 mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com/">Discuss</a></li>
+<li id="menu-item-45058" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-45058 mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com/">Datahack</a></li>
+<li id="menu-item-12658" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12658 mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+<li id="menu-item-39605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39605 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/corporate/">Corporate</a></li>
+</ul> </nav>
+<nav id="top-mobile-wrapper" class="ul-nav">
+<ul><li><a><i class="tm-menu"></i></a></li></ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="main-logo-ads-wrap">
+<div class="main-logo-ads">
+
+<div class="container">
+<div class="row ">
+<div class="col-sm-12">
+
+<div id="thelogo" class="logo ">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/av100.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" scale="0">
+</a>
+</div>
+<h2 class="site-outline">Learn everything about Analytics</h2>
+
+<div id="main-ads" class="">
+<div class="vp-1170 vp-fluid"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=AVtopbanner" target="_blank"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/intro-to-ds.jpg" scale="0"></a></div>
+<div class="vp-970 vp-750"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=AVtopbanner" target="_blank"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/intro-to-ds.jpg" scale="0"></a></div>
+<div class="vp-320"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=AVtopbanner" target="_blank"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/intro-to-ds.jpg" scale="0"></a></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div id="main-nav">
+<div id="main-nav-bar" class="main-nav-bar clearfix ">
+<div id="main-search" class=" clearfix">
+<div id="con-search">
+<div class="container">
+<div class="cols-sm12">
+<div id="main-search-form">
+<span class="close-search-form"><i class="tm-cancel"></i></span>
+<span class="loading-search-result"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/ellipsis.gif" alt="" scale="0"></span>
+<form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value==&#39;Search&#39;)this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;)this.value=&#39;Search&#39;;" autocomplete="off">
+</form> <div class="search-result">
+<div class="container search-result-content"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="maha-notification container"><div id="main-notif"></div></div>
+<div class="container clearfix">
+</div>
+
+<div class="container clearfix">
+<div class="row clearfix">
+<div class="col-sm-12 clearfix">
+
+
+<div id="search-nav" class="search-nav clearfix">
+<span class="open-search-form"><i class="tm-search"></i></span>
+</div>
+
+
+<nav id="main-nav-wrapper" class="main-ul-nav clearfix">
+<div id="thelogosmall" class="logo">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/av44.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" scale="0">
+</a>
+</div>
+<ul id="menu-main-menu-1" class="menu"><li id="menu-item-37781" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Learn<span class="sub-ord-nav"> <i class="tm-dropdown"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12993" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive<span class="sub-ord-nav"> <i class="tm-right-open-mini"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-47251" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2498"><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li id="menu-item-47265" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-3761"><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li id="menu-item-47191" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li id="menu-item-27174" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45209" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li id="menu-item-18233" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li id="menu-item-41036" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/?utm_source=home_blog_navbar">Trainings</a>
+</li>
+<li id="menu-item-12170" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths<span class="sub-ord-nav"> <i class="tm-right-open-mini"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12503" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a>
+</li>
+<li id="menu-item-14416" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a>
+</li>
+<li id="menu-item-12171" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a>
+</li>
+<li id="menu-item-13207" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a>
+</li>
+<li id="menu-item-23077" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a>
+</li>
+<li id="menu-item-12320" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a>
+</li>
+<li id="menu-item-23078" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-31580" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37782" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Engage<span class="sub-ord-nav"> <i class="tm-dropdown"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-11881" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://discuss.analyticsvidhya.com/">Discuss</a>
+</li>
+<li id="menu-item-24639" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a>
+</li>
+<li id="menu-item-45075" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a>
+</li>
+<li id="menu-item-39652" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a>
+</li>
+<li id="menu-item-43948" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a>
+</li>
+<li id="menu-item-22625" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37783" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Compete<span class="sub-ord-nav"> <i class="tm-dropdown"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-24638" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37784" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Get Hired<span class="sub-ord-nav"> <i class="tm-dropdown"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-31593" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-44643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0 ord-nav-offset"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#">Trainings<span class="sub-ord-nav"> <i class="tm-dropdown"></i> </span></a><div class="nav-sub-wrap ord-nav"><div class="nsw clearfix">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-44644" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a>
+</li>
+<li id="menu-item-44645" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a>
+</li>
+<li id="menu-item-44646" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45049" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a>
+</li>
+<li id="menu-item-24641" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/contact/">Contact</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="page-wrapper">
+
+<div class="mh-el page-sidebar single-regular" itemscope="" itemtype="https://schema.org/Article">
+
+<div class="container">
+<div class="row">
+
+<div class="col-sm-8">
+<div class="main-content">
+
+<div class="maha-crumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><span><a href="https://www.analyticsvidhya.com/">Home</a></span> <i class="tm-crumb-right"></i> <span itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem"><a itemscope="" itemprop="item" itemtype="https://schema.org/Thing" href="https://www.analyticsvidhya.com/blog/category/deep-learning/"><span itemprop="name">Deep Learning</span></a><meta itemprop="position" content="1"></span> <i class="tm-crumb-right"></i> <span><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">Essentials of Deep Learning : Introduction to Long Short Term Memory</a></span></div>
+<article id="post-40003" class="main-content single-post-box">
+<header>
+<meta itemprop="headline" content="Essentials of Deep Learning : Introduction to Long Short Term Memory">
+<meta itemprop="datecreated" content="2017-12-10T12:22:43+00:00">
+<meta itemprop="datePublished" content="2017-12-10T12:22:43+00:00">
+<meta itemprop="dateModified" content="2017-12-23T16:55:39+00:00">
+<meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/">
+<span class="hidden" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13.png">
+<meta itemprop="width" content="418">
+<meta itemprop="height" content="418">
+</span>
+<span class="hidden" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+<span class="hidden" itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png">
+</span>
+<meta itemprop="name" content="Analytics Vidhya">
+</span>
+<div class="meta-count">
+<span class="i-category"><span class="mh-cat-item"><a class="mh-elcat-3761" href="https://www.analyticsvidhya.com/blog/category/deep-learning/" title="Deep Learning" rel="category">Deep Learning</a></span><span class="mh-cat-item"><a class="mh-elcat-396" href="https://www.analyticsvidhya.com/blog/category/python-2/" title="Python" rel="category">Python</a></span></span>
+</div>
+<h1 itemprop="name" class="entry-title">Essentials of Deep Learning : Introduction to Long Short Term Memory</h1>
+<div class="meta-info">
+<span class="entry-author">
+<a href="https://www.analyticsvidhya.com/blog/author/pranj52/"><span>Pranjal Srivastava</span></a>,
+</span>
+<time class="entry-date" content="2017-12-10" datetime="2017-12-10T12:22:43+00:00">
+December 10, 2017 </time>
+<div class="count-data right">
+</div>
+</div>
+</header>
+<div class="text-content">
+<div id="ban3_av"><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="7938033629"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><h2>Introduction</h2>
+<p><span style="font-weight: 400">Sequence prediction problems have been around for a long time. They are considered as one of the hardest problems to solve in the data science industry. These include a wide range of problems; from predicting sales to finding patterns in stock markets’ data, from understanding movie plots to recognizing your way of speech, from language translations to predicting your next word on your iPhone’s keyboard. </span></p>
+<p><span style="font-weight: 400">With the recent breakthroughs that have been happening in data science, it is found that for almost all of these sequence prediction problems, Long short Term Memory networks, a.k.a LSTMs have been observed as the most effective solution.<br>
+</span></p>
+<p><span style="font-weight: 400">LSTMs have an edge over conventional feed-forward neural networks and RNN in many ways. This is because of their property of selectively remembering patterns for long durations of time.&nbsp; The purpose of this article is to explain LSTM and enable you to use it in real life problems. </span><span style="font-weight: 400">&nbsp;Let’s have a look!</span></p>
+<p>Note: To go through the article, you must have basic knowledge of neural networks and how Keras (a deep learning library) works. You can refer the mentioned articles to understand these concepts:</p>
+<ul>
+<li><a href="https://www.analyticsvidhya.com/blog/2017/05/neural-network-from-scratch-in-python-and-r/">Understanding Neural Network From Scratch</a></li>
+<li><a href="https://www.analyticsvidhya.com/blog/2017/12/introduction-to-recurrent-neural-networks/">Fundamentals of Deep Learning – Introduction to Recurrent Neural Networks</a></li>
+<li><a href="https://www.analyticsvidhya.com/blog/2016/10/tutorial-optimizing-neural-networks-using-keras-with-image-recognition-case-study/">Tutorial: Optimizing Neural Networks using Keras (with Image recognition case study)</a></li>
+</ul>
+<p>&nbsp;</p>
+<h2>Table of Contents</h2>
+<ol>
+<li><span style="font-weight: 400">Flashback: A look into Recurrent Neural Networks (RNN)</span></li>
+<li><span style="font-weight: 400">Limitations of RNNs</span></li>
+<li><span style="font-weight: 400">Improvement over RNN : Long Short Term Memory (LSTM)<br>
+</span></li>
+<li><span style="font-weight: 400">Architecture of LSTM</span>
+<ol>
+<li><span style="font-weight: 400">Forget Gate</span></li>
+<li><span style="font-weight: 400">Input Gate</span></li>
+<li><span style="font-weight: 400">Output Gate</span></li>
+</ol>
+</li>
+<li><span style="font-weight: 400">Text generation using LSTMs.</span></li>
+</ol>
+<p>&nbsp;</p>
+<h2><b>1. Flashback: A look into Recurrent Neural Networks (RNN)<br>
+</b></h2>
+<p><span style="font-weight: 400">Take an example of sequential data, which can be the stock market’s data for a particular stock. A simple machine learning model or an Artificial Neural Network may learn to predict the stock prices based on a number of features: the volume of the stock, the opening value etc. While the price of the stock depends on these features, it is also largely dependent on the stock values in the previous days. In fact for a trader, these values in the previous days (or the trend) is one major deciding factor for predictions.</span></p>
+<p><span style="font-weight: 400">In the conventional feed-forward neural networks, all test cases are considered to be independent. That is when fitting the model for a particular day, there is no consideration for the stock prices on the previous days.</span></p>
+<p><span style="font-weight: 400">This dependency on time is achieved via Recurrent Neural Networks. A typical RNN looks like:</span></p>
+<p><img class="wp-image-39923 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/rnn-neuron-196x300.png" alt="" width="162" height="248" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/05231650/rnn-neuron-196x300.png 196w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/05231650/rnn-neuron.png 373w" sizes="(max-width: 162px) 100vw, 162px"></p>
+<p><span style="font-weight: 400">This may be intimidating at first sight, but once unfolded, it looks a lot simpler:</span></p>
+<p><img class="aligncenter wp-image-39947 " src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/bptt.png" alt="" width="593" height="242" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/06022525/bptt.png 873w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/06022525/bptt-300x122.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/06022525/bptt-768x313.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/06022525/bptt-850x347.png 850w" sizes="(max-width: 593px) 100vw, 593px"></p>
+<p><span style="font-weight: 400">Now it is easier for us to visualize how these networks are considering the trend of stock prices, before predicting the stock prices for today. Here every prediction at time t (h_t) is dependent on all previous predictions and the information learned from them. </span></p>
+<p><span style="font-weight: 400">RNNs can solve our purpose of sequence handling to a great extent but not entirely. We want our computers to be good enough to </span><a href="https://www.psfk.com/2014/01/shakespeare-machine-learning-poetry-app.html"><span style="font-weight: 400">write Shakespearean sonnets</span></a><span style="font-weight: 400">. Now RNNs are great&nbsp;when it comes to short contexts, but in order to be able to build a story and remember it, we need our models to be able to understand and remember the context behind the sequences, just like a human brain. This is not possible with a simple RNN.</span></p>
+<p><span style="font-weight: 400">Why? Let’s have a look.</span></p>
+<p>&nbsp;</p>
+<h2><b>2. Limitations of RNNs</b></h2>
+<p><span style="font-weight: 400">Recurrent Neural Networks work just fine when we are dealing with short-term dependencies. That is when applied to problems like:</span></p>
+<p><img class=" wp-image-40009 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_9.png" alt="" width="308" height="85" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015332/b2_9.png 344w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015332/b2_9-300x83.png 300w" sizes="(max-width: 308px) 100vw, 308px"></p>
+<p><span style="font-weight: 400">RNNs turn out to be quite effective. This is because this problem has nothing to do with the context of the statement. The RNN need not remember what was said before this, or what was its meaning, all they need to know is that in most cases the sky is blue. Thus the prediction would be:</span></p>
+<p><img class=" wp-image-40010 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_10.png" alt="" width="291" height="74" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015342/b2_10.png 322w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015342/b2_10-300x76.png 300w" sizes="(max-width: 291px) 100vw, 291px"></p>
+<p><span style="font-weight: 400">However, vanilla RNNs fail to understand the context behind an input. Something that was said long before, cannot be recalled when making predictions in the present. Let’s understand this as an example:</span></p>
+<p><img class="wp-image-40011 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_11.png" alt="" width="479" height="171" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015352/b2_11.png 684w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015352/b2_11-300x107.png 300w" sizes="(max-width: 479px) 100vw, 479px"></p>
+<p><span style="font-weight: 400">Here, we can understand that since the author has worked in Spain for 20 years, it is very likely that he may possess a good command over Spanish. But, to make a proper prediction, the RNN needs to remember this context. The relevant information may be separated from the point where it is needed, by a huge load of irrelevant data. This is where a Recurrent Neural Network fails!</span></p>
+<p><span style="font-weight: 400">The reason behind this is the problem of </span><b>Vanishing Gradient. </b><span style="font-weight: 400">In order to understand this, you’ll need to have some knowledge about how a feed-forward neural network learns.</span> <span style="font-weight: 400">We know that for a conventional feed-forward neural network, the weight updating that is applied on a particular layer is a multiple of the learning rate, the error term from the previous layer and the input to that layer. Thus, the error term for a particular layer is somewhere a product of all previous layers’ errors. When dealing with activation functions like the sigmoid function, the small values of its derivatives (occurring in the error function) gets multiplied multiple times as we move towards the starting layers. As a result of this, the gradient almost vanishes as we move towards the starting layers, and it becomes difficult to train these layers.</span></p>
+<p><span style="font-weight: 400">A similar case is observed in Recurrent Neural Networks. RNN remembers things for just small durations of time, i.e. if we need the information after a small time it may be reproducible, but once a lot of words are fed in, this information gets lost somewhere. This issue can be resolved by applying a slightly tweaked version of RNNs – the Long Short-Term Memory Networks.</span></p>
+<p><span style="font-weight: 400"> &nbsp;&nbsp;&nbsp;</span></p>
+<h2><b>3. Improvement over RNN: LSTM (Long Short-Term Memory) Networks</b></h2>
+<p><span style="font-weight: 400">When we arrange our calendar for the day, we prioritize our appointments right? If in case we need to make some space for anything important we know which meeting could be canceled to accommodate a possible meeting. </span></p>
+<p><span style="font-weight: 400">Turns out that an RNN doesn’t do so. In order to add a new information</span>, <span style="font-weight: 400">it transforms the existing information completely by applying a function. Because of this, the entire information is modified, on the whole, i. e. there is no consideration for </span><i><span style="font-weight: 400">‘important’ </span></i><span style="font-weight: 400">information and </span><i><span style="font-weight: 400">‘not so important’</span></i><span style="font-weight: 400"> information. </span></p>
+<p><span style="font-weight: 400">LSTMs on the other hand, make small modifications to the information by multiplications and additions. With LSTMs, the information flows through a mechanism known as cell states. This way, LSTMs can selectively remember or forget things. The information at a particular cell state has three different dependencies. </span></p>
+<p><span style="font-weight: 400">We’ll visualize this with an example. Let’s take the example of predicting stock prices for a particular stock. The stock price of today will depend upon: </span></p>
+<ol>
+<li style="font-weight: 400"><span style="font-weight: 400">The trend that the stock has been following in the previous days, maybe a downtrend or an uptrend.</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">The price of the stock on the previous day, because many traders compare the stock’s previous day price before buying it.</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">The factors that can affect the price of the stock for today. This can be a new company policy that is being criticized widely, or a drop in the company’s profit, or maybe an unexpected change in the senior leadership of the company. </span></li>
+</ol>
+<p><span style="font-weight: 400">These dependencies can be generalized to any problem as:</span></p>
+<ol>
+<li style="font-weight: 400"><span style="font-weight: 400">The previous cell state </span><i><span style="font-weight: 400">(i.e. the information that was present in the memory after the previous time step)</span></i></li>
+<li style="font-weight: 400"><span style="font-weight: 400">The previous hidden state </span><i><span style="font-weight: 400">(i.e. this is the same as the output of the previous cell)</span></i></li>
+<li style="font-weight: 400"><span style="font-weight: 400">The input at the current time step </span><i><span style="font-weight: 400">(i.e. the new information that is being fed in at that moment)</span></i></li>
+</ol>
+<p><span style="font-weight: 400">Another important feature of LSTM is its analogy with conveyor belts! </span></p>
+<p><span style="font-weight: 400">That’s right!</span></p>
+<p><span style="font-weight: 400">Industries use them to move products around for different processes. LSTMs use this mechanism to move information around. </span></p>
+<p><span style="font-weight: 400">We may have some addition, modification or removal of information as it flows through the different layers, just like a product may be molded, painted or packed while it is on a conveyor belt. </span></p>
+<p><span style="font-weight: 400">The following diagram explains the close relationship of LSTMs and conveyor belts.</span></p>
+<p><img class="wp-image-40012 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_12.png" alt="" width="619" height="221" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015405/b2_12.png 1099w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015405/b2_12-300x107.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015405/b2_12-768x274.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015405/b2_12-850x303.png 850w" sizes="(max-width: 619px) 100vw, 619px"></p>
+<p style="text-align: center"><i><span style="font-weight: 400"><a href="https://ayearofai.com/rohan-lenny-3-recurrent-neural-networks-10300100899b">Source</a><br>
+</span></i></p>
+<p><span style="font-weight: 400">Although this diagram is not even close to the actual architecture of an LSTM, it solves our purpose for now.</span></p>
+<p><span style="font-weight: 400">Just because of this property of LSTMs, where they do not manipulate the entire information but rather modify them slightly, they are able to </span><i><span style="font-weight: 400">forget </span></i><span style="font-weight: 400">and </span><i><span style="font-weight: 400">remember </span></i><span style="font-weight: 400">things selectively. How do they do so, is what we are going to learn in the next section?</span></p>
+<p>&nbsp;</p>
+<h2><b>4. Architecture of LSTMs</b></h2>
+<p><span style="font-weight: 400">The functioning of LSTM can be visualized by understanding the functioning of a news channel’s team covering a murder story. Now, a news story is built around facts, evidence and statements of many people. Whenever a new event occurs you take either of the three steps.</span></p>
+<p><span style="font-weight: 400">Let’s say, we were assuming that the murder was done by ‘poisoning’ the victim, but the autopsy report that just came in said that the cause of death was ‘an impact on the head’. Being a part of this news team what do you do? You immediately </span><b>forget </b><span style="font-weight: 400">the previous cause of death&nbsp;and all stories that were woven around this fact.</span></p>
+<p><span style="font-weight: 400">What, if an entirely new suspect is introduced into the picture. A person who had grudges with the victim and could be the murderer? You </span><b>input </b><span style="font-weight: 400">this information into your news feed, right?</span></p>
+<p><span style="font-weight: 400">Now all these broken pieces of information cannot be served on mainstream media. So, after a certain time interval, you need to summarize this information and </span><b>output </b><span style="font-weight: 400">the relevant things to your audience. Maybe in the form of “</span><i><span style="font-weight: 400">XYZ turns out to be the prime suspect.</span></i><span style="font-weight: 400">”.</span></p>
+<p><span style="font-weight: 400">Now let’s get into the details of the architecture of LSTM network:</span></p>
+<p><img class="wp-image-40025 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/13.png" alt="" width="569" height="218" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13.png 1090w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13-300x115.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13-768x295.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131302/13-850x326.png 850w" sizes="(max-width: 569px) 100vw, 569px"></p>
+<p style="text-align: center"><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Source</a></p>
+<p><span style="font-weight: 400">Now, this is nowhere close to the simplified version which we saw before, but let me walk you through it. A typical LSTM network is comprised of different memory blocks called </span><b>cells<br>
+</b><span style="font-weight: 400">(the rectangles that we see in the image)</span><b>. </b><span style="font-weight: 400">&nbsp;There are two states that are being transferred to the next cell; the </span><b>cell state</b><span style="font-weight: 400"> and the</span><b> hidden state</b><span style="font-weight: 400">. The memory blocks are responsible for remembering things and manipulations to this memory is done through three major mechanisms, called </span><b>gates. </b><span style="font-weight: 400">Each of them is being discussed below.</span></p>
+<h3><b>4.1 Forget Gate</b></h3>
+<p><span style="font-weight: 400">Taking the example of a text prediction problem. Let’s assume an LSTM is fed in, the following sentence:</span></p>
+<p><img class="wp-image-40015 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_15.png" alt="" width="575" height="79" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015443/b2_15.png 713w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015443/b2_15-300x41.png 300w" sizes="(max-width: 575px) 100vw, 575px"></p>
+<p><span style="font-weight: 400">As soon as the first full stop after “</span><i><span style="font-weight: 400">person” </span></i><span style="font-weight: 400">is encountered, the forget gate realizes that there may be a change of context in the next sentence. As a result of this, the </span><i><span style="font-weight: 400">subject </span></i><span style="font-weight: 400">of the sentence is </span><i><span style="font-weight: 400">forgotten </span></i><span style="font-weight: 400">and the place for the subject is vacated. And when we start speaking about “</span><i><span style="font-weight: 400">Dan”&nbsp;</span></i><span style="font-weight: 400">this position of the subject is allocated to “</span><i><span style="font-weight: 400">Dan”</span></i><span style="font-weight: 400">. This process of forgetting the subject is brought about by the forget gate.</span><br>
+<img class="wp-image-40026 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/14.png" alt="" width="308" height="194" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131319/14.png 541w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131319/14-300x189.png 300w" sizes="(max-width: 308px) 100vw, 308px"></p>
+<p><span style="font-weight: 400">A forget gate is responsible for removing information from the cell state. The information that is no longer required for the LSTM to understand things or the information that is of less importance is removed via multiplication of a filter. This is required for optimizing the performance of the LSTM network. </span></p>
+<p><span style="font-weight: 400">This gate takes in two inputs; h_t-1 and x_t.</span></p>
+<p><span style="font-weight: 400">h_t-1 is the hidden state from the previous cell or the output of the previous cell and x_t is the input at that particular time step. The given inputs are multiplied by the weight matrices and a bias is added. Following this, the sigmoid function is applied to this value. The sigmoid function outputs a vector, with values ranging from 0 to 1, corresponding to each number in the cell state. Basically, the sigmoid function is responsible for deciding which values to keep and which to discard. If a ‘0’ is output for a particular value in the cell state, it means that the forget gate wants the cell state to forget that piece of information completely. Similarly, a ‘1’ means that the forget gate wants to remember that entire piece of information. This vector output from the sigmoid function is multiplied to the cell state. </span></p>
+<p>&nbsp;</p>
+<h3><b>4.2 Input Gate</b></h3>
+<p><span style="font-weight: 400">Okay, let’s take another example where the LSTM is analyzing a sentence:</span></p>
+<p><img class="wp-image-40017 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_17.png" alt="" width="556" height="82" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015511/b2_17.png 801w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015511/b2_17-300x44.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015511/b2_17-768x113.png 768w" sizes="(max-width: 556px) 100vw, 556px"></p>
+<p><span style="font-weight: 400">Now the important information here is that “Bob” knows swimming and that he has served the Navy for four years. This can be added to the cell state, however, the fact that he told all this over the phone is a less important fact and can be ignored. This process of adding some new information can be done via the </span><b>input</b><span style="font-weight: 400"> gate.</span></p>
+<p><span style="font-weight: 400">Here is its structure:</span></p>
+<p><img class="wp-image-40027 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/16.png" alt="" width="330" height="203" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131330/16.png 557w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131330/16-300x185.png 300w" sizes="(max-width: 330px) 100vw, 330px"></p>
+<p><span style="font-weight: 400">The input gate is responsible for the addition of information to the cell state. This addition of information is basically three-step&nbsp;process as seen from the diagram above.</span></p>
+<ol>
+<li style="font-weight: 400"><span style="font-weight: 400">Regulating what values need to be added to the cell state by involving a sigmoid function. This is basically very similar to the forget gate and acts as a filter for all the information from h_t-1 and x_t.</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">Creating a vector containing all possible values that can be added (as perceived from h_t-1 and x_t) to the cell state. This is done using the </span><b>tanh </b><span style="font-weight: 400">function, which outputs values from -1 to +1. &nbsp;</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">Multiplying the value of the regulatory filter (the sigmoid gate) to the created vector (the tanh function) and then adding this useful information to the cell state via addition operation.</span></li>
+</ol>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400">Once this three-step process is done with, we ensure that only that information is added to the cell state that is </span><i><span style="font-weight: 400">important </span></i><span style="font-weight: 400">and is not </span><i><span style="font-weight: 400">redundant. </span></i></p>
+<p>&nbsp;</p>
+<h3><b>4.3 Output Gate</b></h3>
+<p><span style="font-weight: 400">Not all information that runs along the cell state, is fit for being output at a certain time. We’ll visualize this with an example:</span></p>
+<p><img class="wp-image-40019 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/b2_19.png" alt="" width="556" height="79" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015531/b2_19.png 843w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015531/b2_19-300x43.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10015531/b2_19-768x109.png 768w" sizes="(max-width: 556px) 100vw, 556px"></p>
+<p><span style="font-weight: 400">In this phrase, there could be a number of options for the empty space. But we know that the current input of </span><i><span style="font-weight: 400">‘brave’,</span></i><span style="font-weight: 400"> is an adjective that is used to describe a noun. Thus, whatever word follows, has a strong tendency of being a noun. And thus, Bob could be an apt output.</span></p>
+<p><span style="font-weight: 400">This job of selecting useful information from the current cell state and showing it out as an output is done via the output gate. Here is its structure:</span></p>
+<p><img class=" wp-image-40028 aligncenter" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/18.png" alt="" width="346" height="237" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131340/18.png 552w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10131340/18-300x205.png 300w" sizes="(max-width: 346px) 100vw, 346px"></p>
+<p><span style="font-weight: 400">The functioning of an output gate can again be broken down to three steps:</span></p>
+<ol>
+<li style="font-weight: 400"><span style="font-weight: 400">Creating a vector after applying </span><b>tanh </b><span style="font-weight: 400">function to the cell state, thereby scaling the values to the range -1 to +1.</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">Making a filter using the values of h_t-1 and x_t, such that it can regulate the values that need to be output from the vector created above. This filter again employs a sigmoid function.</span></li>
+<li style="font-weight: 400"><span style="font-weight: 400">Multiplying the value of this regulatory filter to the vector created in step 1, and sending it out as a output and also to the hidden state of the next cell.</span></li>
+</ol>
+<p><span style="font-weight: 400">The filter in the above example will make sure that it diminishes all other values but </span><i><span style="font-weight: 400">‘Bob’. </span></i><span style="font-weight: 400">Thus the filter needs to be built on the input and hidden state values and be applied on the cell state vector.</span></p>
+<p>&nbsp;</p>
+<h2><b>5. Text generation using LSTMs</b></h2>
+<p><span style="font-weight: 400">We have had enough of theoretical concepts and functioning of LSTMs. Now we would be trying to build a model that can predict some </span><i><span style="font-weight: 400">n </span></i><span style="font-weight: 400">number of characters after the original text of Macbeth. Most of the classical texts are no longer protected under copyright and can be found </span><a href="https://www.gutenberg.org/"><span style="font-weight: 400">here.</span></a><span style="font-weight: 400"> An updated version of the .txt file can be found </span><span style="font-weight: 400"><a href="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10165151/macbeth.txt">here</a>.</span></p>
+<p><span style="font-weight: 400">We will use the library </span><b>Keras, </b><span style="font-weight: 400">which is a high-level API for neural networks and works on top of TensorFlow or Theano. So make sure that before diving into this code you have </span><b>Keras</b><span style="font-weight: 400"> installed and functional. </span></p>
+<p><span style="font-weight: 400">Okay, so let’s generate some text!</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h3><b>Importing dependencies </b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># Importing dependencies numpy and keras</span></i>
+<i><span style="font-weight: 400">import numpy</span></i>
+<i><span style="font-weight: 400">from keras.models import Sequential</span></i>
+<i><span style="font-weight: 400">from keras.layers import Dense</span></i>
+<i><span style="font-weight: 400">from keras.layers import Dropout</span></i>
+<i><span style="font-weight: 400">from keras.layers import LSTM</span></i>
+<i><span style="font-weight: 400">from keras.utils import np_utils</span></i></pre>
+<p><span style="font-weight: 400">We import all the required dependencies and this is pretty much self-explanatory. </span></p>
+<ul>
+<li>
+<h3><b>Loading text file and creating character to integer mappings</b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># load text</span></i>
+<i><span style="font-weight: 400">filename = "/macbeth.txt"</span></i>
+
+<i><span style="font-weight: 400">text = (open(filename).read()).lower()</span></i>
+
+<i><span style="font-weight: 400"># mapping characters with integers</span></i>
+<i><span style="font-weight: 400">unique_chars = sorted(list(set(text)))
+</span></i>
+<i>char_to_int = {}
+int_to_char = {}</i>
+
+<i><span style="font-weight: 400">for i, c in enumerate (unique_chars):</span></i>
+<i><span style="font-weight: 400"> &nbsp;&nbsp; char_to_int.update({c: i})</span></i>
+<i><span style="font-weight: 400"> &nbsp;&nbsp; int_to_char.update({i: c})</span></i></pre>
+<p><span style="font-weight: 400">The text file is open, and all characters are converted to lowercase letters. In order to facilitate the following steps, we would be mapping each character to a respective number. This is done to make the computation part of the LSTM easier.</span></p>
+<ul>
+<li>
+<h3><b>Preparing dataset</b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># preparing input and output dataset</span></i>
+<i><span style="font-weight: 400">X = []</span></i>
+<i><span style="font-weight: 400">Y = []</span></i>
+
+<i><span style="font-weight: 400">for i in range(0, len(text) - 50, 1):</span></i>
+    <i><span style="font-weight: 400">sequence = text[i:i + 50]</span></i>
+    <i><span style="font-weight: 400">label =text[i + 50]</span></i>
+    <i><span style="font-weight: 400">X.append([char_to_int[char] for char in sequence])</span></i>
+    <i><span style="font-weight: 400">Y.append(char_to_int[label])</span></i></pre>
+<p><span style="font-weight: 400">Data is prepared in a format such that if we want the LSTM to predict the </span><i><span style="font-weight: 400">‘O’ </span></i><span style="font-weight: 400">in </span><i><span style="font-weight: 400">‘HELLO’ </span></i><span style="font-weight: 400">&nbsp;we would feed in [‘H’, ‘E‘ , ‘L ‘ , ‘L‘ ] as the input and [‘O’] as the expected output. Similarly, here we fix the length of the sequence that we want (set to 50 in the example) and then save the encodings of the first 49 characters in X and the expected output i.e. the 50th character in Y.</span></p>
+<ul>
+<li>
+<h3><b>Reshaping of X</b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># reshaping, normalizing and one hot encoding</span></i>
+<i><span style="font-weight: 400">X_modified = numpy.reshape(X, (len(X), 50, 1))</span></i>
+<i><span style="font-weight: 400">X_modified = X_modified / float(len(unique_chars))</span></i>
+<i><span style="font-weight: 400">Y_modified = np_utils.to_categorical(Y)</span></i></pre>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400">A LSTM network expects the input to be in the form [samples, time steps, features] where samples is the number of data points we have, time steps is the number of time-dependent steps that are there in a single data point, features refers to the number of variables we have for the corresponding true value in Y. We then scale the values in X_modified between 0 to 1 and one hot encode our true values in Y_modified.</span></p>
+<p>&nbsp;</p>
+<ul>
+<li>
+<h3><b>Defining the LSTM model</b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># defining the LSTM model</span></i>
+<i><span style="font-weight: 400">model = Sequential()</span></i>
+<i><span style="font-weight: 400">model.add(LSTM(300, input_shape=(X_modified.shape[1], X_modified.shape[2]), return_sequences=True))</span></i>
+<i><span style="font-weight: 400">model.add(Dropout(0.2))</span></i>
+<i><span style="font-weight: 400">model.add(LSTM(300))</span></i>
+<i><span style="font-weight: 400">model.add(Dropout(0.2))</span></i>
+<i><span style="font-weight: 400">model.add(Dense(Y_modified.shape[1], activation='softmax'))</span></i>
+
+<i><span style="font-weight: 400">model.compile(loss='categorical_crossentropy', optimizer='adam')</span></i></pre>
+<p><span style="font-weight: 400">A sequential model which is a linear stack of layers is used. The first layer is an LSTM layer with 300 memory units and it returns sequences. This is done to ensure that the next LSTM layer receives sequences and not just randomly scattered data. A dropout layer is applied after each LSTM layer to avoid overfitting of the model. Finally, we have the last layer as a fully connected layer with a ‘</span><i><span style="font-weight: 400">softmax’ </span></i><span style="font-weight: 400">activation and neurons equal to the number of unique characters, because we need to output one hot encoded result. </span></p>
+<ul>
+<li>
+<h3><b>Fitting the model and generating characters</b></h3>
+</li>
+</ul>
+<pre><i><span style="font-weight: 400"># fitting the model</span></i>
+<i><span style="font-weight: 400">model.fit(X_modified, Y_modified, epochs=1, batch_size=30)</span></i>
+
+<i><span style="font-weight: 400"># picking a random seed</span></i>
+<i><span style="font-weight: 400">start_index = numpy.random.randint(0, len(X)-1)</span></i>
+<i><span style="font-weight: 400">new_string = X[start_index]</span></i>
+
+<i><span style="font-weight: 400"># generating characters</span></i>
+<i><span style="font-weight: 400">for i in range(50):</span></i>
+    <i><span style="font-weight: 400">x = numpy.reshape(new_string, (1, len(new_string), 1))</span></i>
+    <i><span style="font-weight: 400">x = x / float(len(unique_chars))</span></i>
+
+<i><span style="font-weight: 400">    #predicting</span></i>
+<i><span style="font-weight: 400">    pred_index = numpy.argmax(model.predict(x, verbose=0))</span></i>
+<i><span style="font-weight: 400">    char_out = int_to_char[pred_index]</span></i>
+<i><span style="font-weight: 400">    seq_in = [int_to_char[value] for value in new_string]</span></i>
+<i><span style="font-weight: 400">    print(char_out)</span></i>
+
+<i><span style="font-weight: 400">    new_string.append(pred_index)</span></i>
+<i><span style="font-weight: 400">    new_string = new_string[1:len(new_string)]</span></i></pre>
+<p><span style="font-weight: 400">The model is fit over 100 epochs, with a batch size of 30. We then fix a random seed (for easy reproducibility) and start generating characters. The prediction from the model gives out the character encoding of the predicted character, it is then decoded back to the character value and appended to the pattern. &nbsp;</span></p>
+<p>This is how the output of the network would look like</p>
+<p><img class="aligncenter wp-image-40041 size-full" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/c1.png" alt="" width="979" height="279" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10193412/c1.png 979w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10193412/c1-300x85.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10193412/c1-768x219.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/10193412/c1-850x242.png 850w" sizes="(max-width: 979px) 100vw, 979px"></p>
+<p>Eventually, after enough training epochs, it will give better and better results over the time. This is how you would use LSTM to solve a sequence prediction task.</p>
+<p>&nbsp;</p>
+<h2>End Notes</h2>
+<p>LSTMs are a very promising solution to sequence and time series related problems. However, the one disadvantage that I find about them, is the difficulty in training them. A lot of time and system resources go into training even a simple model. But that is just a hardware constraint! I hope I was successful in giving you a basic understanding of these networks. For any problems or issues related to the blog, please feel free to comment below.</p>
+<h3><a href="https://www.analyticsvidhya.com/blog" rel="noopener noreferrer">Learn</a>, <a href="http://discuss.analyticsvidhya.com/">engage</a> <a href="https://datahack.analyticsvidhya.com/" rel="nofollow noopener noreferrer">, hack</a> and <a href="https://www.analyticsvidhya.com/jobs/#/user/" rel="noopener noreferrer">get hired</a>!</h3>
+<p>&nbsp;</p>
+You can also read this article on Analytics Vidhya's Android APP <a href="https://play.google.com/store/apps/details?id=com.analyticsvidhya.android&amp;utm_source=blog_article&amp;utm_campaign=blog&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" onclick="ga(&#39;send&#39;, {&#39;hitType&#39;: &#39;event&#39;, &#39;eventCategory&#39;: &#39;app-blog&#39;, &#39;eventAction&#39;: &#39;clicked&#39;});"><img alt="Get it on Google Play" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/en_badge_web_generic.png" style="height:65px" scale="0"></a><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-40003" class="share-linkedin sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=linkedin&amp;nb=1" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-40003" class="share-facebook sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span><span class="share-count">448</span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)<span class="share-count">448</span></span></a></li><li class="share-google-plus-1"><a rel="nofollow noopener noreferrer" data-shared="sharing-google-40003" class="share-google-plus-1 sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=google-plus-1&amp;nb=1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-40003" class="share-twitter sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow noopener noreferrer" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=pocket&amp;nb=1" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/?share=reddit&amp;nb=1" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-58948004-40003-5c0cad60502d8" data-src="https://widgets.wp.com/likes/#blog_id=58948004&amp;post_id=40003&amp;origin=www.analyticsvidhya.com&amp;obj_id=58948004-40003-5c0cad60502d8" data-name="like-post-frame-58948004-40003-5c0cad60502d8"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="7938033629"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<footer class="clearfix both">
+<div class="meta-tags clearfix">
+Tags : <a href="https://www.analyticsvidhya.com/blog/tag/forget-gate/" rel="tag">forget gate</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/input-gate/" rel="tag">input gate</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/long-short-term-memory-network/" rel="tag">long short term memory network</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/lstm/" rel="tag">LSTM</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/output-gate/" rel="tag">output gate</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/rnn/" rel="tag">RNN</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/sequence-prediction/" rel="tag">sequence prediction</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/text-generator/" rel="tag">text generator</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/time-series/" rel="tag">Time Series</a> </div>
+<div class="next-prev clearfix">
+<a class="next" href="https://www.analyticsvidhya.com/blog/2017/12/introduction-computational-linguistics-dependency-trees/" rel="next"><i class="tm-chevron-right"></i><div class="np-caption">Next Article</div><h3 class="np-title">Introduction to Computational Linguistics and Dependency Trees in data science</h3></a> <i class="tm-3dots"></i>
+<a class="prev" href="https://www.analyticsvidhya.com/blog/2017/12/introduction-to-recurrent-neural-networks/" rel="prev"><i class="tm-chevron-left"></i><div class="np-caption">Previous Article</div><h3 class="np-title">Fundamentals of Deep Learning – Introduction to Recurrent Neural Networks</h3></a> </div>
+<div class="meta-author" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+<div class="author-thumb">
+<a href="https://www.analyticsvidhya.com/blog/author/pranj52/">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898.jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=400&amp;d=mm&amp;r=g 2x" class="avatar avatar-200 photo" height="200" width="200" originals="200" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g" scale="2.5"> </a>
+</div>
+<div class="author-info">
+<h3 class="author-name">
+<a itemprop="name" content="Pranjal Srivastava" href="https://www.analyticsvidhya.com/blog/author/pranj52/">Pranjal Srivastava</a>
+</h3>
+<div class="author-desc">
+<span class="fn">I am a Senior Undergraduate at IIT (BHU), Varanasi and a Deep Learning enthusiast. Data is surely going to be the biggest thing of this century, instead of witnessing this as a mere spectator, I chose to be a part of this revolution.</span>
+</div>
+<ul class="author-links">
+<li><a target="_blank" href="mailto:pranjal.srivastava.cer14@iitbhu.ac.in"><i class="tm-email"></i></a></li><li><a target="_blank" href="https://www.facebook.com/pranjal.srivastava3"><i class="tm-facebook"></i></a></li><li><a target="_blank" href="https://www.linkedin.com/in/pranjal52/"><i class="tm-linkedin"></i></a></li> </ul>
+</div>
+</div>
+<div class="related-article">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap">
+<h3>Related Articles</h3>
+</div>
+</div>
+</div>
+<div class="row block-streams el-block-5" style="position: relative; height: 613.55px;">
+
+<div class="col-sm-4" style="position: absolute; left: 0px; top: 0px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/datascience22/">Pranav Dar</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-04-02T14:25:14+00:00">
+April 2, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/04/person-blocker-is-a-python-script-that-blocks-out-people-from-images/" rel="bookmark" title="‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/img4_blocked-262x141.gif" alt="‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images" title="‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/04/person-blocker-is-a-python-script-that-blocks-out-people-from-images/" rel="bookmark" title="‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images">
+‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images </a>
+</h3>
+<meta content="‘Person Blocker’ is a Python Script that Blocks Out Entire People in Images">
+</article> </div>
+
+<div class="col-sm-4" style="position: absolute; left: 259px; top: 0px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/jalfaizy/">Faizan Shaikh</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2017-08-17T23:46:45+00:00">
+August 17, 2017 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2017/08/finding-chairs-deep-learning-part-i/" rel="bookmark" title="Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/predictions-262x141.png" alt="Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I" title="Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2017/08/finding-chairs-deep-learning-part-i/" rel="bookmark" title="Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I">
+Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I </a>
+</h3>
+<meta content="Finding chairs the data scientist way! (Hint: using Deep Learning) – Part I">
+</article> </div>
+
+<div class="col-sm-4" style="position: absolute; left: 519px; top: 0px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/sunil-ray/">Sunil Ray</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2017-05-11T04:26:55+00:00">
+May 11, 2017 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2017/05/pydata-amsterdam-2017-machine-learning-deep-learning-data-science/" rel="bookmark" title="22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam)">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/Screen-Shot-2017-05-11-at-9.55.00-AM-262x141.png" alt="22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam)" title="22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam)" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2017/05/pydata-amsterdam-2017-machine-learning-deep-learning-data-science/" rel="bookmark" title="22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam)">
+22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam) </a>
+</h3>
+<meta content="22 must watch talks on Python for Deep Learning, Machine Learning &amp; Data Science (from PyData 2017, Amsterdam)">
+</article> </div>
+
+<div class="col-sm-4" style="position: absolute; left: 0px; top: 329px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/kunalj/">Kunal Jain</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2014-08-12T00:14:35+00:00">
+August 12, 2014 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2014/08/baby-steps-python-performing-exploratory-analysis-python/" rel="bookmark" title="Baby steps in Python – Exploratory analysis in Python (using Pandas)">
+<img width="262" height="141" class="entry-thumb" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/no-image-mh_medium_simple.webp" alt="Baby steps in Python – Exploratory analysis in Python (using Pandas)" title="Baby steps in Python – Exploratory analysis in Python (using Pandas)" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2014/08/baby-steps-python-performing-exploratory-analysis-python/" rel="bookmark" title="Baby steps in Python – Exploratory analysis in Python (using Pandas)">
+Baby steps in Python – Exploratory analysis in Python (using Pandas) </a>
+</h3>
+<meta content="Baby steps in Python – Exploratory analysis in Python (using Pandas)">
+</article> </div>
+
+<div class="col-sm-4" style="position: absolute; left: 259px; top: 329px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/jalfaizy/">Faizan Shaikh</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2017-07-17T08:39:21+00:00">
+July 17, 2017 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2017/07/debugging-neural-network-with-tensorboard/" rel="bookmark" title="Debugging &amp; Visualising training of Neural Network with TensorBoard">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/fly-swatter-149265_1280-262x141.png" alt="Debugging &amp; Visualising training of Neural Network with TensorBoard" title="Debugging &amp; Visualising training of Neural Network with TensorBoard" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2017/07/debugging-neural-network-with-tensorboard/" rel="bookmark" title="Debugging &amp; Visualising training of Neural Network with TensorBoard">
+Debugging &amp; Visualising training of Neural Network with TensorBoard </a>
+</h3>
+<meta content="Debugging &amp; Visualising training of Neural Network with TensorBoard">
+</article> </div>
+
+<div class="col-sm-4" style="position: absolute; left: 519px; top: 329px;">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/datascience22/">Pranav Dar</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-02-21T13:51:28+00:00">
+February 21, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/nvidias-fastphotostyle-python-library/" rel="bookmark" title="NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes)">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/NVIDIA-262x141.png" alt="NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes)" title="NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes)" scale="0">
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/nvidias-fastphotostyle-python-library/" rel="bookmark" title="NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes)">
+NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes) </a>
+</h3>
+<meta content="NVIDIA’s FastPhotoStyle Library Will Make you an Artist (with Python codes)">
+</article> </div>
+</div>
+</div>
+</footer>
+</article> 
+
+
+<div class="row">
+<div class="col-sm-12">
+<div class="message-article">This article is quite old and you might not get a prompt response from the author. We request you to post this comment on Analytics Vidhya's <a href="https://discuss.analyticsvidhya.com/"><b>Discussion portal</b></a> to get your queries resolved</div> </div>
+</div>
+<div class="comment-wrap">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap" id="comments">
+<h3 id="comment">20 Comments</h3>
+</div>
+</div>
+</div>
+<div class="navigation">
+<div class="alignleft"></div>
+<div class="alignright"></div>
+</div>
+<ul class="comment-list" id="show-comments">
+<li class="comment even thread-even depth-1 parent" id="comment-146965">
+<div id="div-comment-146965" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/df5140ff432d7b5d7af269c6840f1777.png" srcset="https://secure.gravatar.com/avatar/df5140ff432d7b5d7af269c6840f1777?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/df5140ff432d7b5d7af269c6840f1777?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Bikram Kachari</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146965">
+December 11, 2017 at 10:56 am</a> </div>
+<p>Very nicely written</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146965" onclick="return addComment.moveForm( &quot;div-comment-146965&quot;, &quot;146965&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Bikram Kachari">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-147160">
+<div id="div-comment-147160" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147160">
+December 12, 2017 at 11:23 am</a> </div>
+<p>Thanks.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147160" onclick="return addComment.moveForm( &quot;div-comment-147160&quot;, &quot;147160&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-146966">
+<div id="div-comment-146966" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/c9246295dcaee910a6e3892d6e5c357b.png" srcset="https://secure.gravatar.com/avatar/c9246295dcaee910a6e3892d6e5c357b?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/c9246295dcaee910a6e3892d6e5c357b?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">sujatha sivaraman</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146966">
+December 11, 2017 at 11:05 am</a> </div>
+<p>Very well articulated article on LSTM</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146966" onclick="return addComment.moveForm( &quot;div-comment-146966&quot;, &quot;146966&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to sujatha sivaraman">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-147162">
+<div id="div-comment-147162" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147162">
+December 12, 2017 at 11:26 am</a> </div>
+<p>Thank You.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147162" onclick="return addComment.moveForm( &quot;div-comment-147162&quot;, &quot;147162&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1 parent" id="comment-146977">
+<div id="div-comment-146977" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/c34e480e4b1a0423b9d878cb3b8db96e.png" srcset="https://secure.gravatar.com/avatar/c34e480e4b1a0423b9d878cb3b8db96e?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/c34e480e4b1a0423b9d878cb3b8db96e?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">James Chibole</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146977">
+December 11, 2017 at 1:18 pm</a> </div>
+<p>Simple explanations. Thank you.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-146977" onclick="return addComment.moveForm( &quot;div-comment-146977&quot;, &quot;146977&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to James Chibole">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-147167">
+<div id="div-comment-147167" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147167">
+December 12, 2017 at 12:05 pm</a> </div>
+<p>Thanks.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147167" onclick="return addComment.moveForm( &quot;div-comment-147167&quot;, &quot;147167&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-147144">
+<div id="div-comment-147144" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/49002dc85e428e69d9d9307abb9f5bf8.png" srcset="https://secure.gravatar.com/avatar/49002dc85e428e69d9d9307abb9f5bf8?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/49002dc85e428e69d9d9307abb9f5bf8?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Saurabh Singh</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147144">
+December 12, 2017 at 9:57 am</a> </div>
+<p>Very nice article … and very well explained . Thanks for the quality article .</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147144" onclick="return addComment.moveForm( &quot;div-comment-147144&quot;, &quot;147144&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Saurabh Singh">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-147159">
+<div id="div-comment-147159" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147159">
+December 12, 2017 at 11:19 am</a> </div>
+<p>Thanks. Glad you liked it.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147159" onclick="return addComment.moveForm( &quot;div-comment-147159&quot;, &quot;147159&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1 parent" id="comment-147661">
+<div id="div-comment-147661" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/abec5dc1f6ddcc301aa1edddd739122b.png" srcset="https://secure.gravatar.com/avatar/abec5dc1f6ddcc301aa1edddd739122b?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/abec5dc1f6ddcc301aa1edddd739122b?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Sasikanth</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147661">
+December 14, 2017 at 9:10 pm</a> </div>
+<p>Is there a similar package in R language to invoke LSTM?</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-147661" onclick="return addComment.moveForm( &quot;div-comment-147661&quot;, &quot;147661&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Sasikanth">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-149220">
+<div id="div-comment-149220" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-149220">
+December 23, 2017 at 4:51 pm</a> </div>
+<p>Yes. Keras is available for R as well. Please checkout <a href="https://keras.rstudio.com/" rel="nofollow">https://keras.rstudio.com/</a></p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-149220" onclick="return addComment.moveForm( &quot;div-comment-149220&quot;, &quot;149220&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-148597">
+<div id="div-comment-148597" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/790d108e77618a365567255c26f1ff0d.png" srcset="https://secure.gravatar.com/avatar/790d108e77618a365567255c26f1ff0d?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/790d108e77618a365567255c26f1ff0d?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Richard Lucius</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-148597">
+December 18, 2017 at 11:31 pm</a> </div>
+<p>Your prediction section should be indented. When you copy an pasted into this format you last the indenting. The prediction does not look like it is part of the for loop.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-148597" onclick="return addComment.moveForm( &quot;div-comment-148597&quot;, &quot;148597&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Richard Lucius">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-149223">
+<div id="div-comment-149223" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-149223">
+December 23, 2017 at 4:57 pm</a> </div>
+<p>Thanks Richard for pointing it out. Have made the necessary changes.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-149223" onclick="return addComment.moveForm( &quot;div-comment-149223&quot;, &quot;149223&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1 parent" id="comment-150719">
+<div id="div-comment-150719" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/2a1271d944ff8e564b4620c6c50639ac.png" srcset="https://secure.gravatar.com/avatar/2a1271d944ff8e564b4620c6c50639ac?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/2a1271d944ff8e564b4620c6c50639ac?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Srinivas</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-150719">
+January 11, 2018 at 12:33 pm</a> </div>
+<p>This is the best article i ever found on LSTM.You nailed it with good Examples..Waiting for other articles from you</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-150719" onclick="return addComment.moveForm( &quot;div-comment-150719&quot;, &quot;150719&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Srinivas">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pranj52 bypostauthor odd alt depth-2" id="comment-152118">
+<div id="div-comment-152118" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/104c680fd3dd0293f35b2645f2702898(1).jpeg" srcset="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/104c680fd3dd0293f35b2645f2702898?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Pranjal Srivastava</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152118">
+March 23, 2018 at 5:38 pm</a> </div>
+<p>Thanks Srinivas.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152118" onclick="return addComment.moveForm( &quot;div-comment-152118&quot;, &quot;152118&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Pranjal Srivastava">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="comment-151767">
+<div id="div-comment-151767" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/96eba4424fe727398a2d24f9a8f75a89.png" srcset="https://secure.gravatar.com/avatar/96eba4424fe727398a2d24f9a8f75a89?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/96eba4424fe727398a2d24f9a8f75a89?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Bill</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-151767">
+March 8, 2018 at 1:13 pm</a> </div>
+<p>Hi<br>
+I’m a starter and interested in this subject. I think I like the way you said be part not a spectator. If you could, let me know how I could engage into this subject and where do I start?</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-151767" onclick="return addComment.moveForm( &quot;div-comment-151767&quot;, &quot;151767&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Bill">Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-even depth-1" id="comment-151949">
+<div id="div-comment-151949" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/912060a2c662277eba29f9f092a12bdd.png" srcset="https://secure.gravatar.com/avatar/912060a2c662277eba29f9f092a12bdd?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/912060a2c662277eba29f9f092a12bdd?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">venkatraju</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-151949">
+March 16, 2018 at 9:34 pm</a> </div>
+<p>This is very nice article and explained well . Thank you</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-151949" onclick="return addComment.moveForm( &quot;div-comment-151949&quot;, &quot;151949&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to venkatraju">Reply</a></div>
+</div>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-152203">
+<div id="div-comment-152203" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/887fffd0f09914503af12cf1e5e57c99.png" srcset="https://secure.gravatar.com/avatar/887fffd0f09914503af12cf1e5e57c99?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/887fffd0f09914503af12cf1e5e57c99?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Nehru</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152203">
+March 27, 2018 at 2:03 pm</a> </div>
+<p>Actually the question is what is the benfit getting by multiplying Tanh and sigmoid functions to take input and what is the necessity of Tanh function</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152203" onclick="return addComment.moveForm( &quot;div-comment-152203&quot;, &quot;152203&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Nehru">Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-jalfaizy odd alt depth-2" id="comment-152206">
+<div id="div-comment-152206" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/fd90df6aafd127cc243609d0e1a97621.jpeg" srcset="https://secure.gravatar.com/avatar/fd90df6aafd127cc243609d0e1a97621?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/fd90df6aafd127cc243609d0e1a97621?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Faizan Shaikh</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152206">
+March 27, 2018 at 4:20 pm</a> </div>
+<p>Hey – There is a whole article written on this topic. I suggest you to refer this article “<a href="https://www.analyticsvidhya.com/blog/2017/10/fundamentals-deep-learning-activation-functions-when-to-use-them/" target="_blank" rel="nofollow">Activation Functions and their use</a>“</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-152206" onclick="return addComment.moveForm( &quot;div-comment-152206&quot;, &quot;152206&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Faizan Shaikh">Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1" id="comment-153509">
+<div id="div-comment-153509" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/eaf5627abe2d7c3df2decbff209d31a7.jpeg" srcset="https://secure.gravatar.com/avatar/eaf5627abe2d7c3df2decbff209d31a7?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/eaf5627abe2d7c3df2decbff209d31a7?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">Ei Ei Mon</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-153509">
+May 24, 2018 at 9:33 am</a> </div>
+<p>Thank you.</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-153509" onclick="return addComment.moveForm( &quot;div-comment-153509&quot;, &quot;153509&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to Ei Ei Mon">Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-154436">
+<div id="div-comment-154436" class="comment-body">
+<div class="comment-author vcard">
+<img alt="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/efcca2026820252b4c722d85b7502d6e.png" srcset="https://secure.gravatar.com/avatar/efcca2026820252b4c722d85b7502d6e?s=200&amp;d=mm&amp;r=g 2x" class="avatar avatar-100 photo" height="100" width="100" originals="100" src-orig="https://secure.gravatar.com/avatar/efcca2026820252b4c722d85b7502d6e?s=100&amp;d=mm&amp;r=g" scale="2.5"> <cite class="fn">shreesh gupta</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-154436">
+August 4, 2018 at 12:24 pm</a> </div>
+<p>well written content !!<br>
+thanks dude!!</p>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/#comment-154436" onclick="return addComment.moveForm( &quot;div-comment-154436&quot;, &quot;154436&quot;, &quot;respond&quot;, &quot;40003&quot; )" aria-label="Reply to shreesh gupta">Reply</a></div>
+</div>
+</li>
+</ul>
+</div>
+<div id="write-comment"></div>
+<script>
+var hash = window.location.hash;
+if(hash!=""){
+jQuery.ajax ({
+	type: 'GET',
+    url: 'https://www.analyticsvidhya.com/comments-form/show-comments.php?rand='+Math.random()+'&id=40003',
+    success: function (data)
+	{
+		jQuery('#show-comments').html(data);
+	},
+	error: function (e) {
+		console.log(e);
+	}
+});
+}
+</script>
+</div>
+</div>
+<div class="col-sm-4 "><div class="sidebar q2w3-fixed-widget-container" style="height: 2663.8px;"><div id="text-36" class="widget clearfix widget_text"> <div class="textwidget"><p><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script><br>
+<br>
+<ins class="adsbygoogle" style="display: inline-block; width: 336px; height: 280px;" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins><br>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+</div>
+</div><div id="topuserswidget-3" class="widget clearfix TopUsersWidget"><div class="widget-title"><div class="block-cap"><h3>Top Analytics Vidhya Users</h3></div></div><table class="top_users"><tbody><tr><th>Rank</th><th colspan="2">Name</th><th>Points</th></tr><tr><td>1</td><td class="top_users_td_image"><img class="top_users_img" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/1.jpg" scale="0"></td><td class="top_users_name_td"><a target="_blank" class="top_users_name" href="https://datahack.analyticsvidhya.com/user/profile/SRK">SRK</a></td><td class="top_users_points">9688</td></tr><tr><td>2</td><td class="top_users_td_image"><img class="top_users_img" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/2.jpg" scale="0"></td><td class="top_users_name_td"><a target="_blank" class="top_users_name" href="https://datahack.analyticsvidhya.com/user/profile/Rohan_Rao">Rohan Rao</a></td><td class="top_users_points">9200</td></tr><tr><td>3</td><td class="top_users_td_image"><img class="top_users_img" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/3.jpg" scale="0"></td><td class="top_users_name_td"><a target="_blank" class="top_users_name" href="https://datahack.analyticsvidhya.com/user/profile/aayushmnit">aayushmnit</a></td><td class="top_users_points">7769</td></tr><tr><td>4</td><td class="top_users_td_image"><img class="top_users_img" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/4.jpg" scale="0"></td><td class="top_users_name_td"><a target="_blank" class="top_users_name" href="https://datahack.analyticsvidhya.com/user/profile/mark12">mark12</a></td><td class="top_users_points">7212</td></tr><tr><td>5</td><td class="top_users_td_image"><img class="top_users_img" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/5.jpg" scale="0"></td><td class="top_users_name_td"><a target="_blank" class="top_users_name" href="https://datahack.analyticsvidhya.com/user/profile/sonny">sonny</a></td><td class="top_users_points">5947</td></tr></tbody></table><div><a class="top_users_more" target="_blank" href="http://datahack.analyticsvidhya.com/users">More Rankings</a></div></div><div id="text-16" class="widget clearfix widget_text"> <div class="textwidget"><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script>
+
+<ins class="adsbygoogle" style="display: inline-block; width: 336px; height: 280px;" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="text-24" class="widget clearfix widget_text"> <div class="textwidget"><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="wmp_widget-2" class="widget clearfix widget_wmp_widget"><div class="widget-title"><div class="block-cap"><h3>Popular posts</h3></div></div><ul class="wp-most-popular">
+<li class="post-28549posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-analytics-projectstag-boston-housing-datatag-classification-datatag-data-explorationtag-data-mining-projectstag-data-science-projecttag-feature-engineeringtag-image-recognitiontag-machine-learningtag-machine-learning-projectstag-mnist-datatag-multi-classificationtag-object-recognitiontag-regression-datatag-text-mining-datatag-titanic-datatag-yelp-data">
+<a href="https://www.analyticsvidhya.com/blog/2018/05/24-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/" title="24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&amp; can be accessed freely)">
+24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&amp; can be accessed freely)
+</a>
+</li>
+<li class="post-22387posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-pandascategory-python-2tag-applytag-box-plotstag-categorical-variabletag-data-cleaningtag-data-explorationtag-data-framestag-data-miningtag-data-mungingtag-data-structuretag-data-wranglingtag-dictionarytag-distribution-analysistag-installing-pythontag-ipythontag-liststag-logistic-regressiontag-matplotlibtag-meantag-mergetag-numpytag-pandastag-pythontag-python-tutorialtag-scikit-learntag-scipytag-setstag-splittag-stacked-charttag-starting-pythontag-statisticstag-stringstag-tupletag-tuplestag-tutorial">
+<a href="https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-learn-data-science-python-scratch-2/" title="A Complete Tutorial to Learn Data Science with Python from Scratch">
+A Complete Tutorial to Learn Data Science with Python from Scratch
+</a>
+</li>
+<li class="post-18770posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-python-2category-rtag-c4-5tag-carttag-decision-treetag-gbmtag-k-meanstag-knntag-linear-regressiontag-logistic-regressiontag-machine-learningtag-naive-bayestag-neural-networktag-random-foresttag-reinforcementtag-supervised-learningtag-unsupervised">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/" title="Essentials of Machine Learning Algorithms (with Python and R Codes)">
+Essentials of Machine Learning Algorithms (with Python and R Codes)
+</a>
+</li>
+<li class="post-20569posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-e1071tag-kerneltag-machine-learningtag-scikit-learntag-svm">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/" title="Understanding Support Vector Machine algorithm from examples (along with code)">
+Understanding Support Vector Machine algorithm from examples (along with code)
+</a>
+</li>
+<li class="post-19875posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-machine-learningtag-naive-bayestag-naive-bayes-in-rtag-probabilitytag-python">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/" title="6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)">
+6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)
+</a>
+</li>
+<li class="post-18835posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticstag-elasticnet-regressiontag-lasso-regressiontag-linear-regressiontag-logistic-regressiontag-multinomial-logistic-rgressiontag-multiple-regressiontag-ordinal-logistic-regressiontag-polynomial-regressiontag-regressiontag-regularizationtag-ridge-regressiontag-stepwise-regression">
+<a href="https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/" title="7 Types of Regression Techniques you should know!">
+7 Types of Regression Techniques you should know!
+</a>
+</li>
+<li class="post-23168posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-machine-learningcategory-python-2category-time-seriestag-arimatag-forecasting-analyticstag-pandastag-time-seriestag-time-series-analysistag-time-series-forecasting">
+<a href="https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/" title="A comprehensive beginner’s guide to create a Time Series Forecast (with Codes in Python)">
+A comprehensive beginner’s guide to create a Time Series Forecast (with Codes in Python)
+</a>
+</li>
+<li class="post-7576posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-big-datacategory-business-analyticscategory-machine-learningcategory-python-2tag-k-nearesttag-knntag-knn-from-scratchtag-machine-learningtag-simplied-series">
+<a href="https://www.analyticsvidhya.com/blog/2018/03/introduction-k-neighbours-algorithm-clustering/" title="Introduction to k-Nearest Neighbors: Simplified (with implementation in Python)">
+Introduction to k-Nearest Neighbors: Simplified (with implementation in Python)
+</a>
+</li>
+</ul></div><div id="text-23" class="widget clearfix widget_text"> <div class="textwidget"><script async="" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/f(1).txt"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="maha_recent_posts-3" class="widget clearfix widget_recents"><div class="widget-title"><div class="block-cap"><h3>Recent Posts</h3></div></div>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/practical-guide-object-detection-yolo-framewor-python/" rel="bookmark" title="A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/Screenshot-from-2018-11-29-13-03-17-83x63.png" alt="A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes)" title="A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes)" scale="0">
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/practical-guide-object-detection-yolo-framewor-python/" rel="bookmark" title="A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes)">
+A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes) </a>
+</h3>
+<meta content="A Practical Guide to Object Detection using the Popular YOLO Framework – Part III (with Python codes)">
+ <div class="meta-info">
+<time class="entry-date" datetime="2018-12-06T07:49:52+00:00">
+December 6, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/best-machine-learning-github-repositories-reddit-threads-november-2018/" rel="bookmark" title="5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/github-83x63.jpg" alt="5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018)" title="5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018)" scale="0">
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/best-machine-learning-github-repositories-reddit-threads-november-2018/" rel="bookmark" title="5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018)">
+5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018) </a>
+</h3>
+<meta content="5 Best Machine Learning GitHub Repositories &amp; Reddit Discussions (November 2018)">
+<div class="meta-info">
+<time class="entry-date" datetime="2018-12-03T09:27:01+00:00">
+December 3, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/building-a-random-forest-from-scratch-understanding-real-world-data-products-ml-for-programmers-part-3/" rel="bookmark" title="Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/part_3-83x63.jpg" alt="Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3)" title="Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3)" scale="0">
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/12/building-a-random-forest-from-scratch-understanding-real-world-data-products-ml-for-programmers-part-3/" rel="bookmark" title="Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3)">
+Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3) </a>
+</h3>
+<meta content="Building a Random Forest from Scratch &amp; Understanding Real-World Data Products (ML for Programmers – Part 3)">
+<div class="meta-info">
+<time class="entry-date" datetime="2018-12-03T09:22:49+00:00">
+December 3, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/11/tutorial-text-classification-ulmfit-fastai-library/" rel="bookmark" title="Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/DL-NLP-83x63.png" alt="Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python" title="Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python" scale="0">
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/11/tutorial-text-classification-ulmfit-fastai-library/" rel="bookmark" title="Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python">
+Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python </a>
+</h3>
+<meta content="Tutorial on Text Classification (NLP) using ULMFiT and fastai Library in Python">
+<div class="meta-info">
+<time class="entry-date" datetime="2018-11-29T07:29:32+00:00">
+November 29, 2018 </time>
+</div>
+</div>
+</article>
+</div><div id="text-19" class="widget clearfix widget_text"> <div class="textwidget"><a href="http://www.edvancer.in/certified-data-scientist-with-python-course?utm_source=AV&amp;utm_medium=AVads&amp;utm_campaign=AVadsnonfc&amp;utm_content=pythonavad" rel="nofollow" target="_blank"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/edvancer-oct-2016.gif" alt="" scale="0"></a></div>
+</div><div id="text-37" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+NLP101+2018_T1/about?utm_source=AVstickybannertop" target="_blank" rel="noopener"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/nlp-course.jpg" scale="0"></a></p>
+</div>
+</div><div id="text-42" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://datahack.analyticsvidhya.com/contest/the-convergence-of-big-data-and-machine-learning-p/?utm_source=AVBlogbanner" target="_blank" rel="noopener"><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/Intel-AI-Meetup_Pune.jpg" scale="0"></a></p>
+</div>
+</div></div></div> </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div id="footer">
+<div class="footer-container">
+<div class="upper-footer">
+<div class="logo">
+<img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/AV-white.d14465ee4af2.png" class="footer-logo" scale="0">
+</div>
+<div class="navigation-content">
+<div class="footer-links-holder">
+<h5 class="links-hide">ANALYTICS VIDHYA</h5>
+<ul class="footer-links av-links">
+<li><a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Career</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/write/">Write for us</a></li>
+</ul>
+</div>
+<div class="mobile-links-holder">
+<div class="links">
+<a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Careers</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a>
+</div>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">DATA SCIENTISTS</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/blog">Blog</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hackathon</a></li>
+<li><a target="_blank" href="https://discuss.analyticsvidhya.com/">Discussions</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/jobs/">Apply Jobs</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/users/">Leaderboard</a></li>
+</ul>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">COMPANIES</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/corporate/">Post Jobs</a></li>
+<li><a target="_blank" href="https://trainings.analyticsvidhya.com/">Trainings</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hiring Hackathons</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Advertising</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Reach Us</a></li>
+</ul>
+</div>
+</div>
+<div class="mobile-signup">
+<p>Don't have an account? <a target="_blank" href="https://datahack.analyticsvidhya.com/signup/" class="signup-link">Sign up</a> here.</p>
+</div>
+<div class="footer-social">
+<div class="join">
+<h5> JOIN OUR COMMUNITY :</h5>
+</div>
+<div class="social-stats">
+<div class="social" id="wrapper">
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><i class="fa fa-facebook social-img"></i></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span class="count_followers" id="followers-count">46336</span></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><i class="fa fa-twitter social-img"></i></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span class="count_followers" id="followers-count">18859</span></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><i class="fa fa-google-plus social-img"></i></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span class="count_followers" id="followers-count">3038</span></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><i class="fa fa-linkedin social-img"></i></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span class="count_followers" id="followers-count">7513</span></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span id="followers">Followers</span></a>
+</div>
+</div>
+<div class="subscribe">
+<form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="_blank">
+<input name="uri" value="analyticsvidhya" type="hidden">
+<input name="loc" value="en_US" type="hidden">
+<input class="subscriber" placeholder="  Subscribe to emailer" name="email" type="email" id="footer-email">
+<input class="subscriber-button" value="&gt;" type="submit">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="lower">
+<div class="container2">
+<div class="lower-footer">
+<p>© Copyright 2013-2018 Analytics Vidhya.</p>
+<ul class="lower-footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/privacy-policy/">Privacy Policy</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/terms/">Terms of Use</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/refund-policy/">Refund Policy</a></li>
+</ul>
+</div>
+<div class="sign-up">
+<p>Don't have an account? <a target="_blank" href="https://id.analyticsvidhya.com/accounts/signup/" class="signup-link">Sign up</a> here</p>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</div>
+<script type="text/javascript" id="">(function(a,c,e,f,d,b){a.hj=a.hj||function(){(a.hj.q=a.hj.q||[]).push(arguments)};a._hjSettings={hjid:499326,hjsv:5};d=c.getElementsByTagName("head")[0];b=c.createElement("script");b.async=1;b.src=e+a._hjSettings.hjid+f+a._hjSettings.hjsv;d.appendChild(b)})(window,document,"//static.hotjar.com/c/hotjar-",".js?sv\x3d");</script>
+
+<div id="scrolltop">
+<a><i class="tm-go-top"></i></a>
+</div>
+
+<script>
+ $(document).ready(function(){
+	     $.ajax({
+        url: "https://www.analyticsvidhya.com/back-channel/display-image.php",
+        data: {
+            image: '3'
+        },
+        type: "GET",
+				cache: false,
+        dataType: "html",
+        success: function (data) {
+            $('#ban3_av').html(data);
+        },
+        error: function (xhr, status) {
+					console.log("Image Failed!");
+        },
+    });
+});
+</script>
+
+
+<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/www.analyticsvidhya.com\/blog\/2017\/12\/fundamentals-of-deep-learning-introduction-to-lstm\/":40003};
+	</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/www.analyticsvidhya.com\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}},"cached":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/scripts.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/devicepx-jetpack.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/main.js.download"></script><style type="text/css">.marquee{white-space:nowrap;overflow:hidden;visibility:hidden;}#marq_kill_marg_bord{border:none!important;margin:0!important;}</style>
+<script type="text/javascript">
+/* <![CDATA[ */
+var MahaAjax = {"ajaxurl":"https:\/\/www.analyticsvidhya.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/basix.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/add_to_cart.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/comment-reply.min.js.download" defer="defer"></script>
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var q2w3_sidebar_options = [{"sidebar":"blog-sidebar","margin_top":100,"margin_bottom":800,"stop_id":"","screen_max_width":0,"screen_max_height":0,"width_inherit":false,"refresh_interval":1500,"window_load_hook":false,"disable_mo_api":false,"widgets":["text-37","text-42"]}];
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/q2w3-fixed-widget.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/effect.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/effect-blind.min.js.download" defer="defer"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/minus.png","imgShow":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/plus.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/wstb.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/wp-embed.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/postmessage.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/jquery.jetpack-resize.min.js.download" defer="defer"></script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/queuehandler.min.js.download" defer="defer"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/sharing.min.js.download" defer="defer"></script>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-pocket', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+</script>
+<iframe src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994" style="background-color: rgb(255, 255, 255); padding: 10px; border: 2px solid rgb(0, 0, 0); border-radius: 1px; opacity: 0; height: 350px; width: 600px; top: 540px; left: 340px;"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our&nbsp;Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya"><br>
+<input name="loc" type="hidden" value="en_US"><br>
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..."><br>
+<input class="popup-subscribe" type="submit" value="Subscribe"><p></p>
+<p style="font-size: 12px;">&nbsp;P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+<link rel="stylesheet" type="text/css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/style(1).css"><ul class="stb_social"></ul></div>
+<div class="dgd_stb_box none dgd_stb_tab" id="dgd_scrollbox-38994-tab" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(0, 0, 0); opacity: 1; bottom: 0px; left: 604px; display: block;">Subscribe!<link rel="stylesheet" type="text/css" href="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/style(1).css"></div>
+
+<script type="text/javascript" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/e-201849.js.download" async="async" defer="defer"></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.5',blog:'58948004',post:'40003',tz:'5.5',srv:'www.analyticsvidhya.com'} ]);
+	_stq.push([ 'clickTrackerInit', '58948004', '40003' ]);
+</script>
+
+
+<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/www.analyticsvidhya.com\/blog\/2017\/12\/fundamentals-of-deep-learning-introduction-to-lstm\/":40003};
+	</script>
+<iframe src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/master(1).html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our&nbsp;Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya"><br>
+<input name="loc" type="hidden" value="en_US"><br>
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..."><br>
+<input class="popup-subscribe" type="submit" value="Subscribe"><p></p>
+<p style="font-size: 12px;">&nbsp;P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+</div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994-tab">Subscribe!</div>
+
+
+
+<script type="text/javascript">( function(){ window.SIG_EXT = {}; } )()</script><iframe name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" id="_hjRemoteVarsFrame" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;" src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/rcj-da10bd4908deb9e19dfde013ec3fe4ff.html"></iframe><img src="./Essentials of Deep Learning _ Introduction to Long Short Term Memory_files/g.gif" alt=":)" width="6" height="5" id="wpstats" scale="0"><div id="ads"></div></body></html>

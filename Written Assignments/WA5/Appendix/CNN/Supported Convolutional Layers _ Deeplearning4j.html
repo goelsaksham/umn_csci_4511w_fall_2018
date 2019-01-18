@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://deeplearning4j.org/docs/latest/deeplearning4j-nn-convolutional -->
+<html lang="en" class="gr__deeplearning4j_org"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>
+
+  Supported Convolutional Layers | Deeplearning4j
+
+</title>
+<link href="./Supported Convolutional Layers _ Deeplearning4j_files/plugins.css" rel="stylesheet">
+<link href="./Supported Convolutional Layers _ Deeplearning4j_files/style.css" rel="stylesheet">
+<link rel="stylesheet" href="./Supported Convolutional Layers _ Deeplearning4j_files/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<script type="text/javascript" src="./Supported Convolutional Layers _ Deeplearning4j_files/analytics"></script></head>
+<body data-gr-c-s-loaded="true"><style type="text/css">html.hs-messages-widget-open.hs-messages-mobile,html.hs-messages-widget-open.hs-messages-mobile body{height:100%!important;overflow:hidden!important;position:relative!important}html.hs-messages-widget-open.hs-messages-mobile body{margin:0!important}#hubspot-messages-iframe-container{display:initial!important;z-index:2147483647;position:fixed!important;bottom:0!important;right:0!important}#hubspot-messages-iframe-container.internal{z-index:1016}#hubspot-messages-iframe-container.internal iframe{min-width:108px}#hubspot-messages-iframe-container .shadow{display:initial!important;z-index:-1;position:absolute;width:0;height:0;bottom:0;right:0;content:""}#hubspot-messages-iframe-container .shadow.internal{display:none!important}#hubspot-messages-iframe-container .shadow.active{width:400px;height:400px;background:radial-gradient(ellipse at bottom right,rgba(29,39,54,.16) 0,rgba(29,39,54,0) 72%)}#hubspot-messages-iframe-container iframe{display:initial!important;width:100%!important;height:100%!important;border:none!important;position:absolute!important;bottom:0!important;right:0!important;background:transparent!important}</style>
+<div id="sticky-wrapper" class="sticky-wrapper" style="height: 68.1px;"><nav class="navbar navbar-expand-lg navbar-light navbar-color nav-sticky-top">
+<div class="search-inline">
+<form>
+<input type="text" class="form-control" placeholder="Type and hit enter...">
+<button type="submit"><i class="ti-search"></i></button>
+<a href="javascript:void(0)" class="search-close"><i class="ti-close"></i></a>
+</form>
+</div>
+<div class="container">
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<a class="navbar-brand" href="https://deeplearning4j.org/"><img src="./Supported Convolutional Layers _ Deeplearning4j_files/logo.png" alt="Deeplearning4j"></a>
+<div id="navbarNavDropdown" class="navbar-collapse collapse">
+<ul class="navbar-nav ml-auto">
+<li class="nav-item nav-button nav-cta">
+<a class="nav-item btn btn-rounded btn-outline-warning" href="https://deeplearning4j.org/docs/latest/deeplearning4j-quickstart">Quickstart</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://deeplearning4j.org/docs/latest/">Guide</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://deeplearning4j.org/api/latest/" target="_blank">API</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://github.com/deeplearning4j/dl4j-examples" target="_blank">Examples</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://deeplearning4j.org/tutorials/setup">Tutorials</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://deeplearning4j.org/support">Support</a>
+</li>
+<li class="nav-item">
+<a class="nav-link dropdown-none" href="https://deeplearning4j.org/release-notes">1.0.0-beta3</a>
+</li>
+</ul>
+</div>
+<div class="navbar-right-elements">
+<ul class="list-inline">
+
+<li class="list-inline-item">
+<a href="https://gitter.im/deeplearning4j/deeplearning4j" target="_blank" class="gitter-btn" data-toggle="tooltip" data-original-title="Chat with us"><i class="fab fa-gitter"></i></a>
+</li>
+<li class="list-inline-item">
+<a href="https://github.com/deeplearning4j/deeplearning4j" target="_blank" class="gitter-btn"><i class="fab fa-github"></i></a>
+</li>
+</ul>
+</div>
+</div>
+</nav></div>
+<div class="page-titles title-dark pt30 pb20 mb50">
+<div class="container">
+<div class="row">
+<div class=" col-md-6">
+<h4><span>Supported Convolutional Layers</span></h4>
+</div>
+<div class="col-md-6 mb0">
+<ol class="breadcrumb text-md-right">
+<li class="breadcrumb-item"><a href="https://deeplearning4j.org/docs/latest/">Guide</a></li>
+<li class="breadcrumb-item active">Models</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="container mb70">
+<div class="row">
+<div class="col-lg-3 pt10 mb40">
+<div class="mb40">
+<ul class="list-unstyled categories guide-categories">
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Arbitercollapse" aria-controls="Arbitercollapse" aria-expanded="false">
+Arbiter
+</button></h4>
+<ul class="list-unstyled collapse " id="Arbitercollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/arbiter-overview">
+Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/arbiter-layer-spaces">
+Layer Spaces
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/arbiter-parameter-spaces">
+Parameter Spaces
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#DataVeccollapse" aria-controls="DataVeccollapse" aria-expanded="false">
+DataVec
+</button></h4>
+<ul class="list-unstyled collapse " id="DataVeccollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-overview">
+Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-records">
+Records
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-reductions">
+Reductions
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-schema">
+Schema
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-serialization">
+Serialization
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-transforms">
+Transforms
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-analysis">
+Analysis
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-readers">
+Readers
+</a></li>
+ <li><a href="https://deeplearning4j.org/docs/latest/datavec-conditions">
+Conditions
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-executors">
+Executors
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-filters">
+Filters
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-operations">
+Operations
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-normalization">
+Normalization
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/datavec-visualization">
+Visualization
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Mobilecollapse" aria-controls="Mobilecollapse" aria-expanded="false">
+Mobile
+</button></h4>
+<ul class="list-unstyled collapse " id="Mobilecollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-android">
+Android Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-android-prerequisites">
+Android Prerequisites
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-android-linear-classifier">
+Android Classifier
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-android-image-classification">
+Android Image Classifier
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Get Startedcollapse" aria-controls="Get Startedcollapse" aria-expanded="false">
+Get Started
+</button></h4>
+<ul class="list-unstyled collapse " id="Get Startedcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-concepts">
+Core Concepts
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-quickstart">
+Quickstart
+</a></li>
+ <li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-cheat-sheet">
+Cheat Sheet
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-beginners">
+Beginners
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-benchmark">
+Benchmark Guide
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-build-from-source">
+Build from Source
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-contribute">
+Contribute
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-examples-tour">
+Examples Tour
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Configurationcollapse" aria-controls="Configurationcollapse" aria-expanded="false">
+Configuration
+</button></h4>
+<ul class="list-unstyled collapse " id="Configurationcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-gpu-cpu">
+GPU/CPU Setup
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-memory">
+Memory Management
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-maven">
+Maven
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-buildtools">
+SBT, Gradle, &amp; Others
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-cudnn">
+cuDNN
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-snapshots">
+Snapshots
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-workspaces">
+Memory Workspaces
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-config-performance-debugging">
+Performance Issues Debugging
+</a></li>
+</ul>
+</li>
+<li>
+ <h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Language Processingcollapse" aria-controls="Language Processingcollapse" aria-expanded="false">
+Language Processing
+</button></h4>
+<ul class="list-unstyled collapse " id="Language Processingcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-overview">
+Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-word2vec">
+Word2Vec
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-doc2vec">
+Doc2Vec
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-sentence-iterator">
+Sentence Iteration
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-tokenization">
+Tokenization
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-vocabulary-cache">
+Vocab Cache
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Modelscollapse" aria-controls="Modelscollapse" aria-expanded="true">
+Models
+</button></h4>
+<ul class="list-unstyled collapse  show " id="Modelscollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-autoencoders">
+Autoencoders
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-computationgraph">
+Computation Graph
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-convolutional">
+Convolutional <i class="fa fa-caret-right"></i>
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-layers">
+Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-multilayernetwork">
+Multilayer Network
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-vertices">
+Vertices
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-iterators">
+ Iterators
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-listeners">
+Listeners
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-custom-layer">
+Custom Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-model-persistence">
+Model Persistence
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-recurrent">
+RNN
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-zoo-models">
+Zoo Models
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-zoo-overview">
+Zoo Usage
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-nn-activations">
+Activations
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-nn-updaters">
+Updaters
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Tuning &amp; Trainingcollapse" aria-controls="Tuning &amp; Trainingcollapse" aria-expanded="false">
+Tuning &amp; Training
+</button></h4>
+<ul class="list-unstyled collapse " id="Tuning &amp; Trainingcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-troubleshooting-training">
+Troubleshooting
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-visualization">
+Visualization
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-evaluation">
+Evaluation
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-transfer-learning">
+Transfer Learning
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-early-stopping">
+Early Stopping
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-tsne-visualization">
+t-SNE Visualization
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Distributed Deep Learningcollapse" aria-controls="Distributed Deep Learningcollapse" aria-expanded="false">
+Distributed Deep Learning
+</button></h4>
+<ul class="list-unstyled collapse " id="Distributed Deep Learningcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-intro">
+Introduction/Getting Started
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-technicalref">
+Technical Explanation
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-howto">
+How To Guide
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-data-howto">
+Spark Data Pipelines Guide
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-apiref">
+API Reference
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/deeplearning4j-scaleout-parameter-server">
+Parameter Server
+</a></li>
+</ul>
+</li>
+<li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#Keras Importcollapse" aria-controls="Keras Importcollapse" aria-expanded="false">
+Keras Import
+</button></h4>
+<ul class="list-unstyled collapse " id="Keras Importcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-overview">
+Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-get-started">
+Get Started
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-model-import">
+Import
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-model-functional">
+Functional Model
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-model-sequential">
+Sequential Model
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-optimizers">
+Optimizers
+ </a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-supported-features">
+Supported Features
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-activations">
+Activations
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-backend">
+Backends
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-constraints">
+Constraints
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-initializers">
+Initializers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-advanced-activations">
+Advanced Activations
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-convolutional">
+Convolutional Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-core">
+Core Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-embeddings">
+Embedding Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-local">
+Local Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-noise">
+Noise Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-normalization">
+Normalization Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-pooling">
+Pooling Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-recurrent">
+Recurrent Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-layers-wrappers">
+Wrapper Layers
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-losses">
+Losses
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/keras-import-regularizers">
+Regularizers
+</a></li>
+</ul>
+</li>
+ <li>
+<h4><button class="no-btn category" type="button" data-toggle="collapse" data-target="#ND4Jcollapse" aria-controls="ND4Jcollapse" aria-expanded="false">
+ND4J
+</button></h4>
+<ul class="list-unstyled collapse " id="ND4Jcollapse">
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-overview">
+Overview
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-basics">
+Basic Usage
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-tensor">
+Tensors
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-elementwise">
+Elementwise Ops
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-matrix-manipulation">
+Matrix Manipulation
+</a></li>
+<li><a href="https://deeplearning4j.org/docs/latest/nd4j-syntax">
+Syntax
+</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-9 page-content" style="font-size: 18px;">
+<h2 id="what-is-a-convolutional-neural-network">What is a convolutional neural network?</h2>
+<p>Each layer in a neural network configuration represents a unit of hidden units. When layers are stacked together, they represent a <em>deep neural network</em>.</p>
+<h2 id="available-layers">Available layers</h2>
+<hr>
+<h3 id="convolution1d">Convolution1D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/Convolution1D.java">[source]</a> </span></p>
+<p>1D convolution layer. Expects input activations of shape [minibatch,channels,sequenceLength]</p>
+<hr>
+<h3 id="convolution2d">Convolution2D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/Convolution2D.java">[source]</a> </span></p>
+<p>2D convolution layer</p>
+<hr>
+<h3 id="convolution3d">Convolution3D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/Convolution3D.java">[source]</a> </span></p>
+<p>3D convolution layer configuration</p>
+<h5 id="hasbias">hasBias</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasBias</span><span class="o">()</span> 
+</code></pre></div></div>
+<p>An optional dataFormat from: “NDHWC”, “NCDHW”. Defaults to “NCDHW”.
+The data format of the input and output data.
+the format could be “NCDHW”, the data storage order is: [batchSize, inputChannels, inputDepth, inputHeight, inputWidth].
+Alternatively, the format “NDHWC”, the data is stored in the order of: [batchSize, inputDepth, inputHeight, inputWidth, inputChannels].</p>
+<h5 id="kernelsize">kernelSize</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">kernelSize</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">kernelSize</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set kernel size for 3D convolutions in (depth, height, width) order</p>
+<ul>
+<li>param kernelSize kernel size</li>
+<li>return 3D convolution layer builder</li>
+</ul>
+<h5 id="stride">stride</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">stride</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">stride</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set stride size for 3D convolutions in (depth, height, width) order</p>
+<ul>
+<li>param stride kernel size</li>
+<li>return 3D convolution layer builder</li>
+</ul>
+<h5 id="padding">padding</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">padding</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">padding</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set padding size for 3D convolutions in (depth, height, width) order</p>
+<ul>
+<li>param padding kernel size</li>
+<li>return 3D convolution layer builder</li>
+</ul>
+<h5 id="dilation">dilation</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">dilation</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">dilation</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set dilation size for 3D convolutions in (depth, height, width) order</p>
+<ul>
+<li>param dilation kernel size</li>
+<li>return 3D convolution layer builder</li>
+</ul>
+<hr>
+<h3 id="deconvolution2d">Deconvolution2D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/Deconvolution2D.java">[source]</a> </span></p>
+<p>2D deconvolution layer configuration<br></p>
+<p>Deconvolutions are also known as transpose convolutions or fractionally strided convolutions.
+In essence, deconvolutions swap forward and backward pass with regular 2D convolutions.</p>
+<p>See the paper by Matt Zeiler for details: <a href="http://www.matthewzeiler.com/wp-content/uploads/2017/07/cvpr2010.pdf">http://www.matthewzeiler.com/wp-content/uploads/2017/07/cvpr2010.pdf</a></p>
+<p>For an intuitive guide to convolution arithmetic and shapes, see:
+<a href="https://arxiv.org/abs/1603.07285v1">https://arxiv.org/abs/1603.07285v1</a></p>
+<h5 id="hasbias-1">hasBias</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasBias</span><span class="o">()</span>
+</code></pre></div></div>
+<p>Deconvolution2D layer
+nIn in the input layer is the number of channels
+nOut is the number of filters to be used in the net or in other words the channels
+The builder specifies the filter/kernel size, the stride and padding
+The pooling layer takes the kernel size</p>
+<h5 id="convolutionmode">convolutionMode</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">convolutionMode</span><span class="o">(</span><span class="n">ConvolutionMode</span> <span class="n">convolutionMode</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set the convolution mode for the Convolution layer.
+See {- link ConvolutionMode} for more details</p>
+<ul>
+<li>param convolutionMode Convolution mode for layer</li>
+</ul>
+<h5 id="kernelsize-1">kernelSize</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">kernelSize</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">kernelSize</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Size of the convolution
+rows/columns</p>
+<ul>
+<li>param kernelSize the height and width of the
+kernel</li>
+<li>return</li>
+</ul>
+<hr>
+<h3 id="depthwiseconvolution2d">DepthwiseConvolution2D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/DepthwiseConvolution2D.java">[source]</a> </span></p>
+<p>2D depth-wise convolution layer configuration.</p>
+<p>Performs a channels-wise convolution, which
+operates on each of the input maps separately. A channel multiplier is used to
+specify the number of outputs per input map. This convolution
+is carried out with the specified kernel sizes, stride and padding values.</p>
+<h5 id="depthmultiplier">depthMultiplier</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">depthMultiplier</span><span class="o">(</span><span class="kt">int</span> <span class="n">depthMultiplier</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set channels multiplier for depth-wise convolution</p>
+<ul>
+<li>param depthMultiplier integer value, for each input map we get depthMultiplier
+outputs in channels-wise step.</li>
+<li>return Builder</li>
+</ul>
+<h5 id="kernelsize-2">kernelSize</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">kernelSize</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">kernelSize</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Size of the convolution rows/columns</p>
+<ul>
+<li>param kernelSize the height and width of the kernel</li>
+</ul>
+<h5 id="stride-1">stride</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">stride</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">stride</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Stride of the convolution in rows/columns (height/width) dimensions</p>
+<ul>
+<li>param stride Stride of the layer</li>
+</ul>
+<h5 id="padding-1">padding</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">padding</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">padding</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Padding of the convolution in rows/columns (height/width) dimensions</p>
+<ul>
+<li>param padding Padding of the layer</li>
+</ul>
+<hr>
+<h3 id="separableconvolution2d">SeparableConvolution2D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/SeparableConvolution2D.java">[source]</a> </span></p>
+<p>2D Separable convolution layer configuration.</p>
+<p>Separable convolutions split a regular convolution operation into two
+simpler operations, which are usually computationally more efficient.</p>
+<p>The first step in a separable convolution is a channels-wise convolution, which
+operates on each of the input maps separately. A channels multiplier is used to
+specify the number of outputs per input map in this step. This convolution
+is carried out with the specified kernel sizes, stride and padding values.</p>
+<p>The second step is a point-wise operation, in which the intermediary outputs
+of the channels-wise convolution are mapped to the desired number of feature
+maps, by using a 1x1 convolution.</p>
+<p>The result of chaining these two operations will result in a tensor of the
+same shape as that for a standard conv2d operation.</p>
+<h5 id="hasbias-2">hasBias</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasBias</span><span class="o">()</span>
+</code></pre></div></div>
+<p>SeparableConvolution2D layer
+nIn in the input layer is the number of channels
+nOut is the number of filters to be used in the net or in other words the channels
+The builder specifies the filter/kernel size, the stride and padding
+The pooling layer takes the kernel size</p>
+<h5 id="constrainpointwise">constrainPointWise</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">constrainPointWise</span><span class="o">(</span><span class="n">LayerConstraint</span><span class="o">...</span> <span class="n">constraints</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Set channels multiplier of channels-wise step in separable convolution</p>
+<ul>
+<li>param depthMultiplier integer value, for each input map we get depthMultipler
+outputs in channels-wise step.</li>
+<li>return Builder</li>
+</ul>
+<h5 id="kernelsize-3">kernelSize</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">kernelSize</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">kernelSize</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Size of the convolution rows/columns (height/width)</p>
+<ul>
+<li>param kernelSize the height and width of the kernel</li>
+</ul>
+<h5 id="stride-2">stride</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">stride</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">stride</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Stride of the convolution rows/columns (height/width)</p>
+<ul>
+<li>param stride the stride of the kernel (in h/w dimensions)</li>
+</ul>
+<h5 id="padding-2">padding</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Builder</span> <span class="nf">padding</span><span class="o">(</span><span class="kt">int</span><span class="o">...</span> <span class="n">padding</span><span class="o">)</span> 
+</code></pre></div></div>
+<p>Padding - rows/columns (height/width)</p>
+<ul>
+<li>param padding the padding in h/w dimensions</li>
+</ul>
+<hr>
+<h3 id="cropping1d">Cropping1D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/convolutional/Cropping1D.java">[source]</a> </span></p>
+<p>Cropping layer for convolutional (1d) neural networks.
+Allows cropping to be done separately for top/bottom</p>
+<h5 id="getoutputtype">getOutputType</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">InputType</span> <span class="nf">getOutputType</span><span class="o">(</span><span class="kt">int</span> <span class="n">layerIndex</span><span class="o">,</span> <span class="n">InputType</span> <span class="n">inputType</span><span class="o">)</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropTopBottom Amount of cropping to apply to both the top and the bottom of the input activations</li>
+</ul>
+<h5 id="build">build</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Cropping1D</span> <span class="nf">build</span><span class="o">()</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropping Cropping amount for top/bottom (in that order). Must be length 1 or 2 array.</li>
+</ul>
+<hr>
+<h3 id="cropping2d">Cropping2D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/convolutional/Cropping2D.java">[source]</a> </span></p>
+<p>Cropping layer for convolutional (2d) neural networks.
+Allows cropping to be done separately for top/bottom/left/right</p>
+<h5 id="getoutputtype-1">getOutputType</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">InputType</span> <span class="nf">getOutputType</span><span class="o">(</span><span class="kt">int</span> <span class="n">layerIndex</span><span class="o">,</span> <span class="n">InputType</span> <span class="n">inputType</span><span class="o">)</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropTopBottom Amount of cropping to apply to both the top and the bottom of the input activations</li>
+<li>param cropLeftRight Amount of cropping to apply to both the left and the right of the input activations</li>
+</ul>
+<h5 id="build-1">build</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Cropping2D</span> <span class="nf">build</span><span class="o">()</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropping Cropping amount for top/bottom/left/right (in that order). Must be length 4 array.</li>
+</ul>
+<hr>
+<h3 id="cropping3d">Cropping3D</h3>
+<p><span style="float:right;"> <a href="https://github.com/deeplearning4j/deeplearning4j/tree/master/deeplearning4j/deeplearning4j-nn/src/main/java/org/deeplearning4j/nn/conf/layers/convolutional/Cropping3D.java">[source]</a> </span></p>
+<p>Cropping layer for convolutional (3d) neural networks.
+Allows cropping to be done separately for upper and lower bounds of
+depth, height and width dimensions.</p>
+<h5 id="getoutputtype-2">getOutputType</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">InputType</span> <span class="nf">getOutputType</span><span class="o">(</span><span class="kt">int</span> <span class="n">layerIndex</span><span class="o">,</span> <span class="n">InputType</span> <span class="n">inputType</span><span class="o">)</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropDepth Amount of cropping to apply to both depth boundaries of the input activations</li>
+<li>param cropHeight Amount of cropping to apply to both height boundaries of the input activations</li>
+<li>param cropWidth Amount of cropping to apply to both width boundaries of the input activations</li>
+</ul>
+<h5 id="build-2">build</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Cropping3D</span> <span class="nf">build</span><span class="o">()</span> 
+</code></pre></div></div>
+<ul>
+<li>param cropping Cropping amount, must be length 3 or 6 array, i.e. either
+crop depth, crop height, crop width or
+crop left depth, crop right depth, crop left height, crop right height, crop left width,
+crop right width</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container mb10 pt30">
+<div class="row special-feature">
+<div class="col-md-3 col-sm-6 margin20">
+<div class="s-feature-box text-center" onclick="window.open(&#39;/api/latest/&#39;,&#39;_blank&#39;);">
+ <div class="mask-top">
+<i class="fa fa-code"></i>
+<h4>API Reference</h4>
+</div>
+<div class="mask-bottom">
+<i class="fa fa-code"></i>
+<h4>API Reference</h4>
+<p>Detailed API docs for all libraries including DL4J, ND4J, DataVec, and Arbiter.</p>
+</div>
+</div>
+</div>
+<div class="col-md-3 col-sm-6 margin20">
+<div class="s-feature-box text-center" onclick="window.open(&#39;https://github.com/deeplearning4j/dl4j-examples&#39;,&#39;_blank&#39;);">
+<div class="mask-top">
+<i class="fa fa-folder"></i>
+<h4>Examples</h4>
+</div>
+<div class="mask-bottom">
+<i class="fa fa-folder"></i>
+<h4>Examples</h4>
+<p>Explore sample projects and demos for DL4J, ND4J, and DataVec in multiple languages including Java and Kotlin.</p>
+</div>
+</div>
+</div>
+<div class="col-md-3 col-sm-6 margin20">
+<div class="s-feature-box text-center" onclick="window.open(&#39;/tutorials/setup&#39;,&#39;_blank&#39;);">
+<div class="mask-top">
+<i class="fa fa-file-code"></i>
+<h4>Tutorials</h4>
+</div>
+<div class="mask-bottom">
+<i class="fa fa-file-code"></i>
+<h4>Tutorials</h4>
+<p>Step-by-step tutorials for learning concepts in deep learning while using the DL4J API.</p>
+</div>
+</div>
+</div>
+<div class="col-md-3 col-sm-6 margin20">
+<div class="s-feature-box text-center" onclick="window.location=&#39;/docs/latest/&#39;;">
+<div class="mask-top">
+<i class="fa fa-book"></i>
+<h4>Guide</h4>
+</div>
+<div class="mask-bottom">
+<i class="fa fa-book"></i>
+<h4>Guide</h4>
+<p>In-depth documentation on different scenarios including import, distributed training, early stopping, and GPU setup.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-parallax parallax-overlay">
+<div class="container pt40 pb40">
+<div class="row">
+<div class="col-lg-9 pt10">
+<h2 class="text-white">
+Deploying models? There's a tool for that.
+</h2>
+</div>
+<div class="col-lg-3 pt0">
+<a class="btn btn-lg btn-white-outline btn-rounded" href="https://skymind.ai/platform" target="_blank">
+Learn More <i class="fa fa-external-link-square-alt"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+<footer class="footer footer-standard pt50 pb10">
+<div class="container">
+<div class="row">
+<div class="col-lg-4 col-md-6 mb40">
+<h3>Eclipse Deeplearning4j</h3>
+<p>
+Eclipse Deeplearning4j is an open-source, distributed deep-learning project in Java and Scala spearheaded by the people at <a href="https://skymind.ai/" target="_blank">Skymind</a>. DL4J supports GPUs and is compatible with distributed computing software such as Apache Spark and Hadoop.
+</p>
+<a href="https://deeplearning4j.org/about" class="btn btn-white-outline btn-sm btn-rounded">Learn More</a>
+</div>
+<div class="col-lg-2 col-md-6 mb40">
+<h3>Quick links</h3>
+<ul class="list-unstyled footer-list-item">
+<li>
+<a href="https://deeplearning4j.org/about">About</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/faq">FAQs</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/docs/latest/deeplearning4j-contribute">Contribute</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/press">Press</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/why-deep-learning">Why Deep Learning?</a>
+</li>
+</ul>
+</div>
+<div class="col-lg-2 col-md-6 mb40">
+<h3>&nbsp;</h3>
+<ul class="list-unstyled footer-list-item">
+<li>
+<a href="https://deeplearning4j.org/api/latest/" target="_blank" g="">API</a>
+</li>
+<li>
+<a href="https://github.com/deeplearning4j/dl4j-examples" target="_blank">Examples</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/tutorials/setup">Tutorials</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/docs/latest/">Guide</a>
+</li>
+<li>
+<a href="https://deeplearning4j.org/support">Support</a>
+</li>
+</ul>
+</div>
+<div class="col-lg-4 col-md-6 mb40">
+<h3>Statistics</h3>
+<img src="./Supported Convolutional Layers _ Deeplearning4j_files/github-stats.png" alt="" class="img-fluid">
+</div>
+</div>
+</div>
+</footer>
+<div class="footer-bottomAlt">
+<div class="container">
+<div class="row">
+<div class="col-lg-7">
+<div class="clearfix">
+<a href="https://www.facebook.com/deeplearning4j/" target="_blank" class="social-icon-sm si-dark si-facebook si-dark-round">
+<i class="fab fa-facebook"></i>
+<i class="fab fa-facebook"></i>
+</a>
+<a href="https://twitter.com/deeplearning4j" target="_blank" class="social-icon-sm si-dark si-twitter si-dark-round">
+<i class="fab fa-twitter"></i>
+<i class="fab fa-twitter"></i>
+</a>
+<a href="https://github.com/deeplearning4j/deeplearning4j/" target="_blank" class="social-icon-sm si-dark si-github si-dark-round">
+<i class="fab fa-github"></i>
+<i class="fab fa-github"></i>
+</a>
+</div>
+</div>
+<div class="col-lg-5">
+<span>Copyright © 2018. Skymind. DL4J is licensed Apache 2.0.</span>
+</div>
+</div>
+</div>
+</div>
+
+<a href="https://deeplearning4j.org/docs/latest/deeplearning4j-nn-convolutional#" class="back-to-top hidden-xs-down" id="back-to-top"><i class="ti-angle-up"></i></a>
+
+<script type="text/javascript" src="./Supported Convolutional Layers _ Deeplearning4j_files/pd.js.download"></script><script type="text/javascript" async="" src="./Supported Convolutional Layers _ Deeplearning4j_files/linkid.js.download"></script><script src="./Supported Convolutional Layers _ Deeplearning4j_files/2179705.js.download" type="text/javascript" id="hs-analytics"></script><script src="./Supported Convolutional Layers _ Deeplearning4j_files/conversations-embed.js.download" type="text/javascript" id="hubspot-messages-loader" data-loader="hs-scriptloader" data-hsjs-portal="2179705" data-hsjs-env="prod"></script><script src="./Supported Convolutional Layers _ Deeplearning4j_files/5605.js.download" async="" type="text/javascript"></script><script async="" src="./Supported Convolutional Layers _ Deeplearning4j_files/analytics.js.download"></script><script src="./Supported Convolutional Layers _ Deeplearning4j_files/plugins.js.download"></script>
+<script src="./Supported Convolutional Layers _ Deeplearning4j_files/assan.custom.js.download"></script>
+<script type="text/javascript">
+    // get started sort
+    var $gs = $('.mason-grid-card:contains("Get Started")'),
+        gsCopy = $gs.clone()
+    $gs.remove()
+    $('.mason-grid').first().prepend(gsCopy)
+    // keras sort
+    var $ki = $('.mason-grid-card:contains("Keras Import")'),
+        kiCopy = $ki.clone()
+    $ki.remove()
+    $('.mason-grid').last().append(kiCopy)
+
+    $('.mason-grid').masonry({
+      // options
+      itemSelector: '.mason-grid-card',
+      columnWidth: '.mason-grid-card',
+      transitionDuration  : 0
+    });
+</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48811288-1', 'auto');
+ga('require', 'linkid', 'linkid.js');
+ga('send', 'pageview');
+ga('require', 'displayfeatures');
+</script>
+
+
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0025/5605.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+
+
+<script type="text/javascript" id="hs-script-loader" async="" defer="" src="./Supported Convolutional Layers _ Deeplearning4j_files/2179705.js(1).download"></script>
+
+
+<script type="text/javascript">
+piAId = '457082';
+piCId = '66281';
+piHostname = 'pi.pardot.com';
+(function() {
+function async_load(){
+    var s = document.createElement('script'); s.type = 'text/javascript';
+    s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+    var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+}
+if(window.attachEvent) { window.attachEvent('onload', async_load); }
+else { window.addEventListener('load', async_load, false); }
+})();
+</script>
+
+
+<script src="./Supported Convolutional Layers _ Deeplearning4j_files/2296590312.js.download"></script>
+
+<script type="text/javascript">
+            $(function() {
+                $('.page-content').flowtype({
+                    minFont : 12,
+                    maxFont : 18
+                });
+            })
+        </script>
+
+<script type="text/javascript">( function(){ window.SIG_EXT = {}; } )()</script><style id="wistia_16_style" type="text/css" class="wistia_injected_style">
+@font-face {
+font-family: 'WistiaPlayerOverpassNumbers';
+src: url(data:application/x-font-ttf;charset=utf-8;base64,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);
+}
+</style></body></html>
